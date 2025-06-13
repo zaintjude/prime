@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Logistics Schedule</title>
+    <link rel="stylesheet" href="schedule.css" />
+    <script src="schedule.js" defer></script>
+</head>
+<body>
+    <header>
+        <img src="prime.png" alt="Prime Logo" class="logo" />
+        <h1>Logistics Vehicle Schedule</h1>
+    </header>
+
+    <section class="filters">
+        <input type="date" id="filterDate" />
+        <select id="filterMonth"></select>
+        <select id="filterYear"></select>
+    </section>
+
+    <section class="schedule-form">
+        <input type="text" id="employeeName" placeholder="Employee Name" />
+        <select id="vehicleSelect"></select>
+        <input type="time" id="startTime" />
+        <input type="time" id="endTime" />
+        <!-- New input fields -->
+        <input type="text" id="purpose" placeholder="Purpose" />
+        <input type="text" id="destination" placeholder="Destination" />
+        <button id="addSchedule">Add Schedule</button>
+    </section>
+
+    <section class="schedule-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Vehicle</th>
+                    <th>Plate Number</th>
+                    <th>Employee</th>
+                    <th>Time From</th>
+                    <th>Time To</th>
+                    <th>Purpose</th> <!-- New column -->
+                    <th>Destination</th> <!-- New column -->
+                    <th>Month</th>
+                    <th>Year</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="scheduleBody"></tbody>
+        </table>
+    </section>
+</body>
+</html>
