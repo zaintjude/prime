@@ -1,0 +1,101 @@
+/* General styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 100%;
+    padding: 20px;
+    margin: 0 auto;
+    overflow: auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-top: 40px;
+    text-align: center;
+}
+
+/* Form styling */
+form {
+    display: grid;
+    gap: 15px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input, select, textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Table Styling */
+#requestTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: auto; /* Allows the table to adapt its column widths */
+}
+
+#requestTable th, #requestTable td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+#requestTable th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#requestTable td {
+    background-color: #f9f9f9;
+}
+
+/* Make table responsive on smaller screens */
+@media (max-width: 768px) {
+    #requestTable {
+        font-size: 12px;
+    }
+
+    #requestTable th, #requestTable td {
+        padding: 8px;
+    }
+
+    /* Scrollable table for smaller screens */
+    .container {
+        overflow-x: auto;
+    }
+}

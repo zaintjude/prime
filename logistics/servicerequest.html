@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>🛠️ Service Request Form</title>
+    <link rel="stylesheet" href="servicerequest.css">
+</head>
+<body>
+<a href="https://dashproduction.x10.mx/masterfile/prime/logistics/logistics.html" style="display: inline-block; margin-bottom: 15px; color: #3498db; font-weight: bold;">← Back to Logistics</a>
+    <div class="container">
+        <h1>🛠️ Service Request Form</h1>
+        <form id="requestForm">
+            <div class="form-group">
+                <label>Date:</label>
+                <input type="date" id="date" required>
+            </div>
+            <div class="form-group">
+                <label>Request Number:</label>
+                <input type="text" id="requestNumber" placeholder="e.g. SR-2025-001" required>
+            </div>
+            <div class="form-group">
+                <label>Requested By:</label>
+                <input type="text" id="requestedBy" required>
+            </div>
+            <div class="form-group">
+                <label>Department:</label>
+                <input type="text" id="department" required>
+            </div>
+            <div class="form-group">
+                <label>Service Type:</label>
+                <select id="serviceType" required>
+                    <option value="">-- Select --</option>
+                    <option>Repair</option>
+                    <option>Maintenance</option>
+                    <option>Installation</option>
+                    <option>Inspection</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Priority:</label>
+                <select id="priority" required>
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea id="description" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Location:</label>
+                <input type="text" id="location" required>
+            </div>
+            <div class="form-group">
+                <label>Assigned Technician:</label>
+                <input type="text" id="technician">
+            </div>
+            <div class="form-group">
+                <label>Status:</label>
+                <select id="status">
+                    <option>Pending</option>
+                    <option>In Progress</option>
+                    <option>Completed</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Completion Date:</label>
+                <input type="date" id="completionDate">
+            </div>
+            <div class="form-group">
+                <label>Remarks:</label>
+                <textarea id="remarks" rows="2"></textarea>
+            </div>
+            <button type="submit">Submit Request</button>
+        </form>
+
+        <h2>Service Requests</h2>
+        <table id="requestTable" border="1">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Request #</th>
+                    <th>Requested By</th>
+                    <th>Department</th>
+                    <th>Service Type</th>
+                    <th>Priority</th>
+                    <th>Description</th>
+                    <th>Location</th>
+                    <th>Technician</th>
+                    <th>Status</th>
+                    <th>Completion Date</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dynamic rows will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+    
+    <script src="servicerequest.js"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Fuel Costs</title>
+    <link rel="stylesheet" href="log.css">
+</head>
+<body>
+<a href="https://dashproduction.x10.mx/masterfile/prime/logistics/logistics.html" style="display: inline-block; margin-bottom: 15px; color: #3498db; font-weight: bold;">← Back to Logistics</a>
+    <div class="container">
+        <h1>Fuel Log</h1>
+        
+        <div class="form-section">
+            <label for="vehicle">Vehicle:</label>
+            <select id="vehicle"></select>
+
+            <label for="type">Type (Fuel/Other):</label>
+            <input type="text" id="type" placeholder="Fuel or Other">
+
+            <label for="description">Description:</label>
+            <input type="text" id="description" placeholder="Description">
+
+            <label for="cost">Cost:</label>
+            <input type="number" id="cost" placeholder="Cost">
+            <label for="cost">PO #:</label>
+            <input type="text" id="poNumber" placeholder="PO #" />
+
+            <button onclick="addLog()">Add Log</button>
+        </div>
+
+        <div>
+            <label for="filterVehicle">Filter by Vehicle:</label>
+            <select id="filterVehicle" onchange="filterLogs()">
+                <option value="">All Vehicles</option>
+            </select>
+
+            <label for="filterYear">Filter by Year:</label>
+            <select id="filterYear" onchange="filterLogs()">
+                <option value="">All Years</option>
+            </select>
+
+            <label for="filterMonth">Filter by Month:</label>
+            <select id="filterMonth" onchange="filterLogs()">
+                <option value="">All Months</option>
+                <option value="01">January</option>
+                <option value="02">February</option>
+                <option value="03">March</option>
+                <option value="04">April</option>
+                <option value="05">May</option>
+                <option value="06">June</option>
+                <option value="07">July</option>
+                <option value="08">August</option>
+                <option value="09">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+            </select>
+        </div>
+
+        <div id="totalCostContainer">
+            <h3>Total Fuel Cost: $<span id="totalCost">0.00</span></h3>
+        </div>
+
+        <div class="table-section">
+            <table id="logTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Month</th>
+                        <th>Year</th>
+                        <th>PO #</th>
+                        <th>Vehicle</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Cost</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Table content will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="log.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Logistics Gantt Chart</title>
+    <link rel="stylesheet" href="logistics.css">
+</head>
+<body>
+
+<a href="https://dashproduction.x10.mx/masterfile/prime/logistics/servicerequest.html"
+    style="display: inline-block; padding: 10px 20px; background-color: #3498db; color: white; font-weight: bold; border: none; border-radius: 5px; text-decoration: none; cursor: pointer;">
+    SERVICE REQUEST
+</a>
+
+<a href="https://dashproduction.x10.mx/masterfile/prime/logistics/log.html"
+    style="display: inline-block; padding: 10px 20px; background-color: #3498db; color: white; font-weight: bold; border: none; border-radius: 5px; text-decoration: none; cursor: pointer;">
+    FUEL LOG
+</a>
+<a href="https://dashproduction.x10.mx/masterfile/prime/logistics/vehicle.html"
+    style="display: inline-block; padding: 10px 20px; background-color: #3498db; color: white; font-weight: bold; border: none; border-radius: 5px; text-decoration: none; cursor: pointer;">
+    VEHICLES
+</a>
+
+<div id="header">
+    <!-- Logo on the left -->
+    <img src="prime.png" alt="Logo" id="logo" />
+
+    <!-- Text in the center -->
+    <div id="headerText">Logistics Schedule</div>
+
+    <!-- Download button on the right -->
+    <button id="downloadChart">Download Gantt Chart</button>
+</div>
+
+<!-- Form to add logistics data -->
+<form id="logisticsForm">
+    <select id="vehicleSelect" required></select>
+    <select id="driverSelect" required></select>
+    <input type="text" id="destination" placeholder="Destination" required>
+    <input type="number" id="odometer" placeholder="Odometer" required>
+    <input type="datetime-local" id="startTime" required>
+    <input type="datetime-local" id="endTime" required>
+    <button type="submit">Submit</button>
+</form>
+
+<!-- Gantt Chart Area -->
+<div id="ganttChart"></div>
+
+<!-- Dropdown to choose a date -->
+<div>
+    <select id="dateSelect">
+        <!-- Date options will be dynamically added here -->
+    </select>
+
+    <!-- Button to go to Odometer and Cost Report -->
+    <button id="costReportButton" style="margin-left: 20px;" onclick="window.location.href='cost.html'">ODOMETER AND COST REPORT</button>
+</div>
+
+<div id="vehicleStats" class="vehicle-stats-container"></div>
+
+<!-- Table to display logistics data -->
+<table id="scheduleTable">
+    <thead>
+        <tr>
+            <th>Vehicle</th>
+            <th>Driver</th>
+            <th>Destination</th>
+            <th>Odometer</th>
+            <th>Start</th>
+            <th>End</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Rows will be dynamically added here -->
+    </tbody>
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="logistics.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+{
+    "vehicles": [
+        {
+            "vehicleName": "L300",
+            "plateNumber": "GAT7962"
+        },
+        {
+            "vehicleName": "VIOSS",
+            "plateNumber": "GAM 5480"
+        },
+        {
+            "vehicleName": "TRAVIS",
+            "plateNumber": "GAS9431"
+        },
+        {
+            "vehicleName": "TRAVIZ DASH",
+            "plateNumber": "GBF3018"
+        },
+        {
+            "vehicleName": "FOTON",
+            "plateNumber": "GAB5459"
+        },
+        {
+            "vehicleName": "SUZUKI",
+            "plateNumber": "JAO3980"
+        },
+        {
+            "vehicleName": "MINI DUM",
+            "plateNumber": "JAO9881"
+        },
+        {
+            "vehicleName": "WIGO",
+            "plateNumber": "AXA5870"
+        },
+        {
+            "vehicleName": "DIO MOTOR",
+            "plateNumber": "G512AS"
+        },
+        {
+            "vehicleName": "WAVE",
+            "plateNumber": "GA71336"
+        },
+        {
+            "vehicleName": "SUZUKI DASH",
+            "plateNumber": "JAO8615"
+        },
+        {
+            "vehicleName": "OWN",
+            "plateNumber": "OWN"
+        },
+        {
+            "vehicleName": "TAMARAW FX",
+            "plateNumber": "GHL874"
+        }
+    ],
+    "drivers": [
+        {
+            "driverName": "RANDY"
+        },
+        {
+            "driverName": "LEO"
+        },
+        {
+            "driverName": "ELMER"
+        },
+        {
+            "driverName": "JASON"
+        },
+        {
+            "driverName": "ADY BOY"
+        },
+        {
+            "driverName": "CYRILL"
+        },
+        {
+            "driverName": "EFRIN"
+        },
+        {
+            "driverName": "RECHY"
+        },
+        {
+            "driverName": "BUNNY"
+        }
+    ]
+}

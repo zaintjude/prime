@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vehicle & Driver Management</title>
+    <link rel="stylesheet" href="vehicle.css">
+</head>
+<body>
+<a href="https://dashproduction.x10.mx/masterfile/prime/logistics/logistics.html" style="display: inline-block; margin-bottom: 15px; color: #3498db; font-weight: bold;">← Back to Logistics</a>
+    <h2>Vehicle Information</h2>
+    <input type="text" id="vehicleName" placeholder="Vehicle Name">
+    <input type="text" id="plateNumber" placeholder="Plate Number">
+    <button onclick="addVehicle()">Add Vehicle</button>
+
+    <table id="vehicleTable">
+        <thead>
+            <tr>
+                <th>Vehicle Name</th>
+                <th>Plate Number</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h2>Driver Information</h2>
+    <input type="text" id="driverName" placeholder="Driver Name">
+    <button onclick="addDriver()">Add Driver</button>
+
+    <table id="driverTable">
+        <thead>
+            <tr>
+                <th>Driver Name</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</body>
+<script src="vehicle.js"></script>
+</html>

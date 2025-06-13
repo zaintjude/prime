@@ -1,0 +1,34 @@
+[
+    {
+        "date": "2025-04-22",
+        "poNumber": "PO-12345",
+        "vehicle": "Truck A",
+        "type": "Fuel",
+        "description": "Full tank",
+        "cost": 3200
+    },
+    {
+        "date": "2025-04-22",
+        "poNumber": "PO-67890",
+        "vehicle": "VIOS",
+        "type": "Repair",
+        "description": "Brake check",
+        "cost": 1200
+    },
+    {
+        "date": "2025-04-20",
+        "poNumber": "PO-12345",
+        "vehicle": "TRAVIS",
+        "type": "FUEL",
+        "description": "WORK",
+        "cost": 2000
+    },
+    {
+        "date": "2025-04-30",
+        "poNumber": "3662",
+        "vehicle": "VIOSSSS",
+        "type": "DIESEL",
+        "description": "FULL TANK",
+        "cost": 25000
+    }
+]
