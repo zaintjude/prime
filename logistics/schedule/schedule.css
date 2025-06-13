@@ -1,0 +1,84 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    background: #1e2a38;
+    padding: 10px 20px;
+    color: white;
+}
+
+.logo {
+    height: 40px;
+    margin-right: 15px;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+.filters, .schedule-form {
+    display: flex;
+    gap: 10px;
+    padding: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: #ffffff;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+    margin: 10px auto;
+    max-width: 1000px;
+}
+
+.schedule-form input, .schedule-form select,
+.filters select, .filters input {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background-color: #2e7d32;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #256026;
+}
+
+.schedule-table {
+    padding: 20px;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+    background-color: #e3f2fd;
+}
+
+td button {
+    background-color: #e53935;
+    padding: 4px 8px;
+    font-size: 12px;
+}
