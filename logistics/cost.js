@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  fetch("https://dashproduction.x10.mx/masterfile/operations/logistics/logistics.json")
+  fetch("https://zaintjude.github.io/prime/logistics/logistics.json")
     .then(response => response.json())
     .then(data => {
       populateCostTables(data);
