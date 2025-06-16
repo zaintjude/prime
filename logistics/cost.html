@@ -25,22 +25,23 @@
     <h1 style="text-align: center;">Cost Report</h1>
 
     <!-- Filters -->
-    <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px;">
-      <div>
-        <label for="monthFilter">Month:</label>
-        <select id="monthFilter">
-          <option value="">-- All Months --</option>
-        </select>
-      </div>
-      <div>
-        <label for="yearFilter">Year:</label>
-        <input type="text" id="yearFilter" placeholder="e.g. 2024" />
-      </div>
-    </div>
+    <div id="filter-bar" style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; align-items: center;">
+  <div>
+    <label for="monthFilter">Month:</label><br>
+    <select id="monthFilter" style="padding: 4px;">
+      <option value="">-- All Months --</option>
+    </select>
+  </div>
+      
 
     <!-- Monthly Cost Table -->
     <section>
       <h2>Cost Per Vehicle Per Month</h2>
+      <div>
+    <label for="yearFilter">Year:</label><br>
+    <input type="text" id="yearFilter" placeholder="e.g. 2024" style="padding: 4px; width: 100px;" />
+  </div>
+</div>
       <table id="costTable">
         <thead>
           <tr>
