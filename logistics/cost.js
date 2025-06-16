@@ -1,274 +1,91 @@
-// 🔑 Destination Category Mapping
-const destinationCategories = [
-  { keyword: "CARBON", category: "CARBON" },
-  { keyword: "CITY CLOU", category: "CITY CLOU" },
-  { keyword: "CHONGHUA", category: "CHONGHUA" },
-  { keyword: "CHONG HUA", category: "CHONGHUA" },
-  { keyword: "MANDAUE", category: "MANDAUE" },
-  { keyword: "NEW CITY", category: "NEW CITY" },
-  { keyword: "LAPULAPU", category: "LAPULAPU" },
-  { keyword: "LUCIMA", category: "LUCIMA" },
-  { keyword: "CARBON PUSO", category: "CARBON PUSO / ECHAVEZ" },
-  { keyword: "ECHAVEZ", category: "CARBON PUSO / ECHAVEZ" },
-  { keyword: "ATLAS BOLT", category: "ATLAS BOLT" },
-  { keyword: "ATLAS", category: "ATLAS / VIC ENT" },
-  { keyword: "VIC ENT", category: "VIC ENT." },
-  { keyword: "VIC", category: "VIC ENT." },
-  { keyword: "MAKOTO", category: "MAKOTO" },
-  { keyword: "MODERNS BEST", category: "MODERNS BEST" },
-  { keyword: "TECH SONIC", category: "MAKOTO" },
-  { keyword: "MANDANI", category: "MANDANI" },
-  { keyword: "HT LAND", category: "HT LAND" },
-  { keyword: "LILOAN", category: "LILOAN" },
-  { keyword: "NAGA", category: "NAGA" },
-  { keyword: "TABUNOK", category: "TABUNOK" },
-  { keyword: "MABOLO", category: "MABOLO" },
-  { keyword: "EPIC CARGO", category: "EPIC CARGO" },
-  { keyword: "KNOWLES", category: "KNOWLES" },
-  { keyword: "AIRPORT", category: "AIRPORT" },
-  { keyword: "TREASURE ISLAND", category: "TREASURE ISLAND" },
-  { keyword: "AP CARGO", category: "AP CARGO" },
-  { keyword: "SPAN ASIA", category: "SPAN ASIA" },
-  { keyword: "SM", category: "SM" },
-  { keyword: "TALISAY", category: "TALISAY" },
-  { keyword: "PRIME WORKS", category: "PRIME WORKS" },
-  { keyword: "MOTOR TRADE", category: "MAKOTO / MOTOR TRADE" },
-  { keyword: "ATLANTIC", category: "ATLANTIC / NEW CITY" },
-  { keyword: "KIMA", category: "KIMA / MAKOTO" },
-  { keyword: "COLON", category: "MODERNS BEST / COLON" },
-  { keyword: "FAMILY HARDWARE", category: "FAMILY HARDWARE / MAKOTO" },
-  { keyword: "SAWO", category: "MAKOTO" },
-  { keyword: "INSTALL", category: "OTHER" },
-  { keyword: "BUYING", category: "OTHER" },
-  { keyword: "HARDWARE", category: "OTHER" },
-  { keyword: "PICKUP", category: "OTHER" },
-  { keyword: "DELIVERY", category: "OTHER" },
-  { keyword: "SAMPLE", category: "OTHER" },
-  { keyword: "REWORK", category: "OTHER" },
-  { keyword: "MEETING", category: "OTHER" },
-  { keyword: "SORT", category: "OTHER" },
-  { keyword: "ADVANCE", category: "OTHER" },
-  { keyword: "CHECK", category: "OTHER" },
-  { keyword: "CRITEROPENG", category: "OTHER" },
-  { keyword: "POLICE CLEARANCE", category: "OTHER" },
-  { keyword: "MANKO", category: "OTHER" },
-];
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("https://dashproduction.x10.mx/masterfile/operations/logistics/logistics.json")
+    .then(response => response.json())
+    .then(data => {
+      populateCostTables(data);
+      setupFilters(data);
+    })
+    .catch(error => {
+      console.error("Error fetching logistics data:", error);
+    });
+});
 
-function getDestinationCategory(destination = "") {
-  const upperDest = destination.toUpperCase();
-  for (const { keyword, category } of destinationCategories) {
-    if (upperDest.includes(keyword)) return category;
-  }
-  return "OTHER";
-}
+// Filter and display cost per vehicle per month
+function populateCostTables(data, selectedMonth = "", selectedYear = "") {
+  const costTableBody = document.querySelector("#costTable tbody");
+  costTableBody.innerHTML = "";
 
-// 🚚 Fetch logistics JSON
-async function fetchLogisticsData() {
-  try {
-    const res = await fetch('https://zaintjude.github.io/prime/logistics/logistics.json');
-    if (!res.ok) throw new Error('Fetch failed');
-    return await res.json();
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
-}
+  const filteredData = data.filter(entry => {
+    const startDate = new Date(entry.start);
+    const month = startDate.toLocaleString("default", { month: "long" });
+    const year = startDate.getFullYear().toString();
 
-// 🧾 Cost Calculation
-function calculateCosts(data) {
-  const RATE = 5.0;
-  const monthly = {}, yearly = {}, entriesByVehicle = {};
+    const matchesMonth = selectedMonth ? month === selectedMonth : true;
+    const matchesYear = selectedYear ? year === selectedYear : true;
 
-  for (const entry of data) {
-    entriesByVehicle[entry.vehicle] ??= [];
-    entriesByVehicle[entry.vehicle].push(entry);
-  }
-
-  for (const vehicle in entriesByVehicle) {
-    const logs = entriesByVehicle[vehicle].sort((a, b) => new Date(a.start) - new Date(b.start));
-    let prevOdo = null;
-
-    for (const log of logs) {
-      const odo = parseFloat(log.odometer);
-      if (isNaN(odo)) continue;
-
-      if (prevOdo !== null && odo > prevOdo) {
-        const distance = odo - prevOdo;
-        const cost = distance * RATE;
-        const date = new Date(log.start);
-        const month = date.toLocaleString('default', { month: 'long' });
-        const year = date.getFullYear();
-
-        monthly[vehicle] ??= {};
-        yearly[vehicle] ??= {};
-        monthly[vehicle][month] ??= { odometer: 0, cost: 0 };
-        yearly[vehicle][year] ??= { odometer: 0, cost: 0 };
-
-        monthly[vehicle][month].odometer += distance;
-        monthly[vehicle][month].cost += cost;
-        yearly[vehicle][year].odometer += distance;
-        yearly[vehicle][year].cost += cost;
-      }
-
-      prevOdo = odo;
-    }
-  }
-
-  return { monthlyCosts: monthly, yearlyCosts: yearly };
-}
-
-// 🧾 Populate Cost Tables
-function populateCostTables(data, monthFilter = "", yearFilter = "") {
-  const { monthlyCosts, yearlyCosts } = calculateCosts(data);
-  const mBody = document.querySelector("#monthlyCostTable tbody");
-  const yBody = document.querySelector("#yearlyCostTable tbody");
-  mBody.innerHTML = "";
-  yBody.innerHTML = "";
-
-  for (const vehicle in monthlyCosts) {
-    for (const month in monthlyCosts[vehicle]) {
-      if (monthFilter && !month.toLowerCase().includes(monthFilter.toLowerCase())) continue;
-      const d = monthlyCosts[vehicle][month];
-      mBody.innerHTML += `<tr><td>${vehicle}</td><td>${month}</td><td>${d.odometer}</td><td>${d.cost.toFixed(2)}</td></tr>`;
-    }
-  }
-
-  for (const vehicle in yearlyCosts) {
-    for (const year in yearlyCosts[vehicle]) {
-      if (yearFilter && !year.includes(yearFilter)) continue;
-      const d = yearlyCosts[vehicle][year];
-      yBody.innerHTML += `<tr><td>${vehicle}</td><td>${year}</td><td>${d.odometer}</td><td>${d.cost.toFixed(2)}</td></tr>`;
-    }
-  }
-}
-
-// 💥 Destroy old chart instances
-const chartInstances = {};
-function destroyIfExists(id) {
-  if (chartInstances[id]) {
-    chartInstances[id].destroy();
-  }
-}
-
-// 📊 Create Charts
-function generateCharts(data) {
-  const KM_PER_LITER = 8;
-  const categoryCount = {}, deliveryCount = {}, fuelPerVehicle = {};
-  const vehicleEntries = {};
-
-  data.forEach(entry => {
-    const category = getDestinationCategory(entry.destination);
-    categoryCount[category] = (categoryCount[category] || 0) + 1;
-
-    const date = new Date(entry.start);
-    const month = date.toLocaleString('default', { month: 'long' });
-    deliveryCount[month] = (deliveryCount[month] || 0) + 1;
-
-    vehicleEntries[entry.vehicle] ??= [];
-    vehicleEntries[entry.vehicle].push(entry);
+    return matchesMonth && matchesYear;
   });
 
-  for (const vehicle in vehicleEntries) {
-    const sorted = vehicleEntries[vehicle].sort((a, b) => new Date(a.start) - new Date(b.start));
-    let prevOdo = null;
+  const costsByPlate = {};
 
-    for (const entry of sorted) {
-      const odo = parseFloat(entry.odometer);
-      if (isNaN(odo)) continue;
-
-      if (prevOdo !== null && odo > prevOdo) {
-        const fuel = (odo - prevOdo) / KM_PER_LITER;
-        fuelPerVehicle[vehicle] = (fuelPerVehicle[vehicle] || 0) + fuel;
-      }
-      prevOdo = odo;
+  filteredData.forEach(entry => {
+    const plate = entry.plate;
+    if (!costsByPlate[plate]) {
+      costsByPlate[plate] = { total: 0, count: 0 };
     }
-  }
-
-  const colorPalette = [
-    '#FF6347','#4CAF50','#FFEB3B','#00BCD4','#2196F3','#FF9800',
-    '#8BC34A','#E91E63','#9C27B0','#795548','#3F51B5','#CDDC39',
-    '#FFC107','#607D8B','#009688'
-  ];
-
-  // Pie: Destination Categories
-  destroyIfExists("destinationGraph");
-  chartInstances["destinationGraph"] = new Chart(document.getElementById("destinationGraph"), {
-    type: "pie",
-    data: {
-      labels: Object.keys(categoryCount),
-      datasets: [{
-        data: Object.values(categoryCount),
-        backgroundColor: colorPalette
-      }]
-    }
+    costsByPlate[plate].total += parseFloat(entry.cost) || 0;
+    costsByPlate[plate].count += 1;
   });
 
-  // Bar: Fuel Consumption
-  destroyIfExists("fuelGraph");
-  chartInstances["fuelGraph"] = new Chart(document.getElementById("fuelGraph"), {
-    type: "bar",
-    data: {
-      labels: Object.keys(fuelPerVehicle),
-      datasets: [{
-        label: "Fuel (L)",
-        data: Object.values(fuelPerVehicle).map(f => +f.toFixed(2)),
-        backgroundColor: "#FF5733"
-      }]
-    }
-  });
+  Object.keys(costsByPlate).forEach(plate => {
+    const costData = costsByPlate[plate];
+    const averageCost = costData.total / costData.count;
 
-  // Line: Deliveries Per Month
-  destroyIfExists("deliveryGraph");
-  const sortedMonths = Object.keys(deliveryCount).sort((a, b) => new Date(`${a} 1, 2020`) - new Date(`${b} 1, 2020`));
-  chartInstances["deliveryGraph"] = new Chart(document.getElementById("deliveryGraph"), {
-    type: "line",
-    data: {
-      labels: sortedMonths,
-      datasets: [{
-        label: "Deliveries",
-        data: sortedMonths.map(month => deliveryCount[month]),
-        borderColor: "#4CAF50",
-        backgroundColor: "#C8E6C9",
-        fill: true,
-        tension: 0.2
-      }]
-    }
-  });
-
-  // Horizontal Bar: Location Categories
-  destroyIfExists("locationSummaryGraph");
-  chartInstances["locationSummaryGraph"] = new Chart(document.getElementById("locationSummaryGraph"), {
-    type: "bar",
-    data: {
-      labels: Object.keys(categoryCount),
-      datasets: [{
-        label: "Deliveries by Category",
-        data: Object.values(categoryCount),
-        backgroundColor: "#42A5F5"
-      }]
-    },
-    options: {
-      indexAxis: "y",
-      scales: {
-        x: { beginAtZero: true }
-      }
-    }
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${plate}</td>
+      <td>${averageCost.toFixed(2)}</td>
+    `;
+    costTableBody.appendChild(row);
   });
 }
 
-// 🔎 Setup Input Filters
+// Setup month and year filter
 function setupFilters(data) {
   const monthInput = document.getElementById("monthFilter");
   const yearInput = document.getElementById("yearFilter");
-  const update = () => populateCostTables(data, monthInput.value.trim(), yearInput.value.trim());
-  monthInput.addEventListener("input", update);
-  yearInput.addEventListener("input", update);
-}
 
-// 🚀 Initialization
-document.addEventListener("DOMContentLoaded", async () => {
-  const logisticsData = await fetchLogisticsData();
-  populateCostTables(logisticsData);
-  generateCharts(logisticsData);
-  setupFilters(logisticsData);
-});
+  // Get unique months from data
+  const monthSet = new Set();
+  data.forEach(entry => {
+    const date = new Date(entry.start);
+    const month = date.toLocaleString('default', { month: 'long' });
+    monthSet.add(month);
+  });
+
+  // Sort months in calendar order
+  const calendarOrder = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  const sortedMonths = [...monthSet].sort((a, b) => calendarOrder.indexOf(a) - calendarOrder.indexOf(b));
+
+  // Populate month dropdown
+  monthInput.innerHTML = `<option value="">-- All Months --</option>`;
+  sortedMonths.forEach(month => {
+    const option = document.createElement("option");
+    option.value = month;
+    option.textContent = month;
+    monthInput.appendChild(option);
+  });
+
+  // Setup event listeners
+  const updateTable = () => {
+    const selectedMonth = monthInput.value;
+    const selectedYear = yearInput.value.trim();
+    populateCostTables(data, selectedMonth, selectedYear);
+  };
+
+  monthInput.addEventListener("change", updateTable);
+  yearInput.addEventListener("input", updateTable);
+}
