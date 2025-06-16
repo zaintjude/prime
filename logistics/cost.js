@@ -12,39 +12,45 @@ async function fetchLogisticsData() {
 
 // Function to calculate monthly and yearly odometer distance differences
 function calculateCosts(logisticsData) {
+    const KM_RATE = 5.00; // realistic cost per kilometer
+
     const monthlyCosts = {};
     const yearlyCosts = {};
     const vehicleEntries = {};
 
+    // Group entries per vehicle
     logisticsData.forEach(entry => {
         if (!vehicleEntries[entry.vehicle]) vehicleEntries[entry.vehicle] = [];
         vehicleEntries[entry.vehicle].push(entry);
     });
 
+    // Process each vehicle’s entries
     Object.keys(vehicleEntries).forEach(vehicle => {
-        vehicleEntries[vehicle].sort((a, b) => new Date(a.start) - new Date(b.start));
+        const entries = vehicleEntries[vehicle];
+
+        // Sort entries by date ascending
+        entries.sort((a, b) => new Date(a.start) - new Date(b.start));
         let prevOdo = null;
 
-        vehicleEntries[vehicle].forEach(entry => {
+        entries.forEach(entry => {
             const date = new Date(entry.start);
-            const month = date.toLocaleString('default', { month: 'short' }); // e.g., "May"
+            const month = date.toLocaleString('default', { month: 'short' }); // e.g. May
             const year = date.getFullYear();
             const odoReading = Number(entry.odometer);
 
-            // Skip if odometer is not valid
             if (isNaN(odoReading)) return;
 
             if (prevOdo !== null && odoReading > prevOdo) {
                 const distance = odoReading - prevOdo;
-               const cost = distance * 5.00; // realistic per-km cost
+                const cost = distance * KM_RATE;
 
-                // Monthly cost
+                // Monthly calculation
                 if (!monthlyCosts[vehicle]) monthlyCosts[vehicle] = {};
                 if (!monthlyCosts[vehicle][month]) monthlyCosts[vehicle][month] = { odometer: 0, cost: 0 };
                 monthlyCosts[vehicle][month].odometer += distance;
                 monthlyCosts[vehicle][month].cost += cost;
 
-                // Yearly cost
+                // Yearly calculation
                 if (!yearlyCosts[vehicle]) yearlyCosts[vehicle] = {};
                 if (!yearlyCosts[vehicle][year]) yearlyCosts[vehicle][year] = { odometer: 0, cost: 0 };
                 yearlyCosts[vehicle][year].odometer += distance;
@@ -58,6 +64,7 @@ function calculateCosts(logisticsData) {
     return { monthlyCosts, yearlyCosts };
 }
 
+// Function to populate cost tables in the UI
 function populateCostTables(logisticsData) {
     const { monthlyCosts, yearlyCosts } = calculateCosts(logisticsData);
 
@@ -67,6 +74,7 @@ function populateCostTables(logisticsData) {
     monthlyTableBody.innerHTML = '';
     yearlyTableBody.innerHTML = '';
 
+    // Populate monthly cost table
     Object.keys(monthlyCosts).forEach(vehicle => {
         Object.keys(monthlyCosts[vehicle]).forEach(month => {
             const row = document.createElement('tr');
@@ -80,6 +88,7 @@ function populateCostTables(logisticsData) {
         });
     });
 
+    // Populate yearly cost table
     Object.keys(yearlyCosts).forEach(vehicle => {
         Object.keys(yearlyCosts[vehicle]).forEach(year => {
             const row = document.createElement('tr');
@@ -94,6 +103,7 @@ function populateCostTables(logisticsData) {
     });
 }
 
+// Function to generate destination, delivery, and fuel charts
 function generateCharts(logisticsData) {
     const destinations = {};
     const deliveryCounts = {};
@@ -101,29 +111,34 @@ function generateCharts(logisticsData) {
 
     logisticsData.forEach(entry => {
         const destination = entry.destination || 'Unknown';
-        destinations[destination] = (destinations[destination] || 0) + 1;
-
+        const vehicle = entry.vehicle || 'Unknown';
         const date = new Date(entry.start);
         const month = date.toLocaleString('default', { month: 'short' });
+
+        // Destination counts
+        destinations[destination] = (destinations[destination] || 0) + 1;
+
+        // Monthly delivery count
         deliveryCounts[month] = (deliveryCounts[month] || 0) + 1;
 
-        fuelConsumption[entry.vehicle] = (fuelConsumption[entry.vehicle] || 0) + 5; // Placeholder
+        // Simulated fuel usage (placeholder: 5 liters per trip)
+        fuelConsumption[vehicle] = (fuelConsumption[vehicle] || 0) + 5;
     });
 
-    const ctx1 = document.getElementById('destinationGraph').getContext('2d');
-    new Chart(ctx1, {
+    // Pie Chart: Destinations
+    new Chart(document.getElementById('destinationGraph').getContext('2d'), {
         type: 'pie',
         data: {
             labels: Object.keys(destinations),
             datasets: [{
                 data: Object.values(destinations),
-                backgroundColor: ['#FF6347', '#4CAF50', '#FFEB3B', '#00BCD4']
+                backgroundColor: ['#FF6347', '#4CAF50', '#FFEB3B', '#00BCD4', '#2196F3', '#FF9800']
             }]
         }
     });
 
-    const ctx2 = document.getElementById('fuelGraph').getContext('2d');
-    new Chart(ctx2, {
+    // Bar Chart: Fuel Consumption
+    new Chart(document.getElementById('fuelGraph').getContext('2d'), {
         type: 'bar',
         data: {
             labels: Object.keys(fuelConsumption),
@@ -135,8 +150,8 @@ function generateCharts(logisticsData) {
         }
     });
 
-    const ctx3 = document.getElementById('deliveryGraph').getContext('2d');
-    new Chart(ctx3, {
+    // Line Chart: Deliveries per Month
+    new Chart(document.getElementById('deliveryGraph').getContext('2d'), {
         type: 'line',
         data: {
             labels: Object.keys(deliveryCounts),
@@ -144,12 +159,15 @@ function generateCharts(logisticsData) {
                 label: 'Deliveries',
                 data: Object.values(deliveryCounts),
                 borderColor: '#4CAF50',
-                fill: false
+                backgroundColor: '#C8E6C9',
+                fill: true,
+                tension: 0.2
             }]
         }
     });
 }
 
+// Main runner on page load
 document.addEventListener("DOMContentLoaded", async () => {
     const logisticsData = await fetchLogisticsData();
     populateCostTables(logisticsData);
