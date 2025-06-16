@@ -1,42 +1,11 @@
 // cost.js
 
-// Sample Raw Data (replace with your actual data source, e.g., from an API or database)
-// This data simulates records for different vehicles, dates, odometer readings, fuel types, destinations, and categories.
-const rawData = [
-    // Vehicle A (Gasoline)
-    { vehicle: 'Vehicle A', date: '2023-11-01', odometer_reading: 800, fuel_type: 'Gasoline', destination: 'Cebu City', category: 'Standard' },
-    { vehicle: 'Vehicle A', date: '2023-11-15', odometer_reading: 900, fuel_type: 'Gasoline', destination: 'Mandaue City', category: 'Express' },
-    { vehicle: 'Vehicle A', date: '2023-12-01', odometer_reading: 950, fuel_type: 'Gasoline', destination: 'Lapu-Lapu City', category: 'Standard' },
-    { vehicle: 'Vehicle A', date: '2023-12-28', odometer_reading: 1100, fuel_type: 'Gasoline', destination: 'Cebu City', category: 'Express' },
-    { vehicle: 'Vehicle A', date: '2024-01-05', odometer_reading: 1150, fuel_type: 'Gasoline', destination: 'Talisay City', category: 'Standard' },
-    { vehicle: 'Vehicle A', date: '2024-01-20', odometer_reading: 1300, fuel_type: 'Gasoline', destination: 'Cebu City', category: 'Express' },
-    { vehicle: 'Vehicle A', date: '2024-02-10', odometer_reading: 1350, fuel_type: 'Gasoline', destination: 'Mandaue City', category: 'Standard' },
-    { vehicle: 'Vehicle A', date: '2024-02-28', odometer_reading: 1500, fuel_type: 'Gasoline', destination: 'Lapu-Lapu City', category: 'Express' },
-    { vehicle: 'Vehicle A', date: '2024-03-15', odometer_reading: 1550, fuel_type: 'Gasoline', destination: 'Cebu City', category: 'Standard' },
-    { vehicle: 'Vehicle A', date: '2024-03-30', odometer_reading: 1700, fuel_type: 'Gasoline', destination: 'Talisay City', category: 'Express' },
-
-    // Vehicle B (Diesel)
-    { vehicle: 'Vehicle B', date: '2023-11-05', odometer_reading: 4800, fuel_type: 'Diesel', destination: 'Lapu-Lapu City', category: 'Standard' },
-    { vehicle: 'Vehicle B', date: '2023-11-20', odometer_reading: 4950, fuel_type: 'Diesel', destination: 'Cebu City', category: 'Express' },
-    { vehicle: 'Vehicle B', date: '2023-12-10', odometer_reading: 5000, fuel_type: 'Diesel', destination: 'Mandaue City', category: 'Standard' },
-    { vehicle: 'Vehicle B', date: '2023-12-25', odometer_reading: 5200, fuel_type: 'Diesel', destination: 'Lapu-Lapu City', category: 'Express' },
-    { vehicle: 'Vehicle B', date: '2024-01-10', odometer_reading: 5250, fuel_type: 'Diesel', destination: 'Cebu City', category: 'Standard' },
-    { vehicle: 'Vehicle B', date: '2024-01-25', odometer_reading: 5450, fuel_type: 'Diesel', destination: 'Talisay City', category: 'Express' },
-    { vehicle: 'Vehicle B', date: '2024-02-05', odometer_reading: 5500, fuel_type: 'Diesel', destination: 'Mandaue City', category: 'Standard' },
-    { vehicle: 'Vehicle B', date: '2024-02-20', odometer_reading: 5700, fuel_type: 'Diesel', destination: 'Lapu-Lapu City', category: 'Express' },
-    { vehicle: 'Vehicle B', date: '2024-03-01', odometer_reading: 5750, fuel_type: 'Diesel', destination: 'Cebu City', category: 'Standard' },
-    { vehicle: 'Vehicle B', date: '2024-03-20', odometer_reading: 6000, fuel_type: 'Diesel', destination: 'Mandaue City', category: 'Express' },
-
-    // Vehicle C (Gasoline, shorter period)
-    { vehicle: 'Vehicle C', date: '2024-02-01', odometer_reading: 2000, fuel_type: 'Gasoline', destination: 'Talisay City', category: 'Standard' },
-    { vehicle: 'Vehicle C', date: '2024-02-25', odometer_reading: 2150, fuel_type: 'Gasoline', destination: 'Cebu City', category: 'Express' },
-    { vehicle: 'Vehicle C', date: '2024-03-05', odometer_reading: 2200, fuel_type: 'Gasoline', destination: 'Lapu-Lapu City', category: 'Standard' },
-    { vehicle: 'Vehicle C', date: '2024-03-25', odometer_reading: 2400, fuel_type: 'Gasoline', destination: 'Mandaue City', category: 'Express' },
-];
-
 // Define fuel prices
 const DIESEL_PRICE_PER_LITER = 60.00; // As specified for Cebu City
 const GASOLINE_PRICE_PER_LITER = 55.00; // Example price for gasoline
+
+// URL for fetching logistics data
+const DATA_URL = 'https://zaintjude.github.io/prime/logistics/logistics.json';
 
 // --- Data Processing Functions ---
 
@@ -53,6 +22,12 @@ function preprocessOdometerData(data) {
     data.forEach(entry => {
         const { vehicle, date, odometer_reading, fuel_type } = entry;
         const recordDate = new Date(date);
+        // Ensure date is valid before processing
+        if (isNaN(recordDate.getTime())) {
+            console.warn(`Invalid date format for entry: ${JSON.stringify(entry)}. Skipping.`);
+            return;
+        }
+
         const yearMonth = recordDate.toISOString().substring(0, 7); // Format: YYYY-MM
 
         if (!processedMonthlyData.has(vehicle)) {
@@ -75,10 +50,18 @@ function preprocessOdometerData(data) {
         monthData.records.push({ odometer_reading, date: recordDate });
     });
 
-    // Sort records within each month by date
+    // Sort records within each month by date to ensure minOdo and maxOdo truly represent start/end of month
     processedMonthlyData.forEach(vehicleMonthData => {
         vehicleMonthData.forEach(monthData => {
             monthData.records.sort((a, b) => a.date.getTime() - b.date.getTime());
+            // After sorting, update minOdo and maxOdo based on the sorted records
+            if (monthData.records.length > 0) {
+                monthData.minOdo = monthData.records[0].odometer_reading;
+                monthData.maxOdo = monthData.records[monthData.records.length - 1].odometer_reading;
+            } else {
+                 monthData.minOdo = 0; // No records for this month
+                 monthData.maxOdo = 0;
+            }
         });
     });
 
@@ -105,7 +88,15 @@ function calculateMonthlyReports(preprocessedData) {
             const fuelType = currentMonthData.fuelType;
 
             // Calculate odometer difference for the month: last entry of the month - first entry of the month
-            const monthlyOdoDiff = currentMonthEndOdo - currentMonthStartOdo;
+            let monthlyOdoDiff = currentMonthEndOdo - currentMonthStartOdo;
+
+            // Handle cases where monthlyOdoDiff might be negative or zero due to data issues (e.g., reset odometer)
+            // For report purposes, we'll assume a non-negative difference.
+            if (monthlyOdoDiff < 0) {
+                console.warn(`Negative odometer difference for ${vehicle} in ${yearMonth}. Assuming 0 for calculation.`);
+                monthlyOdoDiff = 0;
+            }
+
 
             // Calculate total cost based on fuel type
             const costPerLiter = fuelType.toLowerCase() === 'diesel' ? DIESEL_PRICE_PER_LITER : GASOLINE_PRICE_PER_LITER;
@@ -318,6 +309,10 @@ function renderDeliveryGraph(data) {
     const deliveriesPerMonth = {};
     data.forEach(entry => {
         const date = new Date(entry.date);
+        // Ensure date is valid before processing
+        if (isNaN(date.getTime())) {
+            return;
+        }
         const monthYear = date.toLocaleString('en-US', { month: 'short', year: 'numeric' });
         deliveriesPerMonth[monthYear] = (deliveriesPerMonth[monthYear] || 0) + 1;
     });
@@ -403,21 +398,21 @@ function renderLocationSummaryGraph(data) {
             title: {
                 display: true,
                 text: 'Delivery Categories Summary'
-            },
-            legend: {
-                position: 'top',
             }
+        },
+        legend: {
+            position: 'top',
         }
     });
 }
 
-// --- Main Render Function and Event Listeners ---
-
+// --- Global variables for fetched data and reports ---
+let rawLogisticsData = []; // To store the fetched raw data
 let allMonthlyReports = [];
 let allYearlyReports = [];
 
 /**
- * Renders all reports and graphs based on current filter values.
+ * Renders all reports and graphs based on current filter values and the fetched data.
  */
 function renderAll() {
     const monthFilterValue = document.getElementById('monthFilter').value.toLowerCase();
@@ -434,31 +429,51 @@ function renderAll() {
     // Filter yearly reports (these are derived from monthly, so filter the final ones)
     const filteredYearlyReports = allYearlyReports.filter(report => {
         const yearMatch = yearFilterValue ? report.year.toString() === yearFilterValue : true;
-        // Month filter doesn't apply directly to yearly reports, but if a year is filtered, it implies filtering monthly too.
-        // For simplicity, we apply year filter here.
         return yearMatch;
     });
     renderYearlyCostTable(filteredYearlyReports);
 
-    // Graphs are typically based on overall data, or could be filtered too.
-    // For now, let's keep graphs based on the full rawData or process filtered data for graphs if required.
-    // The prompt implies filtering tables, not necessarily graphs.
-    // If graphs need filtering, uncomment and adjust the following lines to pass filtered rawData.
-    renderDestinationGraph(rawData);
-    renderFuelGraph(rawData);
-    renderDeliveryGraph(rawData);
-    renderLocationSummaryGraph(rawData);
+    // Graphs are based on the *filtered* raw data if filters are applied to the graphs,
+    // or the full rawLogisticsData if graphs should always show overall trends.
+    // For now, graphs will use the full fetched raw data as indicated in previous conversations,
+    // unless explicit filtering for graphs is requested.
+    renderDestinationGraph(rawLogisticsData);
+    renderFuelGraph(rawLogisticsData);
+    renderDeliveryGraph(rawLogisticsData);
+    renderLocationSummaryGraph(rawLogisticsData);
+}
+
+/**
+ * Fetches data from the specified URL, processes it, and then renders the page.
+ */
+async function initializeDataAndRender() {
+    try {
+        const response = await fetch(DATA_URL);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        rawLogisticsData = await response.json();
+        console.log("Data fetched successfully:", rawLogisticsData);
+
+        // Process the fetched data
+        const preprocessedOdoData = preprocessOdometerData(rawLogisticsData);
+        allMonthlyReports = calculateMonthlyReports(preprocessedOdoData);
+        allYearlyReports = calculateYearlyReports(allMonthlyReports);
+
+        // Initial render with all data
+        renderAll();
+
+    } catch (error) {
+        console.error("Could not fetch logistics data:", error);
+        // Display an error message to the user or in the tables
+        document.getElementById('monthlyCostTable').querySelector('tbody').innerHTML = `<tr><td colspan="4" style="text-align: center; color: red;">Failed to load data. Please check the network and data source.</td></tr>`;
+        document.getElementById('yearlyCostTable').querySelector('tbody').innerHTML = `<tr><td colspan="4" style="text-align: center; color: red;">Failed to load data. Please check the network and data source.</td></tr>`;
+    }
 }
 
 // Event Listeners for filters
 document.getElementById('monthFilter').addEventListener('input', renderAll);
 document.getElementById('yearFilter').addEventListener('input', renderAll);
 
-// Initial data processing and rendering on page load
-document.addEventListener('DOMContentLoaded', () => {
-    const preprocessedOdoData = preprocessOdometerData(rawData);
-    allMonthlyReports = calculateMonthlyReports(preprocessedOdoData);
-    allYearlyReports = calculateYearlyReports(allMonthlyReports);
-
-    renderAll(); // Initial render with all data
-});
+// Initial data fetching and rendering on page load
+document.addEventListener('DOMContentLoaded', initializeDataAndRender);
