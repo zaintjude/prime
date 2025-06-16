@@ -1,169 +1,124 @@
-document.addEventListener("DOMContentLoaded", () => {
-  fetch("https://zaintjude.github.io/prime/logistics/logistics.json")
-    .then(res => res.json())
-    .then(data => {
-      setupFilters(data);
-      populateMonthlyTable(data);
-      populateYearlyTable(data);
-      generateCharts(data);
-    })
-    .catch(err => console.error("Fetch error:", err));
-});
 
-// — Monthly Cost Table (correct odometer: last - first)
-function populateMonthlyTable(data, selMonth = "", selYear = "") {
-  const tbody = document.querySelector("#monthlyCostTable tbody");
-  tbody.innerHTML = "";
 
-  const summary = {};
-
-  data.forEach(e => {
-    if (!e.start || isNaN(new Date(e.start))) return;
-    const d = new Date(e.start);
-    const month = d.toLocaleString("default", { month: "long" });
-    const year = d.getFullYear().toString();
-    if (selMonth && month !== selMonth) return;
-    if (selYear && year !== selYear) return;
-
-    const key = `${e.vehicle}-${month}-${year}`;
-    const odo = parseFloat(e.odometer) || 0;
-    const cost = parseFloat(e.cost) || 0;
-
-    summary[key] ??= {
-      vehicle: e.vehicle,
-      month,
-      year,
-      totalCost: 0,
-      firstOdo: odo,
-      lastOdo: odo,
-      firstDate: d,
-      lastDate: d
-    };
-
-    summary[key].totalCost += cost;
-
-    if (d < summary[key].firstDate) {
-      summary[key].firstDate = d;
-      summary[key].firstOdo = odo;
-    }
-
-    if (d > summary[key].lastDate) {
-      summary[key].lastDate = d;
-      summary[key].lastOdo = odo;
-    }
-  });
-
-  Object.values(summary).forEach(item => {
-    const totalOdo = item.lastOdo - item.firstOdo;
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${item.vehicle}</td>
-      <td>${item.month} ${item.year}</td>
-      <td>${totalOdo.toLocaleString()}</td>
-      <td>₱${item.totalCost.toFixed(2)}</td>
-    `;
-    tbody.appendChild(tr);
-  });
+  
+async function fetchLogisticsData() {
+  try {
+    const res = await fetch('https://zaintjude.github.io/prime/logistics/logistics.json');
+    if (!res.ok) throw new Error('Fetch error');
+    return await res.json();
+  } catch (e) {
+    console.error(e);
+    return [];
+  }
 }
 
-// — Yearly Cost Table (odometer: last - first of year)
-function populateYearlyTable(data) {
-  const tbody = document.querySelector("#yearlyCostTable tbody");
-  tbody.innerHTML = "";
-
-  const summary = {};
+// Calculate distance and cost
+function calculateCosts(data) {
+  const monthlyCosts = {}, yearlyCosts = {}, vehicleEntries = {};
 
   data.forEach(e => {
-    if (!e.start || isNaN(new Date(e.start))) return;
-    const d = new Date(e.start);
-    const year = d.getFullYear().toString();
-    const key = `${e.vehicle}-${year}`;
-    const odo = parseFloat(e.odometer) || 0;
-    const cost = parseFloat(e.cost) || 0;
-
-    summary[key] ??= {
-      vehicle: e.vehicle,
-      year,
-      totalCost: 0,
-      firstOdo: odo,
-      lastOdo: odo,
-      firstDate: d,
-      lastDate: d
-    };
-
-    summary[key].totalCost += cost;
-
-    if (d < summary[key].firstDate) {
-      summary[key].firstDate = d;
-      summary[key].firstOdo = odo;
-    }
-
-    if (d > summary[key].lastDate) {
-      summary[key].lastDate = d;
-      summary[key].lastOdo = odo;
-    }
+    vehicleEntries[e.vehicle] = vehicleEntries[e.vehicle] || [];
+    vehicleEntries[e.vehicle].push(e);
   });
 
-  Object.values(summary).forEach(item => {
-    const totalOdo = item.lastOdo - item.firstOdo;
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${item.vehicle}</td>
-      <td>${item.year}</td>
-      <td>${totalOdo.toLocaleString()}</td>
-      <td>₱${item.totalCost.toFixed(2)}</td>
-    `;
-    tbody.appendChild(tr);
-  });
+  for (const vehicle in vehicleEntries) {
+    const entries = vehicleEntries[vehicle].sort((a, b) => new Date(a.start) - new Date(b.start));
+    let prevOdo = null;
+    for (const e of entries) {
+      const odo = parseFloat(e.odometer);
+      const date = new Date(e.start);
+      if (prevOdo !== null && odo > prevOdo) {
+        const dist = odo - prevOdo, cost = dist * 0.05;
+        const m = date.getMonth() + 1, y = date.getFullYear();
+
+        monthlyCosts[vehicle] = monthlyCosts[vehicle] || {};
+        monthlyCosts[vehicle][m] = monthlyCosts[vehicle][m] || { odometer: 0, cost: 0 };
+        monthlyCosts[vehicle][m].odometer += dist;
+        monthlyCosts[vehicle][m].cost += cost;
+
+        yearlyCosts[vehicle] = yearlyCosts[vehicle] || {};
+        yearlyCosts[vehicle][y] = yearlyCosts[vehicle][y] || { odometer: 0, cost: 0 };
+        yearlyCosts[vehicle][y].odometer += dist;
+        yearlyCosts[vehicle][y].cost += cost;
+      }
+      prevOdo = odo;
+    }
+  }
+  return { monthlyCosts, yearlyCosts };
 }
 
-// — Month/Year Filters
-function setupFilters(data) {
-  const mSel = document.getElementById("monthFilter");
-  const yInp = document.getElementById("yearFilter");
-  const months = new Set(), years = new Set();
+// Populate tables
+function populateCostTables(data) {
+  const { monthlyCosts, yearlyCosts } = calculateCosts(data);
+  const mBody = document.querySelector('#monthlyCostTable tbody');
+  const yBody = document.querySelector('#yearlyCostTable tbody');
+  mBody.innerHTML = ''; yBody.innerHTML = '';
 
-  data.forEach(e => {
-    if (!e.start) return;
-    const d = new Date(e.start);
-    if (isNaN(d)) return;
-    months.add(d.toLocaleString("default", { month: "long" }));
-    years.add(d.getFullYear().toString());
-  });
+  for (const v in monthlyCosts)
+    for (const m in monthlyCosts[v]) {
+      const { odometer, cost } = monthlyCosts[v][m];
+      mBody.insertAdjacentHTML('beforeend', `
+        <tr><td>${v}</td><td>${m}</td>
+            <td>${odometer}</td><td>${cost.toFixed(2)}</td></tr>`);
+    }
 
-  const cal = ["January", "February", "March", "April", "May", "June",
-               "July", "August", "September", "October", "November", "December"];
-  Array.from(months).sort((a, b) => cal.indexOf(a) - cal.indexOf(b)).forEach(m => {
-    const opt = document.createElement("option");
-    opt.value = m;
-    opt.textContent = m;
-    mSel.appendChild(opt);
-  });
-
-  yInp.setAttribute("list", "yearList");
-  const dList = document.createElement("datalist");
-  dList.id = "yearList";
-  Array.from(years).sort().forEach(y => {
-    const o = document.createElement("option");
-    o.value = y;
-    dList.appendChild(o);
-  });
-  document.body.appendChild(dList);
-
-  const update = () => {
-    populateMonthlyTable(data, mSel.value, yInp.value.trim());
-    populateYearlyTable(data);
-  };
-
-  mSel.addEventListener("change", update);
-  yInp.addEventListener("input", update);
+  for (const v in yearlyCosts)
+    for (const y in yearlyCosts[v]) {
+      const { odometer, cost } = yearlyCosts[v][y];
+      yBody.insertAdjacentHTML('beforeend', `
+        <tr><td>${v}</td><td>${y}</td>
+            <td>${odometer}</td><td>${cost.toFixed(2)}</td></tr>`);
+    }
 }
 
-// — Charts (Placeholder: Implement your real chart logic here)
+// Charts: deliveries per month & summary by location
 function generateCharts(data) {
-  // You may call your chart functions here like:
-  // generateDestinationGraph(data);
-  // generateFuelGraph(data);
-  // generateDeliveryGraph(data);
-  // generateLocationSummaryGraph(data);
+  // Deliveries per month
+  const deliveryCount = {};
+  data.forEach(e => {
+    const d = new Date(e.start);
+    const m = d.toLocaleString('default', { month: 'long' });
+    deliveryCount[m] = (deliveryCount[m] || 0) + 1;
+  });
+  new Chart(document.getElementById('deliveryGraph').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: Object.keys(deliveryCount),
+      datasets: [{
+        label: '# Deliveries',
+        data: Object.values(deliveryCount),
+        borderColor: '#4CAF50',
+        fill: false
+      }]
+    }
+  });
+
+  // Summary by location category
+  const bucket = {};
+  data.forEach(e => {
+    const dest = (e.destination || '').toUpperCase();
+    let cat = 'OTHER';
+    if (dest.includes('CARBON')) cat = 'CARBON';
+    else if (dest.includes('CITY CLOU')) cat = 'CITY CLOU';
+    else if (dest.includes('ECHAVEZ')) cat = 'ECHAVEZ';
+    // ... repeat your mapping for other destinations
+    bucket[cat] = (bucket[cat] || 0) + 1;
+  });
+  new Chart(document.getElementById('locationSummaryGraph').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: Object.keys(bucket),
+      datasets: [{ label: '# Deliveries', data: Object.values(bucket), backgroundColor: '#42A5F5' }]
+    },
+    options: { indexAxis: 'y', scales: { x: { beginAtZero: true } } }
+  });
+
+  // Existing charts (destinationGraph, fuelGraph) can be added similarly
 }
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', async () => {
+  const data = await fetchLogisticsData();
+  populateCostTables(data);
+  generateCharts(data);
+});
