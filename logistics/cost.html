@@ -16,7 +16,7 @@
     ← Back to Logistics
   </a>
 
-  <!-- Small logo at the top right -->
+  <!-- Logo -->
   <div id="logo-container">
     <img src="prime.png" alt="Logo" id="logo"/>
   </div>
@@ -24,7 +24,7 @@
   <div class="container">
     <h1>Cost Report</h1>
 
-    <!-- Cost Per Vehicle Per Month -->
+    <!-- Monthly Cost Table -->
     <section>
       <h2>Cost Per Vehicle Per Month</h2>
       <div style="margin-bottom: 10px;">
@@ -40,13 +40,11 @@
             <th>Total Cost</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- Monthly cost data will be dynamically inserted here -->
-        </tbody>
+        <tbody></tbody>
       </table>
     </section>
 
-    <!-- Cost Per Vehicle Per Year -->
+    <!-- Yearly Cost Table -->
     <section>
       <h2>Cost Per Vehicle Per Year</h2>
       <div style="margin-bottom: 10px;">
@@ -62,13 +60,11 @@
             <th>Total Cost</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- Yearly cost data will be dynamically inserted here -->
-        </tbody>
+        <tbody></tbody>
       </table>
     </section>
 
-    <!-- Graphs Section -->
+    <!-- Delivery Destinations Pie Chart -->
     <section>
       <h2>Delivery Destinations</h2>
       <div class="chart-container">
@@ -76,10 +72,19 @@
       </div>
     </section>
 
+    <!-- Most Consumed Fuel Bar Chart -->
     <section>
       <h2>Total Most Consumed Fuel</h2>
       <div class="chart-container">
         <canvas id="fuelGraph"></canvas>
+      </div>
+    </section>
+
+    <!-- Deliveries Per Month Line Chart -->
+    <section>
+      <h2>Number of Deliveries Per Month</h2>
+      <div class="chart-container">
+        <canvas id="deliveryGraph"></canvas>
       </div>
     </section>
 
@@ -92,7 +97,6 @@
     </section>
   </div>
 
-  <!-- Scripts -->
   <script src="cost.js"></script>
 </body>
 </html>
