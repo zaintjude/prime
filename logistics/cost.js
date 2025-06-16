@@ -146,7 +146,7 @@ function generateCharts(data) {
     const cat = getDestinationCategory(dest);
     categorySummary[cat] = (categorySummary[cat] || 0) + 1;
 
-    const m = new Date(e.start).toLocaleString('default', { month: 'short' });
+    const m = new Date(e.start).toLocaleString('default', { month: 'long' });
     deliveryCounts[m] = (deliveryCounts[m] || 0) + 1;
 
     entriesByVehicle[e.vehicle] ??= [];
