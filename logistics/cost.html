@@ -17,12 +17,25 @@
   </a>
 
   <!-- Logo -->
-  <div id="logo-container">
-    <img src="prime.png" alt="Logo" id="logo"/>
+  <div id="logo-container" style="text-align: center; margin-bottom: 20px;">
+    <img src="prime.png" alt="Logo" id="logo" style="height: 80px;"/>
   </div>
 
   <div class="container">
-    <h1>Cost Report</h1>
+
+    <h1 style="text-align: center;">Cost Report</h1>
+
+    <!-- Filters -->
+    <div style="display: flex; gap: 15px; align-items: center; justify-content: center; margin: 20px 0;">
+      <label for="monthFilter">Month:</label>
+      <select id="monthFilter">
+        <option value="">All</option>
+        <!-- JS will populate -->
+      </select>
+
+      <label for="yearFilter">Year:</label>
+      <input type="text" id="yearFilter" list="yearList" placeholder="e.g. 2024" />
+    </div>
 
     <!-- Monthly Cost Table -->
     <section>
@@ -89,7 +102,7 @@
     </section>
   </div>
 
-  <!-- Load logic AFTER all DOM elements -->
+  <!-- JS: Logic comes last -->
   <script src="cost.js"></script>
 </body>
 </html>
