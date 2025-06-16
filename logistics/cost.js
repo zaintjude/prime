@@ -1,4 +1,4 @@
-// 🔑 CATEGORY KEYWORDS FOR DESTINATIONS
+// 🔑 Destination Category Mapping
 const destinationCategories = [
   { keyword: "CARBON", category: "CARBON" },
   { keyword: "CITY CLOU", category: "CITY CLOU" },
@@ -54,16 +54,15 @@ const destinationCategories = [
   { keyword: "MANKO", category: "OTHER" },
 ];
 
-// 🔍 Get category based on keywords
-function getDestinationCategory(destination) {
-  const d = (destination || "").toUpperCase();
+function getDestinationCategory(destination = "") {
+  const upperDest = destination.toUpperCase();
   for (const { keyword, category } of destinationCategories) {
-    if (d.includes(keyword)) return category;
+    if (upperDest.includes(keyword)) return category;
   }
   return "OTHER";
 }
 
-// 📦 Fetch logistics JSON
+// 🚚 Fetch logistics JSON
 async function fetchLogisticsData() {
   try {
     const res = await fetch('https://zaintjude.github.io/prime/logistics/logistics.json');
@@ -75,43 +74,50 @@ async function fetchLogisticsData() {
   }
 }
 
-// 🧮 Calculate distances & cost
+// 🧾 Cost Calculation
 function calculateCosts(data) {
   const RATE = 5.0;
   const monthly = {}, yearly = {}, entriesByVehicle = {};
 
-  data.forEach(e => {
-    entriesByVehicle[e.vehicle] ??= [];
-    entriesByVehicle[e.vehicle].push(e);
-  });
+  for (const entry of data) {
+    entriesByVehicle[entry.vehicle] ??= [];
+    entriesByVehicle[entry.vehicle].push(entry);
+  }
 
   for (const vehicle in entriesByVehicle) {
-    const arr = entriesByVehicle[vehicle].sort((a, b) => new Date(a.start) - new Date(b.start));
-    let prev = null;
-    arr.forEach(e => {
-      const odo = parseFloat(e.odometer);
-      if (isNaN(odo)) return;
-      if (prev !== null && odo > prev) {
-        const dist = odo - prev, cost = dist * RATE;
-        const m = new Date(e.start).toLocaleString('default', { month: 'long' });
-        const y = new Date(e.start).getFullYear();
+    const logs = entriesByVehicle[vehicle].sort((a, b) => new Date(a.start) - new Date(b.start));
+    let prevOdo = null;
+
+    for (const log of logs) {
+      const odo = parseFloat(log.odometer);
+      if (isNaN(odo)) continue;
+
+      if (prevOdo !== null && odo > prevOdo) {
+        const distance = odo - prevOdo;
+        const cost = distance * RATE;
+        const date = new Date(log.start);
+        const month = date.toLocaleString('default', { month: 'long' });
+        const year = date.getFullYear();
+
         monthly[vehicle] ??= {};
-        monthly[vehicle][m] ??= { odometer: 0, cost: 0 };
-        monthly[vehicle][m].odometer += dist;
-        monthly[vehicle][m].cost += cost;
         yearly[vehicle] ??= {};
-        yearly[vehicle][y] ??= { odometer: 0, cost: 0 };
-        yearly[vehicle][y].odometer += dist;
-        yearly[vehicle][y].cost += cost;
+        monthly[vehicle][month] ??= { odometer: 0, cost: 0 };
+        yearly[vehicle][year] ??= { odometer: 0, cost: 0 };
+
+        monthly[vehicle][month].odometer += distance;
+        monthly[vehicle][month].cost += cost;
+        yearly[vehicle][year].odometer += distance;
+        yearly[vehicle][year].cost += cost;
       }
-      prev = odo;
-    });
+
+      prevOdo = odo;
+    }
   }
 
   return { monthlyCosts: monthly, yearlyCosts: yearly };
 }
 
-// 📊 Populate tables
+// 🧾 Populate Cost Tables
 function populateCostTables(data, monthFilter = "", yearFilter = "") {
   const { monthlyCosts, yearlyCosts } = calculateCosts(data);
   const mBody = document.querySelector("#monthlyCostTable tbody");
@@ -120,107 +126,121 @@ function populateCostTables(data, monthFilter = "", yearFilter = "") {
   yBody.innerHTML = "";
 
   for (const vehicle in monthlyCosts) {
-    for (const m in monthlyCosts[vehicle]) {
-      if (!m.toLowerCase().includes(monthFilter.toLowerCase())) continue;
-      const d = monthlyCosts[vehicle][m];
-      mBody.innerHTML += `<tr><td>${vehicle}</td><td>${m}</td><td>${d.odometer}</td><td>${d.cost.toFixed(2)}</td></tr>`;
+    for (const month in monthlyCosts[vehicle]) {
+      if (!month.toLowerCase().includes(monthFilter.toLowerCase())) continue;
+      const d = monthlyCosts[vehicle][month];
+      mBody.innerHTML += `<tr><td>${vehicle}</td><td>${month}</td><td>${d.odometer}</td><td>${d.cost.toFixed(2)}</td></tr>`;
     }
   }
 
   for (const vehicle in yearlyCosts) {
-    for (const y in yearlyCosts[vehicle]) {
-      if (!y.includes(yearFilter)) continue;
-      const d = yearlyCosts[vehicle][y];
-      yBody.innerHTML += `<tr><td>${vehicle}</td><td>${y}</td><td>${d.odometer}</td><td>${d.cost.toFixed(2)}</td></tr>`;
+    for (const year in yearlyCosts[vehicle]) {
+      if (!year.includes(yearFilter)) continue;
+      const d = yearlyCosts[vehicle][year];
+      yBody.innerHTML += `<tr><td>${vehicle}</td><td>${year}</td><td>${d.odometer}</td><td>${d.cost.toFixed(2)}</td></tr>`;
     }
   }
 }
 
-// 📈 Create charts
+// 💥 Destroy old chart instances
+const chartInstances = {};
+function destroyIfExists(id) {
+  if (chartInstances[id]) {
+    chartInstances[id].destroy();
+  }
+}
+
+// 📊 Create Charts
 function generateCharts(data) {
-  const categorySummary = {}, deliveryCounts = {}, vehicleFuel = {}, locCategorySummary = {};
-  const KM_L = 8, entriesByVehicle = {};
+  const KM_PER_LITER = 8;
+  const categoryCount = {}, deliveryCount = {}, fuelPerVehicle = {};
+  const vehicleEntries = {};
 
-  data.forEach(e => {
-    const dest = e.destination || "Unknown";
-    const cat = getDestinationCategory(dest);
-    categorySummary[cat] = (categorySummary[cat] || 0) + 1;
+  data.forEach(entry => {
+    const category = getDestinationCategory(entry.destination);
+    categoryCount[category] = (categoryCount[category] || 0) + 1;
 
-    const m = new Date(e.start).toLocaleString('default', { month: 'long' });
-    deliveryCounts[m] = (deliveryCounts[m] || 0) + 1;
+    const month = new Date(entry.start).toLocaleString('default', { month: 'long' });
+    deliveryCount[month] = (deliveryCount[month] || 0) + 1;
 
-    entriesByVehicle[e.vehicle] ??= [];
-    entriesByVehicle[e.vehicle].push(e);
+    vehicleEntries[entry.vehicle] ??= [];
+    vehicleEntries[entry.vehicle].push(entry);
   });
 
-  for (const v in entriesByVehicle) {
-    const arr = entriesByVehicle[v].sort((a, b) => new Date(a.start) - new Date(b.start));
-    let prev = null;
-    arr.forEach(e => {
-      const odo = parseFloat(e.odometer);
-      if (isNaN(odo)) return;
-      if (prev !== null && odo > prev) {
-        const fuel = (odo - prev) / KM_L;
-        vehicleFuel[v] = (vehicleFuel[v] || 0) + fuel;
+  for (const vehicle in vehicleEntries) {
+    const sorted = vehicleEntries[vehicle].sort((a, b) => new Date(a.start) - new Date(b.start));
+    let prevOdo = null;
+
+    for (const entry of sorted) {
+      const odo = parseFloat(entry.odometer);
+      if (isNaN(odo)) continue;
+
+      if (prevOdo !== null && odo > prevOdo) {
+        const fuel = (odo - prevOdo) / KM_PER_LITER;
+        fuelPerVehicle[vehicle] = (fuelPerVehicle[vehicle] || 0) + fuel;
       }
-      prev = odo;
-    });
+      prevOdo = odo;
+    }
   }
 
-  // 🍕 Category Pie Chart
-  new Chart(document.getElementById('destinationGraph'), {
-    type: 'pie',
+  // Pie: Destination Categories
+  destroyIfExists("destinationGraph");
+  chartInstances["destinationGraph"] = new Chart(document.getElementById("destinationGraph"), {
+    type: "pie",
     data: {
-      labels: Object.keys(categorySummary),
+      labels: Object.keys(categoryCount),
       datasets: [{
-        data: Object.values(categorySummary),
+        data: Object.values(categoryCount),
         backgroundColor: ['#FF6347','#4CAF50','#FFEB3B','#00BCD4','#2196F3','#FF9800','#8BC34A','#E91E63','#9C27B0','#795548']
       }]
     }
   });
 
-  // 🛢 Fuel Bar Chart
-  new Chart(document.getElementById('fuelGraph'), {
-    type: 'bar',
+  // Bar: Fuel Consumption
+  destroyIfExists("fuelGraph");
+  chartInstances["fuelGraph"] = new Chart(document.getElementById("fuelGraph"), {
+    type: "bar",
     data: {
-      labels: Object.keys(vehicleFuel),
+      labels: Object.keys(fuelPerVehicle),
       datasets: [{
-        label: 'Fuel (L)',
-        data: Object.values(vehicleFuel).map(f => +f.toFixed(2)),
-        backgroundColor: '#FF5733'
+        label: "Fuel (L)",
+        data: Object.values(fuelPerVehicle).map(f => +f.toFixed(2)),
+        backgroundColor: "#FF5733"
       }]
     }
   });
 
-  // 📆 Delivery Line Chart
-  new Chart(document.getElementById('deliveryGraph'), {
-    type: 'line',
+  // Line: Deliveries Per Month
+  destroyIfExists("deliveryGraph");
+  chartInstances["deliveryGraph"] = new Chart(document.getElementById("deliveryGraph"), {
+    type: "line",
     data: {
-      labels: Object.keys(deliveryCounts),
+      labels: Object.keys(deliveryCount),
       datasets: [{
-        label: 'Deliveries',
-        data: Object.values(deliveryCounts),
-        borderColor: '#4CAF50',
-        backgroundColor: '#C8E6C9',
+        label: "Deliveries",
+        data: Object.values(deliveryCount),
+        borderColor: "#4CAF50",
+        backgroundColor: "#C8E6C9",
         fill: true,
         tension: 0.2
       }]
     }
   });
 
-  // 📊 Horizontal Bar Chart for Location Category Summary
-  new Chart(document.getElementById('locationSummaryGraph'), {
-    type: 'bar',
+  // Horizontal Bar: Location Categories
+  destroyIfExists("locationSummaryGraph");
+  chartInstances["locationSummaryGraph"] = new Chart(document.getElementById("locationSummaryGraph"), {
+    type: "bar",
     data: {
-      labels: Object.keys(categorySummary),
+      labels: Object.keys(categoryCount),
       datasets: [{
-        label: 'Deliveries by Category',
-        data: Object.values(categorySummary),
-        backgroundColor: '#42A5F5'
+        label: "Deliveries by Category",
+        data: Object.values(categoryCount),
+        backgroundColor: "#42A5F5"
       }]
     },
     options: {
-      indexAxis: 'y', // Horizontal
+      indexAxis: "y",
       scales: {
         x: { beginAtZero: true }
       }
@@ -228,18 +248,19 @@ function generateCharts(data) {
   });
 }
 
-// 🔍 Setup filters
+// 🔎 Setup Input Filters
 function setupFilters(data) {
-  const mIn = document.getElementById('monthFilter'), yIn = document.getElementById('yearFilter');
-  const update = () => populateCostTables(data, mIn.value.trim(), yIn.value.trim());
-  mIn.addEventListener('input', update);
-  yIn.addEventListener('input', update);
+  const monthInput = document.getElementById("monthFilter");
+  const yearInput = document.getElementById("yearFilter");
+  const update = () => populateCostTables(data, monthInput.value.trim(), yearInput.value.trim());
+  monthInput.addEventListener("input", update);
+  yearInput.addEventListener("input", update);
 }
 
-// 🚀 On DOM load
+// 🚀 Initialization
 document.addEventListener("DOMContentLoaded", async () => {
-  const data = await fetchLogisticsData();
-  populateCostTables(data);
-  generateCharts(data);
-  setupFilters(data);
+  const logisticsData = await fetchLogisticsData();
+  populateCostTables(logisticsData);
+  generateCharts(logisticsData);
+  setupFilters(logisticsData);
 });
