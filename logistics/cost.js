@@ -87,6 +87,8 @@ function preprocessOdometerData(data) {
 
 /**
  * Calculates monthly odometer differences and total costs for each vehicle.
+ * The odometer difference for a given month is calculated as the maximum odometer reading
+ * in that month minus the minimum odometer reading in that same month.
  * @param {Map<string, Map<string, { minOdo: number, maxOdo: number, fuelType: string, records: Array<Object> }>>} preprocessedData
  * @returns {Array<Object>} An array of objects, each representing a monthly report for a vehicle.
  */
@@ -95,7 +97,6 @@ function calculateMonthlyReports(preprocessedData) {
 
     preprocessedData.forEach((monthDataMap, vehicle) => {
         const sortedMonths = Array.from(monthDataMap.keys()).sort(); // Sort YYYY-MM keys
-        let previousMonthEndOdo = null;
 
         sortedMonths.forEach(yearMonth => {
             const currentMonthData = monthDataMap.get(yearMonth);
@@ -103,15 +104,8 @@ function calculateMonthlyReports(preprocessedData) {
             const currentMonthEndOdo = currentMonthData.maxOdo;
             const fuelType = currentMonthData.fuelType;
 
-            let monthlyOdoDiff;
-            // Calculate odometer difference for the month
-            // If it's the first month for the vehicle, difference is within that month's readings
-            // Otherwise, it's the end of this month minus the end of the previous month
-            if (previousMonthEndOdo === null) {
-                monthlyOdoDiff = currentMonthEndOdo - currentMonthStartOdo;
-            } else {
-                monthlyOdoDiff = currentMonthEndOdo - previousMonthEndOdo;
-            }
+            // Calculate odometer difference for the month: last entry of the month - first entry of the month
+            const monthlyOdoDiff = currentMonthEndOdo - currentMonthStartOdo;
 
             // Calculate total cost based on fuel type
             const costPerLiter = fuelType.toLowerCase() === 'diesel' ? DIESEL_PRICE_PER_LITER : GASOLINE_PRICE_PER_LITER;
@@ -124,12 +118,9 @@ function calculateMonthlyReports(preprocessedData) {
                 vehicle,
                 month,
                 year,
-                totalOdometer: monthlyOdoDiff, // This represents the distance traveled in the month
+                totalOdometer: monthlyOdoDiff, // This now explicitly represents the distance traveled within the month
                 totalCost: totalCost
             });
-
-            // Update previousMonthEndOdo for the next iteration
-            previousMonthEndOdo = currentMonthEndOdo;
         });
     });
 
