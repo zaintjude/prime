@@ -3,103 +3,127 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(response => response.json())
     .then(data => {
       setupFilters(data);
-      populateCostTables(data);
+      populateCostTable(data);
     })
     .catch(error => {
       console.error("Error fetching logistics data:", error);
     });
 });
 
-// Populate cost-per-vehicle-per-month table
-function populateCostTables(data, selectedMonth = "", selectedYear = "") {
-  const costTableBody = document.querySelector("#costTable tbody");
-  costTableBody.innerHTML = "";
+// Populate Monthly Cost Table
+function populateCostTable(data, selectedMonth = "", selectedYear = "") {
+  const tableBody = document.querySelector("#monthlyCostTable tbody");
+  tableBody.innerHTML = "";
 
   const filteredData = data.filter(entry => {
-    if (!entry.start) return false;
+    if (!entry.start || !entry.cost || isNaN(parseFloat(entry.cost))) return false;
 
-    const startDate = new Date(entry.start);
-    if (isNaN(startDate)) return false;
+    const date = new Date(entry.start);
+    if (isNaN(date)) return false;
 
-    const month = startDate.toLocaleString("default", { month: "long" });
-    const year = startDate.getFullYear().toString();
+    const entryMonth = date.toLocaleString("default", { month: "long" });
+    const entryYear = date.getFullYear().toString();
 
-    const matchMonth = selectedMonth ? month === selectedMonth : true;
-    const matchYear = selectedYear ? year === selectedYear : true;
+    const matchMonth = selectedMonth ? entryMonth === selectedMonth : true;
+    const matchYear = selectedYear ? entryYear === selectedYear : true;
 
     return matchMonth && matchYear;
   });
 
-  const costsByPlate = {};
+  const summary = {};
 
   filteredData.forEach(entry => {
+    const date = new Date(entry.start);
     const plate = entry.plate || "Unknown";
+    const month = date.toLocaleString("default", { month: "long" });
+    const year = date.getFullYear().toString();
+    const key = `${plate}-${month}-${year}`;
+
     const cost = parseFloat(entry.cost);
+    const odometer = parseFloat(entry.odometer) || 0;
 
-    if (isNaN(cost)) return;
-
-    if (!costsByPlate[plate]) {
-      costsByPlate[plate] = { total: 0, count: 0 };
+    if (!summary[key]) {
+      summary[key] = {
+        plate,
+        month,
+        year,
+        totalCost: 0,
+        totalOdometer: 0
+      };
     }
 
-    costsByPlate[plate].total += cost;
-    costsByPlate[plate].count += 1;
+    summary[key].totalCost += cost;
+    summary[key].totalOdometer += odometer;
   });
 
-  Object.entries(costsByPlate).forEach(([plate, costData]) => {
-    const averageCost = costData.count > 0 ? (costData.total / costData.count) : 0;
-
+  Object.values(summary).forEach(item => {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${plate}</td>
-      <td>${averageCost.toFixed(2)}</td>
+      <td>${item.plate}</td>
+      <td>${item.month} ${item.year}</td>
+      <td>${item.totalOdometer.toLocaleString()}</td>
+      <td>₱${item.totalCost.toFixed(2)}</td>
     `;
-    costTableBody.appendChild(row);
+    tableBody.appendChild(row);
   });
 }
 
-// Setup filters for Month and Year
+// Setup Month and Year Filters
 function setupFilters(data) {
-  const monthSelect = document.getElementById("monthFilter");
-  const yearInput = document.getElementById("yearFilter");
+  const monthFilter = document.getElementById("monthFilter");
+  const yearFilter = document.getElementById("yearFilter");
 
   const monthSet = new Set();
+  const yearSet = new Set();
 
   data.forEach(entry => {
     if (!entry.start) return;
+
     const date = new Date(entry.start);
     if (isNaN(date)) return;
 
     const month = date.toLocaleString("default", { month: "long" });
+    const year = date.getFullYear().toString();
+
     monthSet.add(month);
+    yearSet.add(year);
   });
 
-  // Ensure months appear in calendar order
-  const calendarMonths = [
+  const calendarOrder = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ];
 
-  const sortedMonths = Array.from(monthSet).sort(
-    (a, b) => calendarMonths.indexOf(a) - calendarMonths.indexOf(b)
-  );
+  const sortedMonths = Array.from(monthSet).sort((a, b) => calendarOrder.indexOf(a) - calendarOrder.indexOf(b));
+  const sortedYears = Array.from(yearSet).sort((a, b) => b - a); // Descending
 
-  // Populate dropdown
-  monthSelect.innerHTML = `<option value="">-- All Months --</option>`;
+  // Populate Month Dropdown
+  monthFilter.innerHTML = `<option value="">-- All Months --</option>`;
   sortedMonths.forEach(month => {
     const option = document.createElement("option");
     option.value = month;
     option.textContent = month;
-    monthSelect.appendChild(option);
+    monthFilter.appendChild(option);
   });
 
-  // Filter on change
+  // Optional: Use a datalist or dropdown for years
+  yearFilter.setAttribute("list", "yearList");
+  const yearList = document.createElement("datalist");
+  yearList.id = "yearList";
+  sortedYears.forEach(year => {
+    const option = document.createElement("option");
+    option.value = year;
+    yearList.appendChild(option);
+  });
+  document.body.appendChild(yearList);
+
+  // Trigger table update on filter change
   const updateTable = () => {
-    const selectedMonth = monthSelect.value;
-    const selectedYear = yearInput.value.trim();
-    populateCostTables(data, selectedMonth, selectedYear);
+    const selectedMonth = monthFilter.value;
+    const selectedYear = yearFilter.value.trim();
+    populateCostTable(data, selectedMonth, selectedYear);
   };
 
-  monthSelect.addEventListener("change", updateTable);
-  yearInput.addEventListener("input", updateTable);
+  monthFilter.addEventListener("change", updateTable);
+  yearFilter.addEventListener("input", updateTable);
 }
