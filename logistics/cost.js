@@ -3,19 +3,14 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(res => res.json())
     .then(data => {
       setupFilters(data);
-      renderAll(data); // central render function
+      populateMonthlyTable(data);
+      populateYearlyTable(data);
+      generateCharts(data);
     })
     .catch(err => console.error("Fetch error:", err));
 });
 
-// Central render function
-function renderAll(data, selMonth = "", selYear = "") {
-  populateMonthlyTable(data, selMonth, selYear);
-  populateYearlyTable(data); // could be: populateYearlyTable(data, selYear);
-  generateCharts(data, selMonth, selYear);
-}
-
-// — Monthly Cost Table
+// — Monthly Cost Table (correct odometer: last - first)
 function populateMonthlyTable(data, selMonth = "", selYear = "") {
   const tbody = document.querySelector("#monthlyCostTable tbody");
   tbody.innerHTML = "";
@@ -31,32 +26,48 @@ function populateMonthlyTable(data, selMonth = "", selYear = "") {
     if (selYear && year !== selYear) return;
 
     const key = `${e.vehicle}-${month}-${year}`;
-    const cost = parseFloat(e.cost) || 0;
     const odo = parseFloat(e.odometer) || 0;
+    const cost = parseFloat(e.cost) || 0;
 
-    summary[key] ??= { vehicle: e.vehicle, month, year, totalCost: 0, latestOdo: 0, latestDate: new Date(0) };
+    summary[key] ??= {
+      vehicle: e.vehicle,
+      month,
+      year,
+      totalCost: 0,
+      firstOdo: odo,
+      lastOdo: odo,
+      firstDate: d,
+      lastDate: d
+    };
+
     summary[key].totalCost += cost;
 
-    if (d > summary[key].latestDate) {
-      summary[key].latestDate = d;
-      summary[key].latestOdo = odo;
+    if (d < summary[key].firstDate) {
+      summary[key].firstDate = d;
+      summary[key].firstOdo = odo;
+    }
+
+    if (d > summary[key].lastDate) {
+      summary[key].lastDate = d;
+      summary[key].lastOdo = odo;
     }
   });
 
   Object.values(summary).forEach(item => {
+    const totalOdo = item.lastOdo - item.firstOdo;
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${item.vehicle}</td>
       <td>${item.month} ${item.year}</td>
-      <td>${item.latestOdo.toLocaleString()}</td>
+      <td>${totalOdo.toLocaleString()}</td>
       <td>₱${item.totalCost.toFixed(2)}</td>
     `;
     tbody.appendChild(tr);
   });
 }
 
-// — Yearly Cost Table
-function populateYearlyTable(data /*, selYear = "" */) {
+// — Yearly Cost Table (odometer: last - first of year)
+function populateYearlyTable(data) {
   const tbody = document.querySelector("#yearlyCostTable tbody");
   tbody.innerHTML = "";
 
@@ -67,37 +78,50 @@ function populateYearlyTable(data /*, selYear = "" */) {
     const d = new Date(e.start);
     const year = d.getFullYear().toString();
     const key = `${e.vehicle}-${year}`;
-    const cost = parseFloat(e.cost) || 0;
     const odo = parseFloat(e.odometer) || 0;
+    const cost = parseFloat(e.cost) || 0;
 
-    summary[key] ??= { vehicle: e.vehicle, year, totalCost: 0, latestOdo: 0, latestDate: new Date(0) };
+    summary[key] ??= {
+      vehicle: e.vehicle,
+      year,
+      totalCost: 0,
+      firstOdo: odo,
+      lastOdo: odo,
+      firstDate: d,
+      lastDate: d
+    };
+
     summary[key].totalCost += cost;
 
-    if (d > summary[key].latestDate) {
-      summary[key].latestDate = d;
-      summary[key].latestOdo = odo;
+    if (d < summary[key].firstDate) {
+      summary[key].firstDate = d;
+      summary[key].firstOdo = odo;
+    }
+
+    if (d > summary[key].lastDate) {
+      summary[key].lastDate = d;
+      summary[key].lastOdo = odo;
     }
   });
 
   Object.values(summary).forEach(item => {
+    const totalOdo = item.lastOdo - item.firstOdo;
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${item.vehicle}</td>
       <td>${item.year}</td>
-      <td>${item.latestOdo.toLocaleString()}</td>
+      <td>${totalOdo.toLocaleString()}</td>
       <td>₱${item.totalCost.toFixed(2)}</td>
     `;
     tbody.appendChild(tr);
   });
 }
 
-// — Setup Month & Year Filters
+// — Month/Year Filters
 function setupFilters(data) {
   const mSel = document.getElementById("monthFilter");
   const yInp = document.getElementById("yearFilter");
-
-  const months = new Set();
-  const years = new Set();
+  const months = new Set(), years = new Set();
 
   data.forEach(e => {
     if (!e.start) return;
@@ -107,8 +131,9 @@ function setupFilters(data) {
     years.add(d.getFullYear().toString());
   });
 
-  const cal = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-  Array.from(months).sort((a,b)=>cal.indexOf(a)-cal.indexOf(b)).forEach(m => {
+  const cal = ["January", "February", "March", "April", "May", "June",
+               "July", "August", "September", "October", "November", "December"];
+  Array.from(months).sort((a, b) => cal.indexOf(a) - cal.indexOf(b)).forEach(m => {
     const opt = document.createElement("option");
     opt.value = m;
     opt.textContent = m;
@@ -126,46 +151,19 @@ function setupFilters(data) {
   document.body.appendChild(dList);
 
   const update = () => {
-    const selectedMonth = mSel.value;
-    const selectedYear = yInp.value.trim();
-    renderAll(data, selectedMonth, selectedYear);
+    populateMonthlyTable(data, mSel.value, yInp.value.trim());
+    populateYearlyTable(data);
   };
 
   mSel.addEventListener("change", update);
   yInp.addEventListener("input", update);
 }
 
-// — Chart Logic
-function generateCharts(data, selMonth = "", selYear = "") {
-  // Placeholder: filter chart data based on selected filters before generating graphs
-
-  // Example:
-  const filteredData = data.filter(e => {
-    const d = new Date(e.start);
-    const month = d.toLocaleString("default", { month: "long" });
-    const year = d.getFullYear().toString();
-    return (!selMonth || month === selMonth) && (!selYear || year === selYear);
-  });
-
-  renderDestinationChart(filteredData);
-  renderFuelChart(filteredData);
-  renderDeliveryChart(filteredData);
-  renderLocationSummaryChart(filteredData);
-}
-
-// Implement chart functions below:
-function renderDestinationChart(data) {
-  // Pie chart implementation
-}
-
-function renderFuelChart(data) {
-  // Bar chart implementation
-}
-
-function renderDeliveryChart(data) {
-  // Line chart implementation
-}
-
-function renderLocationSummaryChart(data) {
-  // Bar or pie chart implementation
+// — Charts (Placeholder: Implement your real chart logic here)
+function generateCharts(data) {
+  // You may call your chart functions here like:
+  // generateDestinationGraph(data);
+  // generateFuelGraph(data);
+  // generateDeliveryGraph(data);
+  // generateLocationSummaryGraph(data);
 }
