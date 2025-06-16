@@ -160,7 +160,8 @@ function generateCharts(data) {
     const category = getDestinationCategory(entry.destination);
     categoryCount[category] = (categoryCount[category] || 0) + 1;
 
-    const month = new Date(entry.start).toLocaleString('default', { month: 'long' });
+    const date = new Date(entry.start);
+    const month = date.toLocaleString('default', { month: 'long' });
     deliveryCount[month] = (deliveryCount[month] || 0) + 1;
 
     vehicleEntries[entry.vehicle] ??= [];
@@ -183,6 +184,12 @@ function generateCharts(data) {
     }
   }
 
+  const colorPalette = [
+    '#FF6347','#4CAF50','#FFEB3B','#00BCD4','#2196F3','#FF9800',
+    '#8BC34A','#E91E63','#9C27B0','#795548','#3F51B5','#CDDC39',
+    '#FFC107','#607D8B','#009688'
+  ];
+
   // Pie: Destination Categories
   destroyIfExists("destinationGraph");
   chartInstances["destinationGraph"] = new Chart(document.getElementById("destinationGraph"), {
@@ -191,7 +198,7 @@ function generateCharts(data) {
       labels: Object.keys(categoryCount),
       datasets: [{
         data: Object.values(categoryCount),
-        backgroundColor: ['#FF6347','#4CAF50','#FFEB3B','#00BCD4','#2196F3','#FF9800','#8BC34A','#E91E63','#9C27B0','#795548']
+        backgroundColor: colorPalette
       }]
     }
   });
@@ -212,13 +219,14 @@ function generateCharts(data) {
 
   // Line: Deliveries Per Month
   destroyIfExists("deliveryGraph");
+  const sortedMonths = Object.keys(deliveryCount).sort((a, b) => new Date(`${a} 1, 2020`) - new Date(`${b} 1, 2020`));
   chartInstances["deliveryGraph"] = new Chart(document.getElementById("deliveryGraph"), {
     type: "line",
     data: {
-      labels: Object.keys(deliveryCount),
+      labels: sortedMonths,
       datasets: [{
         label: "Deliveries",
-        data: Object.values(deliveryCount),
+        data: sortedMonths.map(month => deliveryCount[month]),
         borderColor: "#4CAF50",
         backgroundColor: "#C8E6C9",
         fill: true,
