@@ -27,19 +27,24 @@ function calculateCosts(logisticsData) {
 
         vehicleEntries[vehicle].forEach(entry => {
             const date = new Date(entry.start);
-            const month = date.getMonth() + 1;
+            const month = date.toLocaleString('default', { month: 'short' }); // e.g., "May"
             const year = date.getFullYear();
-            const odoReading = entry.odometer;
+            const odoReading = Number(entry.odometer);
+
+            // Skip if odometer is not valid
+            if (isNaN(odoReading)) return;
 
             if (prevOdo !== null && odoReading > prevOdo) {
                 const distance = odoReading - prevOdo;
                 const cost = distance * 0.05;
 
+                // Monthly cost
                 if (!monthlyCosts[vehicle]) monthlyCosts[vehicle] = {};
                 if (!monthlyCosts[vehicle][month]) monthlyCosts[vehicle][month] = { odometer: 0, cost: 0 };
                 monthlyCosts[vehicle][month].odometer += distance;
                 monthlyCosts[vehicle][month].cost += cost;
 
+                // Yearly cost
                 if (!yearlyCosts[vehicle]) yearlyCosts[vehicle] = {};
                 if (!yearlyCosts[vehicle][year]) yearlyCosts[vehicle][year] = { odometer: 0, cost: 0 };
                 yearlyCosts[vehicle][year].odometer += distance;
@@ -95,14 +100,14 @@ function generateCharts(logisticsData) {
     const fuelConsumption = {};
 
     logisticsData.forEach(entry => {
-        const destination = entry.destination;
+        const destination = entry.destination || 'Unknown';
         destinations[destination] = (destinations[destination] || 0) + 1;
 
         const date = new Date(entry.start);
-        const month = date.getMonth() + 1;
+        const month = date.toLocaleString('default', { month: 'short' });
         deliveryCounts[month] = (deliveryCounts[month] || 0) + 1;
 
-        fuelConsumption[entry.vehicle] = (fuelConsumption[entry.vehicle] || 0) + 5; // placeholder
+        fuelConsumption[entry.vehicle] = (fuelConsumption[entry.vehicle] || 0) + 5; // Placeholder
     });
 
     const ctx1 = document.getElementById('destinationGraph').getContext('2d');
