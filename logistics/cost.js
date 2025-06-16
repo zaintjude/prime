@@ -127,7 +127,7 @@ function populateCostTables(data, monthFilter = "", yearFilter = "") {
 
   for (const vehicle in monthlyCosts) {
     for (const month in monthlyCosts[vehicle]) {
-      if (!month.toLowerCase().includes(monthFilter.toLowerCase())) continue;
+      if (monthFilter && !month.toLowerCase().includes(monthFilter.toLowerCase())) continue;
       const d = monthlyCosts[vehicle][month];
       mBody.innerHTML += `<tr><td>${vehicle}</td><td>${month}</td><td>${d.odometer}</td><td>${d.cost.toFixed(2)}</td></tr>`;
     }
@@ -135,7 +135,7 @@ function populateCostTables(data, monthFilter = "", yearFilter = "") {
 
   for (const vehicle in yearlyCosts) {
     for (const year in yearlyCosts[vehicle]) {
-      if (!year.includes(yearFilter)) continue;
+      if (yearFilter && !year.includes(yearFilter)) continue;
       const d = yearlyCosts[vehicle][year];
       yBody.innerHTML += `<tr><td>${vehicle}</td><td>${year}</td><td>${d.odometer}</td><td>${d.cost.toFixed(2)}</td></tr>`;
     }
