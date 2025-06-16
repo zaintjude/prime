@@ -60,15 +60,25 @@ function calculateCosts(logisticsData) {
 }
 
 // Function to map destination strings to location categories
+// Function to map destination strings to location categories
 function mapToLocationCategory(dest) {
     const d = dest.toLowerCase();
-    if (d.includes('chonghua')) return 'CHONG HUA';
+
+    if (d.includes('echavez')) return 'ECHAVEZ';
+    if (d.includes('atlas')) return 'ATLAS';
+    if (d.includes('naga')) return 'NAGA';
+    if (d.includes('mandani')) return 'MANDANI';
     if (d.includes('makoto')) return 'MAKOTO';
     if (d.includes('carbon')) return 'CARBON';
     if (d.includes('vic')) return 'VIC';
-    if (d.includes('abellana')) return 'ABELLANA';
+    if (d.includes('city clou')) return 'CITY CLOU';
+    if (d.includes('chonghua') || d.includes('chong hua')) return 'CHONG HUA';
+    if (d.includes('new city')) return 'NEW CITY';
+    if (d.includes('lapulapu') || d.includes('liloan') || d.includes('talisay') || d.includes('mandaue')) return 'CEBU AREA';
+
     return 'OTHER';
 }
+
 
 // Populate UI tables for monthly/yearly costs with optional filters
 function populateCostTables(logisticsData, monthFilter = '', yearFilter = '') {
