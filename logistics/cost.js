@@ -93,7 +93,7 @@ function calculateCosts(data) {
       if (isNaN(odo)) return;
       if (prev !== null && odo > prev) {
         const dist = odo - prev, cost = dist * RATE;
-        const m = new Date(e.start).toLocaleString('default', { month: 'short' });
+        const m = new Date(e.start).toLocaleString('default', { month: 'long' });
         const y = new Date(e.start).getFullYear();
         monthly[vehicle] ??= {};
         monthly[vehicle][m] ??= { odometer: 0, cost: 0 };
