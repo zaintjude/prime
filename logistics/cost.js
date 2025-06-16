@@ -1,238 +1,193 @@
-// 🔑 Destination Category Mapping
-const destinationCategories = [
-  { keyword: "MANDAUE", category: "MANDAUE" },
-  { keyword: "CEBU", category: "CEBU" },
-  { keyword: "CONSOLACION", category: "NORTH" },
-  { keyword: "LILOAN", category: "NORTH" },
-  { keyword: "COMPOSTELA", category: "NORTH" },
-  { keyword: "DANAO", category: "NORTH" },
-  { keyword: "CARMEN", category: "NORTH" },
-  { keyword: "CATMON", category: "NORTH" },
-  { keyword: "SOGOD", category: "NORTH" },
-  { keyword: "BORBON", category: "NORTH" },
-  { keyword: "TABOGON", category: "NORTH" },
-  { keyword: "BAGO", category: "SOUTH" },
-  { keyword: "NAGA", category: "SOUTH" },
-  { keyword: "SAN FERNANDO", category: "SOUTH" },
-  { keyword: "CARCAR", category: "SOUTH" },
-  { keyword: "SIBONGA", category: "SOUTH" },
-  { keyword: "ARGAO", category: "SOUTH" },
-  { keyword: "DALAGUETE", category: "SOUTH" },
-  { keyword: "ALCANTARA", category: "SOUTH" },
-  { keyword: "ALCOY", category: "SOUTH" },
-  { keyword: "OSLOB", category: "SOUTH" },
-  { keyword: "SANTANDER", category: "SOUTH" },
-  { keyword: "TALISAY", category: "SOUTH" },
-  { keyword: "TOLEDO", category: "WEST" },
-  { keyword: "BALAMBAN", category: "WEST" },
-  { keyword: "ASTURIAS", category: "WEST" },
-  { keyword: "MABOLO", category: "MABOLO" }
-];
-
-function getDestinationCategory(destination = "") {
-  const upper = destination.toUpperCase();
-  for (const { keyword, category } of destinationCategories) {
-    if (upper.includes(keyword)) return category;
-  }
-  return "OTHER";
-}
-
+// Fetch and process logistics data from external JSON
 async function fetchLogisticsData() {
-  try {
-    const res = await fetch('https://zaintjude.github.io/prime/logistics/logistics.json');
-    if (!res.ok) throw new Error('Fetch failed');
-    return res.json();
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
+    try {
+        const response = await fetch('https://zaintjude.github.io/prime/logistics/logistics.json');
+        if (!response.ok) throw new Error('Failed to fetch logistics data');
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching logistics data:', error);
+        return [];
+    }
 }
 
-function calculateCosts(data) {
-  const RATE = 5.0;
-  const monthly = {}, yearly = {}, byVehicleMonth = {}, byVehicleYear = {};
+// Function to calculate monthly and yearly odometer distance differences
+function calculateCosts(logisticsData) {
+    const KM_RATE = 5.00; // cost per kilometer
+    const monthlyCosts = {};
+    const yearlyCosts = {};
+    const vehicleEntries = {};
 
-  // Group by vehicle + month/year
-  data.forEach(e => {
-    const odo = parseFloat(e.odometer);
-    if (isNaN(odo)) return;
+    // Group entries per vehicle
+    logisticsData.forEach(entry => {
+        if (!vehicleEntries[entry.vehicle]) vehicleEntries[entry.vehicle] = [];
+        vehicleEntries[entry.vehicle].push(entry);
+    });
 
-    const d = new Date(e.start);
-    const m = d.toLocaleString('default', { month: 'long' });
-    const y = d.getFullYear();
-    const v = e.vehicle;
+    // Process entries for each vehicle
+    Object.keys(vehicleEntries).forEach(vehicle => {
+        const entries = vehicleEntries[vehicle];
+        entries.sort((a, b) => new Date(a.start) - new Date(b.start));
+        let prevOdo = null;
 
-    // For monthly calc
-    const monthKey = `${v}_${m}_${y}`;
-    (byVehicleMonth[monthKey] ??= []).push({ ...e, odo });
+        entries.forEach(entry => {
+            const date = new Date(entry.start);
+            const month = date.toLocaleString('default', { month: 'short' });
+            const year = date.getFullYear();
+            const odoReading = Number(entry.odometer);
 
-    // For yearly calc
-    const yearKey = `${v}_${y}`;
-    (byVehicleYear[yearKey] ??= []).push({ ...e, odo });
-  });
+            if (isNaN(odoReading)) return;
 
-  // Process monthly
-  for (const key in byVehicleMonth) {
-    const [v, m, y] = key.split('_');
-    const arr = byVehicleMonth[key].sort((a, b) => new Date(a.start) - new Date(b.start));
-    let prev = null;
-    for (const e of arr) {
-      if (prev !== null && e.odo > prev) {
-        const dist = e.odo - prev;
-        const cost = dist * RATE;
-        monthly[v] ??= {};
-        monthly[v][m] ??= { odometer: 0, cost: 0 };
-        monthly[v][m].odometer += dist;
-        monthly[v][m].cost += cost;
-      }
-      prev = e.odo;
-    }
-  }
+            if (prevOdo !== null && odoReading > prevOdo) {
+                const distance = odoReading - prevOdo;
+                const cost = distance * KM_RATE;
 
-  // Process yearly
-  for (const key in byVehicleYear) {
-    const [v, y] = key.split('_');
-    const arr = byVehicleYear[key].sort((a, b) => new Date(a.start) - new Date(b.start));
-    let prev = null;
-    for (const e of arr) {
-      if (prev !== null && e.odo > prev) {
-        const dist = e.odo - prev;
-        const cost = dist * RATE;
-        yearly[v] ??= {};
-        yearly[v][y] ??= { odometer: 0, cost: 0 };
-        yearly[v][y].odometer += dist;
-        yearly[v][y].cost += cost;
-      }
-      prev = e.odo;
-    }
-  }
+                // Monthly
+                if (!monthlyCosts[vehicle]) monthlyCosts[vehicle] = {};
+                if (!monthlyCosts[vehicle][month]) monthlyCosts[vehicle][month] = { odometer: 0, cost: 0 };
+                monthlyCosts[vehicle][month].odometer += distance;
+                monthlyCosts[vehicle][month].cost += cost;
 
-  return { monthlyCosts: monthly, yearlyCosts: yearly };
+                // Yearly
+                if (!yearlyCosts[vehicle]) yearlyCosts[vehicle] = {};
+                if (!yearlyCosts[vehicle][year]) yearlyCosts[vehicle][year] = { odometer: 0, cost: 0 };
+                yearlyCosts[vehicle][year].odometer += distance;
+                yearlyCosts[vehicle][year].cost += cost;
+            }
+
+            prevOdo = odoReading;
+        });
+    });
+
+    return { monthlyCosts, yearlyCosts };
 }
 
-function populateCostTables(data) {
-  const { monthlyCosts, yearlyCosts } = calculateCosts(data);
-  const mBody = document.querySelector("#monthlyCostTable tbody");
-  const yBody = document.querySelector("#yearlyCostTable tbody");
-  mBody.innerHTML = "";
-  yBody.innerHTML = "";
+// Populate UI tables for monthly/yearly costs
+function populateCostTables(logisticsData) {
+    const { monthlyCosts, yearlyCosts } = calculateCosts(logisticsData);
 
-  for (const v in monthlyCosts) {
-    for (const m in monthlyCosts[v]) {
-      const d = monthlyCosts[v][m];
-      mBody.innerHTML += `<tr><td>${v}</td><td>${m}</td><td>${d.odometer}</td><td>${d.cost.toFixed(2)}</td></tr>`;
-    }
-  }
+    const monthlyTableBody = document.querySelector("#monthlyCostTable tbody");
+    const yearlyTableBody = document.querySelector("#yearlyCostTable tbody");
 
-  for (const v in yearlyCosts) {
-    for (const y in yearlyCosts[v]) {
-      const d = yearlyCosts[v][y];
-      yBody.innerHTML += `<tr><td>${v}</td><td>${y}</td><td>${d.odometer}</td><td>${d.cost.toFixed(2)}</td></tr>`;
-    }
-  }
+    monthlyTableBody.innerHTML = '';
+    yearlyTableBody.innerHTML = '';
+
+    Object.keys(monthlyCosts).forEach(vehicle => {
+        Object.keys(monthlyCosts[vehicle]).forEach(month => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${vehicle}</td>
+                <td>${month}</td>
+                <td>${monthlyCosts[vehicle][month].odometer}</td>
+                <td>${monthlyCosts[vehicle][month].cost.toFixed(2)}</td>
+            `;
+            monthlyTableBody.appendChild(row);
+        });
+    });
+
+    Object.keys(yearlyCosts).forEach(vehicle => {
+        Object.keys(yearlyCosts[vehicle]).forEach(year => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${vehicle}</td>
+                <td>${year}</td>
+                <td>${yearlyCosts[vehicle][year].odometer}</td>
+                <td>${yearlyCosts[vehicle][year].cost.toFixed(2)}</td>
+            `;
+            yearlyTableBody.appendChild(row);
+        });
+    });
 }
 
-const chartInstances = {};
-function destroyChart(id) {
-  if (chartInstances[id]) {
-    chartInstances[id].destroy();
-    delete chartInstances[id];
-  }
+// Generate charts for destinations, deliveries, and estimated fuel
+function generateCharts(logisticsData) {
+    const destinations = {};
+    const deliveryCounts = {};
+    const vehicleFuel = {};
+    const KM_PER_LITER = 8; // Adjust to your fleet average
+
+    const vehicleEntries = {};
+
+    // Group entries per vehicle
+    logisticsData.forEach(entry => {
+        const vehicle = entry.vehicle || 'Unknown';
+        if (!vehicleEntries[vehicle]) vehicleEntries[vehicle] = [];
+        vehicleEntries[vehicle].push(entry);
+
+        // Destinations
+        const destination = entry.destination || 'Unknown';
+        destinations[destination] = (destinations[destination] || 0) + 1;
+
+        // Deliveries per month
+        const date = new Date(entry.start);
+        const month = date.toLocaleString('default', { month: 'short' });
+        deliveryCounts[month] = (deliveryCounts[month] || 0) + 1;
+    });
+
+    // Estimate fuel based on odometer difference
+    Object.keys(vehicleEntries).forEach(vehicle => {
+        const entries = vehicleEntries[vehicle];
+        entries.sort((a, b) => new Date(a.start) - new Date(b.start));
+        let prevOdo = null;
+
+        entries.forEach(entry => {
+            const odo = Number(entry.odometer);
+            if (isNaN(odo)) return;
+
+            if (prevOdo !== null && odo > prevOdo) {
+                const distance = odo - prevOdo;
+                const fuelUsed = distance / KM_PER_LITER;
+                vehicleFuel[vehicle] = (vehicleFuel[vehicle] || 0) + fuelUsed;
+            }
+
+            prevOdo = odo;
+        });
+    });
+
+    // Draw Pie Chart - Destinations
+    new Chart(document.getElementById('destinationGraph').getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: Object.keys(destinations),
+            datasets: [{
+                data: Object.values(destinations),
+                backgroundColor: ['#FF6347', '#4CAF50', '#FFEB3B', '#00BCD4', '#2196F3', '#FF9800']
+            }]
+        }
+    });
+
+    // Draw Bar Chart - Fuel Consumption
+    new Chart(document.getElementById('fuelGraph').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: Object.keys(vehicleFuel),
+            datasets: [{
+                label: 'Estimated Fuel Consumption (liters)',
+                data: Object.values(vehicleFuel).map(val => parseFloat(val.toFixed(2))),
+                backgroundColor: '#FF5733'
+            }]
+        }
+    });
+
+    // Draw Line Chart - Deliveries
+    new Chart(document.getElementById('deliveryGraph').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: Object.keys(deliveryCounts),
+            datasets: [{
+                label: 'Deliveries',
+                data: Object.values(deliveryCounts),
+                borderColor: '#4CAF50',
+                backgroundColor: '#C8E6C9',
+                fill: true,
+                tension: 0.2
+            }]
+        }
+    });
 }
 
-function generateCharts(data) {
-  const KM_L = 8;
-  const categoryCount = {}, deliveryCount = {}, fuelPerVehicle = {}, byVehicle = {};
-
-  data.forEach(e => {
-    const cat = getDestinationCategory(e.destination);
-    categoryCount[cat] = (categoryCount[cat] || 0) + 1;
-    const m = new Date(e.start).toLocaleString('default', { month: 'long' });
-    deliveryCount[m] = (deliveryCount[m] || 0) + 1;
-    (byVehicle[e.vehicle] ??= []).push(e);
-  });
-
-  for (const v in byVehicle) {
-    const arr = byVehicle[v].sort((a, b) => new Date(a.start) - new Date(b.start));
-    let prev = null;
-    for (const e of arr) {
-      const odo = parseFloat(e.odometer);
-      if (isNaN(odo)) continue;
-      if (prev !== null && odo > prev) {
-        const f = (odo - prev) / KM_L;
-        fuelPerVehicle[v] = (fuelPerVehicle[v] || 0) + f;
-      }
-      prev = odo;
-    }
-  }
-
-  const palette = ['#FF6347','#4CAF50','#FFEB3B','#00BCD4','#2196F3','#FF9800','#8BC34A','#E91E63','#9C27B0','#795548'];
-
-  destroyChart('destinationGraph');
-  chartInstances['destinationGraph'] = new Chart(document.getElementById('destinationGraph'), {
-    type: 'pie',
-    data: {
-      labels: Object.keys(categoryCount),
-      datasets: [{
-        data: Object.values(categoryCount),
-        backgroundColor: palette
-      }]
-    }
-  });
-
-  destroyChart('fuelGraph');
-  chartInstances['fuelGraph'] = new Chart(document.getElementById('fuelGraph'), {
-    type: 'bar',
-    data: {
-      labels: Object.keys(fuelPerVehicle),
-      datasets: [{
-        label: 'Fuel (L)',
-        data: Object.values(fuelPerVehicle).map(f => +f.toFixed(2)),
-        backgroundColor: '#FF5733'
-      }]
-    }
-  });
-
-  destroyChart('deliveryGraph');
-  const sortedMonths = Object.keys(deliveryCount).sort((a, b) => new Date(`${a} 1, 2020`) - new Date(`${b} 1, 2020`));
-  chartInstances['deliveryGraph'] = new Chart(document.getElementById('deliveryGraph'), {
-    type: 'line',
-    data: {
-      labels: sortedMonths,
-      datasets: [{
-        label: 'Deliveries',
-        data: sortedMonths.map(m => deliveryCount[m]),
-        borderColor: '#4CAF50',
-        backgroundColor: '#C8E6C9',
-        fill: true,
-        tension: 0.2
-      }]
-    }
-  });
-
-  destroyChart('locationSummaryGraph');
-  chartInstances['locationSummaryGraph'] = new Chart(document.getElementById('locationSummaryGraph'), {
-    type: 'bar',
-    data: {
-      labels: Object.keys(categoryCount),
-      datasets: [{
-        label: 'Deliveries by Category',
-        data: Object.values(categoryCount),
-        backgroundColor: '#42A5F5'
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      scales: {
-        x: { beginAtZero: true }
-      }
-    }
-  });
-}
-
-// 🚀 Initialize on DOM load
-document.addEventListener('DOMContentLoaded', async () => {
-  const data = await fetchLogisticsData();
-  populateCostTables(data);
-  generateCharts(data);
+// Initialize everything on page load
+document.addEventListener("DOMContentLoaded", async () => {
+    const logisticsData = await fetchLogisticsData();
+    populateCostTables(logisticsData);
+    generateCharts(logisticsData);
 });
