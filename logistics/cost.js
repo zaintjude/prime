@@ -3,12 +3,17 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(res => res.json())
     .then(data => {
       setupFilters(data);
-      populateMonthlyTable(data);
-      populateYearlyTable(data);
-      generateCharts(data);
+      renderAll(data); // central render function
     })
     .catch(err => console.error("Fetch error:", err));
 });
+
+// Central render function
+function renderAll(data, selMonth = "", selYear = "") {
+  populateMonthlyTable(data, selMonth, selYear);
+  populateYearlyTable(data); // could be: populateYearlyTable(data, selYear);
+  generateCharts(data, selMonth, selYear);
+}
 
 // — Monthly Cost Table
 function populateMonthlyTable(data, selMonth = "", selYear = "") {
@@ -51,7 +56,7 @@ function populateMonthlyTable(data, selMonth = "", selYear = "") {
 }
 
 // — Yearly Cost Table
-function populateYearlyTable(data) {
+function populateYearlyTable(data /*, selYear = "" */) {
   const tbody = document.querySelector("#yearlyCostTable tbody");
   tbody.innerHTML = "";
 
@@ -90,7 +95,9 @@ function populateYearlyTable(data) {
 function setupFilters(data) {
   const mSel = document.getElementById("monthFilter");
   const yInp = document.getElementById("yearFilter");
-  const months = new Set(), years = new Set();
+
+  const months = new Set();
+  const years = new Set();
 
   data.forEach(e => {
     if (!e.start) return;
@@ -103,7 +110,8 @@ function setupFilters(data) {
   const cal = ["January","February","March","April","May","June","July","August","September","October","November","December"];
   Array.from(months).sort((a,b)=>cal.indexOf(a)-cal.indexOf(b)).forEach(m => {
     const opt = document.createElement("option");
-    opt.value = m; opt.textContent = m;
+    opt.value = m;
+    opt.textContent = m;
     mSel.appendChild(opt);
   });
 
@@ -112,20 +120,52 @@ function setupFilters(data) {
   dList.id = "yearList";
   Array.from(years).sort().forEach(y => {
     const o = document.createElement("option");
-    o.value = y; dList.appendChild(o);
+    o.value = y;
+    dList.appendChild(o);
   });
   document.body.appendChild(dList);
 
-  // Trigger updates
   const update = () => {
-    populateMonthlyTable(data, mSel.value, yInp.value.trim());
-    populateYearlyTable(data);
+    const selectedMonth = mSel.value;
+    const selectedYear = yInp.value.trim();
+    renderAll(data, selectedMonth, selectedYear);
   };
+
   mSel.addEventListener("change", update);
   yInp.addEventListener("input", update);
 }
 
-// — Generate Charts (implement based on your existing chart logic)
-function generateCharts(data) {
-  // existing code for destinationGraph, fuelGraph, deliveryGraph, locationSummaryGraph
+// — Chart Logic
+function generateCharts(data, selMonth = "", selYear = "") {
+  // Placeholder: filter chart data based on selected filters before generating graphs
+
+  // Example:
+  const filteredData = data.filter(e => {
+    const d = new Date(e.start);
+    const month = d.toLocaleString("default", { month: "long" });
+    const year = d.getFullYear().toString();
+    return (!selMonth || month === selMonth) && (!selYear || year === selYear);
+  });
+
+  renderDestinationChart(filteredData);
+  renderFuelChart(filteredData);
+  renderDeliveryChart(filteredData);
+  renderLocationSummaryChart(filteredData);
+}
+
+// Implement chart functions below:
+function renderDestinationChart(data) {
+  // Pie chart implementation
+}
+
+function renderFuelChart(data) {
+  // Bar chart implementation
+}
+
+function renderDeliveryChart(data) {
+  // Line chart implementation
+}
+
+function renderLocationSummaryChart(data) {
+  // Bar or pie chart implementation
 }
