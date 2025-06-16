@@ -29,7 +29,6 @@ const destinationCategories = [
   { keyword: "MABOLO", category: "MABOLO" }
 ];
 
-// Determine destination category
 function getDestinationCategory(destination = "") {
   const upper = destination.toUpperCase();
   for (const { keyword, category } of destinationCategories) {
@@ -38,7 +37,6 @@ function getDestinationCategory(destination = "") {
   return "OTHER";
 }
 
-// Fetch logistics data
 async function fetchLogisticsData() {
   try {
     const res = await fetch('https://zaintjude.github.io/prime/logistics/logistics.json');
@@ -50,7 +48,6 @@ async function fetchLogisticsData() {
   }
 }
 
-// Calculate costs
 function calculateCosts(data) {
   const RATE = 5.0;
   const monthly = {}, yearly = {}, byVehicle = {};
@@ -83,8 +80,7 @@ function calculateCosts(data) {
   return { monthlyCosts: monthly, yearlyCosts: yearly };
 }
 
-// Populate cost tables
-function populateCostTables(data, monthFilter = "", yearFilter = "") {
+function populateCostTables(data) {
   const { monthlyCosts, yearlyCosts } = calculateCosts(data);
   const mBody = document.querySelector("#monthlyCostTable tbody");
   const yBody = document.querySelector("#yearlyCostTable tbody");
@@ -92,7 +88,6 @@ function populateCostTables(data, monthFilter = "", yearFilter = "") {
 
   for (const v in monthlyCosts) {
     for (const m in monthlyCosts[v]) {
-      if (monthFilter && m !== monthFilter) continue;
       const d = monthlyCosts[v][m];
       mBody.innerHTML += `<tr><td>${v}</td><td>${m}</td><td>${d.odometer}</td><td>${d.cost.toFixed(2)}</td></tr>`;
     }
@@ -100,14 +95,12 @@ function populateCostTables(data, monthFilter = "", yearFilter = "") {
 
   for (const v in yearlyCosts) {
     for (const y in yearlyCosts[v]) {
-      if (yearFilter && y !== yearFilter) continue;
       const d = yearlyCosts[v][y];
       yBody.innerHTML += `<tr><td>${v}</td><td>${y}</td><td>${d.odometer}</td><td>${d.cost.toFixed(2)}</td></tr>`;
     }
   }
 }
 
-// Destroy previous chart if it exists
 const chartInstances = {};
 function destroyChart(id) {
   if (chartInstances[id]) {
@@ -116,7 +109,6 @@ function destroyChart(id) {
   }
 }
 
-// Generate charts
 function generateCharts(data) {
   const KM_L = 8;
   const categoryCount = {}, deliveryCount = {}, fuelPerVehicle = {}, byVehicle = {};
@@ -145,7 +137,6 @@ function generateCharts(data) {
 
   const palette = ['#FF6347','#4CAF50','#FFEB3B','#00BCD4','#2196F3','#FF9800','#8BC34A','#E91E63','#9C27B0','#795548'];
 
-  // Destination Category Pie Chart
   destroyChart('destinationGraph');
   chartInstances['destinationGraph'] = new Chart(document.getElementById('destinationGraph'), {
     type: 'pie',
@@ -158,7 +149,6 @@ function generateCharts(data) {
     }
   });
 
-  // Fuel Consumption Bar Chart
   destroyChart('fuelGraph');
   chartInstances['fuelGraph'] = new Chart(document.getElementById('fuelGraph'), {
     type: 'bar',
@@ -172,7 +162,6 @@ function generateCharts(data) {
     }
   });
 
-  // Delivery Count Line Chart
   destroyChart('deliveryGraph');
   const sortedMonths = Object.keys(deliveryCount).sort((a, b) => new Date(`${a} 1, 2020`) - new Date(`${b} 1, 2020`));
   chartInstances['deliveryGraph'] = new Chart(document.getElementById('deliveryGraph'), {
@@ -190,7 +179,6 @@ function generateCharts(data) {
     }
   });
 
-  // Horizontal Bar for Location Summary
   destroyChart('locationSummaryGraph');
   chartInstances['locationSummaryGraph'] = new Chart(document.getElementById('locationSummaryGraph'), {
     type: 'bar',
@@ -211,44 +199,9 @@ function generateCharts(data) {
   });
 }
 
-// Populate month/year filters
-function setupFilters(data) {
-  const monthSelect = document.createElement('select');
-  const yearSelect = document.createElement('select');
-  const monthInp = document.getElementById('monthFilter');
-  const yearInp = document.getElementById('yearFilter');
-
-  const months = new Set(), years = new Set();
-  data.forEach(e => {
-    const d = new Date(e.start);
-    if (!isNaN(d)) {
-      months.add(d.toLocaleString('default', { month: 'long' }));
-      years.add(d.getFullYear().toString());
-    }
-  });
-
-  monthSelect.innerHTML = '<option value="">All</option>';
-  [...months].sort((a, b) => new Date(`${a} 1, 2000`) - new Date(`${b} 1, 2000`)).forEach(m =>
-    monthSelect.add(new Option(m, m))
-  );
-
-  yearSelect.innerHTML = '<option value="">All</option>';
-  [...years].sort().forEach(y =>
-    yearSelect.add(new Option(y, y))
-  );
-
-  monthInp.replaceWith(monthSelect);
-  yearInp.replaceWith(yearSelect);
-
-  const update = () => populateCostTables(data, monthSelect.value, yearSelect.value);
-  monthSelect.addEventListener('change', update);
-  yearSelect.addEventListener('change', update);
-}
-
 // 🚀 Initialize on DOM load
 document.addEventListener('DOMContentLoaded', async () => {
   const data = await fetchLogisticsData();
   populateCostTables(data);
   generateCharts(data);
-  setupFilters(data);
 });
