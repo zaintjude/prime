@@ -1,83 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cost Report</title>
-    <link rel="stylesheet" href="cost.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Logistics Cost Report</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1, h2 { margin-top: 1.5em; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 1em; }
+    th, td { border: 1px solid #aaa; padding: 0.5em; text-align: left; }
+    label { margin-right: 0.5em; }
+    .filter { margin-bottom: 1em; }
+    .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 1em; }
+    canvas { width: 100%; height: 300px; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <!-- Back to Logistics Link -->
-    <a href="https://zaintjude.github.io/prime/logistics/logistics.html" 
-       style="display: inline-block; margin-bottom: 15px; color: #3498db; font-weight: bold;">
-       ← Back to Logistics
-    </a>
 
-    <!-- Logo -->
-    <div id="logo-container">
-        <img src="prime.png" alt="Logo" id="logo">
+  <h1>Logistics Cost Report</h1>
+  
+  <div class="filter">
+    <label>Filter Month:
+      <input type="text" id="monthFilter" placeholder="e.g. May">
+    </label>
+    <label>Filter Year:
+      <input type="text" id="yearFilter" placeholder="e.g. 2025" list="yearList">
+      <datalist id="yearList"></datalist>
+    </label>
+  </div>
+
+  <h2>Cost Per Vehicle Per Month</h2>
+  <table id="monthlyTable">
+    <thead>
+      <tr><th>Vehicle</th><th>Month</th><th>Kilometers</th><th>Total Cost</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <h2>Cost Per Vehicle Per Year</h2>
+  <table id="yearlyTable">
+    <thead>
+      <tr><th>Vehicle</th><th>Year</th><th>Kilometers</th><th>Total Cost</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  
+  <div class="charts">
+    <div>
+      <h2>Deliveries Per Month</h2>
+      <canvas id="deliveryChart"></canvas>
     </div>
-
-    <div class="container">
-        <h1>Cost Report</h1>
-
-        <!-- Filters -->
-        <div style="margin-bottom: 20px;">
-            <label for="monthFilter">Filter by Month:</label>
-            <input type="text" id="monthFilter" placeholder="e.g. March">
-
-            <label for="yearFilter" style="margin-left: 20px;">Filter by Year:</label>
-            <input type="text" id="yearFilter" placeholder="e.g. 2024">
-        </div>
-
-        <!-- Monthly Table -->
-        <h2>Cost Per Vehicle Per Month</h2>
-        <table id="monthlyCostTable">
-            <thead>
-                <tr>
-                    <th>Vehicle</th>
-                    <th>Month</th>
-                    <th>Total Odometer</th>
-                    <th>Total Cost</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Filled by JS -->
-            </tbody>
-        </table>
-
-        <!-- Yearly Table -->
-        <h2>Cost Per Vehicle Per Year</h2>
-        <table id="yearlyCostTable">
-            <thead>
-                <tr>
-                    <th>Vehicle</th>
-                    <th>Year</th>
-                    <th>Total Odometer</th>
-                    <th>Total Cost</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Filled by JS -->
-            </tbody>
-        </table>
-
-        <!-- Graphs -->
-        <h2>Delivery Destinations</h2>
-        <canvas id="destinationGraph"></canvas>
-
-        <h2>Total Most Consumed Fuel</h2>
-        <canvas id="fuelGraph"></canvas>
-
-        <h2>Deliveries Per Month</h2>
-        <canvas id="deliveryGraph"></canvas>
-
-        <h2>Delivery Categories Summary</h2>
-        <canvas id="locationSummaryGraph"></canvas>
+    <div>
+      <h2>Fuel Cost Per Vehicle</h2>
+      <canvas id="fuelChart"></canvas>
     </div>
+    <div style="grid-column: span 2;">
+      <h2>Delivery Destinations Count</h2>
+      <canvas id="destinationChart"></canvas>
+    </div>
+  </div>
 
-    <script src="cost.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const data = await fetch('https://zaintjude.github.io/prime/logistics/logistics.json')
+        .then(r => r.ok && r.json())
+        .catch(err => { console.error(err); return [] });
+      
+      // populate years
+      const years = new Set(data.map(e => new Date(e.start).getFullYear()));
+      const dl = document.getElementById("yearList");
+      Array.from(years).sort().forEach(y => dl.insertAdjacentHTML("beforeend", \`<option value="\${y}">\`));
+
+      function refresh() {
+        const m = document.getElementById("monthFilter").value.trim();
+        const y = document.getElementById("yearFilter").value.trim();
+        updateMonthly(data, m, y);
+        updateYearly(data, y);
+        renderCharts(data);
+      }
+
+      document.getElementById("monthFilter").addEventListener("input", refresh);
+      document.getElementById("yearFilter").addEventListener("input", refresh);
+      refresh();
+    });
+
+    const MONTHS = [...Array(12)]
+      .map((_,i) => new Date(0,i).toLocaleString("default",{month:"long"}));
+    const RATE = 60; // ₱ per km
+
+    function updateMonthly(data, filterMonth, filterYear) {
+      const tb = document.querySelector("#monthlyTable tbody");
+      tb.innerHTML = "";
+      const summary = {};
+
+      data.forEach(e => {
+        const dt = new Date(e.start);
+        if (isNaN(dt)) return;
+        const mon = MONTHS[dt.getMonth()];
+        const yr = dt.getFullYear();
+
+        if (filterMonth && mon !== filterMonth) return;
+        if (filterYear && yr.toString() !== filterYear) return;
+
+        const key = e.vehicle + "|" + mon + "|" + yr;
+        const odo = parseFloat(e.odometer);
+        if (isNaN(odo)) return;
+
+        const rec = summary[key] ||= {
+          vehicle: e.vehicle, month: mon, year: yr,
+          minO: odo, maxO: odo
+        };
+        rec.minO = Math.min(rec.minO, odo);
+        rec.maxO = Math.max(rec.maxO, odo);
+      });
+
+      Object.values(summary).forEach(r => {
+        const km = r.maxO - r.minO;
+        const cost = km * RATE;
+        tb.insertAdjacentHTML("beforeend", \`
+          <tr>
+            <td>\${r.vehicle}</td>
+            <td>\${r.month} \${r.year}</td>
+            <td>\${km.toLocaleString()}</td>
+            <td>₱\${cost.toLocaleString(undefined,{minimumFractionDigits:2})}</td>
+          </tr>\`);
+      });
+    }
+
+    function updateYearly(data, filterYear) {
+      const tb = document.querySelector("#yearlyTable tbody");
+      tb.innerHTML = "";
+      const summary = {};
+
+      data.forEach(e => {
+        const dt = new Date(e.start);
+        if (isNaN(dt)) return;
+        const yr = dt.getFullYear();
+        if (filterYear && yr.toString() !== filterYear) return;
+
+        const key = e.vehicle + "|" + yr;
+        const odo = parseFloat(e.odometer);
+        if (isNaN(odo)) return;
+
+        const rec = summary[key] ||= {
+          vehicle: e.vehicle, year: yr,
+          minO: odo, maxO: odo
+        };
+        rec.minO = Math.min(rec.minO, odo);
+        rec.maxO = Math.max(rec.maxO, odo);
+      });
+
+      Object.values(summary).forEach(r => {
+        const km = r.maxO - r.minO;
+        const cost = km * RATE;
+        tb.insertAdjacentHTML("beforeend", \`
+          <tr>
+            <td>\${r.vehicle}</td>
+            <td>\${r.year}</td>
+            <td>\${km.toLocaleString()}</td>
+            <td>₱\${cost.toLocaleString(undefined,{minimumFractionDigits:2})}</td>
+          </tr>\`);
+      });
+    }
+
+    let charts = {};
+    function renderCharts(data) {
+      const dest = {}, fuel = {}, dll = {};
+      data.forEach(e => {
+        const dt = new Date(e.start);
+        if (isNaN(dt)) return;
+        const m = MONTHS[dt.getMonth()];
+        dll[m] = (dll[m]||0)+1;
+        dest[e.destination] = (dest[e.destination]||0)+1;
+        fuel[e.vehicle] = (fuel[e.vehicle]||0) + (parseFloat(e.odometer) || 0);
+      });
+
+      const config = {
+        plugins: [{ beforeInit(chart) {
+            if (charts[chart.canvas.id]) charts[chart.canvas.id].destroy();
+            charts[chart.canvas.id] = chart;
+        }}]
+      };
+
+      new Chart(document.getElementById("deliveryChart").getContext("2d"), {
+        type: "bar",
+        data: { labels: MONTHS, datasets: [{ label:"Deliveries", data: MONTHS.map(m=>dll[m]||0) }] },
+        ...config
+      });
+
+      new Chart(document.getElementById("fuelChart").getContext("2d"), {
+        type: "bar",
+        data: { labels:Object.keys(fuel), datasets:[{ label:"Total Odo (km)", data:Object.values(fuel) }] },
+        ...config
+      });
+
+      new Chart(document.getElementById("destinationChart").getContext("2d"), {
+        type: "pie",
+        data: { labels:Object.keys(dest), datasets:[{ data:Object.values(dest) }] },
+        ...config
+      });
+    }
+  </script>
 </body>
 </html>
