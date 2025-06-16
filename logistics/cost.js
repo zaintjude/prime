@@ -1,7 +1,7 @@
 // Fetch and process logistics data from external JSON
 async function fetchLogisticsData() {
     try {
-        const response = await fetch('https://dashproduction.x10.mx/masterfile/prime/logistics/logistics.json');
+        const response = await fetch('https://zaintjude.github.io/prime/logistics/logistics.json');
         if (!response.ok) throw new Error('Failed to fetch logistics data');
         return await response.json();
     } catch (error) {
