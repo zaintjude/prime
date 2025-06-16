@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function fetchTools() {
   try {
-    const res = await fetch("https://dashproduction.x10.mx/masterfile/prime/FABRICATION/warehouse/tools/tools.json");
+    const res = await fetch("https://zaintjude.github.io/prime/FABRICATION/warehouse/tools/tools.json");
     const data = await res.json();
 
     // Only get the 'tools' array for display and editing
