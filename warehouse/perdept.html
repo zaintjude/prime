@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Machining Items Report</title>
+  <link rel="stylesheet" href="perdept.css" />
+</head>
+<body>
+
+
+<div style="text-align: right; margin-bottom: 10px;">
+  
+  <a href="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/warehouse/warehouse.html"
+     style="display: inline-block; padding: 8px 16px; margin-left: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+    BACK TO WAREHOUSE
+  </a>
+</div>
+
+
+
+  <header>
+    <img src="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/prime.png" alt="Logo" class="logo">
+    <h1>PER DEPARTMENT ITEMS REPORT</h1>
+  </header>
+
+  <section class="filters">
+    <select id="filterItem"><option value="">All Items</option></select>
+    <select id="filterYear"><option value="">All Years</option></select>
+    <select id="filterMonth"><option value="">All Months</option></select>
+    <select id="filterDay"><option value="">All Days</option></select>
+    <select id="filterRequestedBy"><option value="">All Requested By</option></select>
+    <select id="filterType"><option value="">All Types</option></select>
+    <select id="filterDepartment"><option value="">All Departments</option>
+</select>
+  </section>
+
+  <table id="machiningReportTable">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Unit</th>
+        <th>U.Price</th>
+        <th>Total</th>
+        <th>Dimension</th>
+        <th>Department</th>
+        <th>Requested By</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <section class="totals">
+    <p><strong>TOTAL AMOUNT:</strong> ₱<span id="totalAmount">0.00</span></p>
+    <p><strong>TOTAL QUANTITIES:</strong> <span id="totalQty">0</span></p>
+    <p><strong>TOTAL RECEIVED:</strong> <span id="totalReceived">0</span></p>
+    <p><strong>TOTAL REQUESTED BY:</strong> <span id="totalRequestedBy">0</span></p>
+  </section>
+
+  <script src="perdept.js"></script>
+</body>
+</html>

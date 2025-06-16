@@ -1,0 +1,46 @@
+[
+    {
+        "itemName": "HEY",
+        "qty": 10,
+        "unit": "pcs",
+        "uPrice": 10,
+        "total": "100.00",
+        "dimension": "BIG",
+        "department": "Export",
+        "requestedBy": "RANDY",
+        "date": "2025-05-06"
+    },
+    {
+        "itemName": "PAIL",
+        "qty": 10,
+        "unit": "pcs",
+        "uPrice": 10,
+        "total": "100.00",
+        "dimension": "N\/A",
+        "department": "Export",
+        "requestedBy": "RANDY",
+        "date": "2025-05-06"
+    },
+    {
+        "itemName": "PAINT",
+        "qty": 50,
+        "unit": "L",
+        "uPrice": 1060,
+        "total": "53000.00",
+        "dimension": "N\/A",
+        "department": "Export",
+        "requestedBy": "RANDY",
+        "date": "2025-05-06"
+    },
+    {
+        "itemName": "paint",
+        "qty": 10,
+        "unit": "L",
+        "uPrice": 1060,
+        "total": "10600.00",
+        "dimension": "",
+        "department": "Export",
+        "requestedBy": "RANDY",
+        "date": "2025-05-06"
+    }
+]

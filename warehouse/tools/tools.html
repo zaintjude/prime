@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tool Inventory</title>
+  <link rel="stylesheet" href="tools.css" />
+
+  <style>
+    thead th {
+        background-color: blue;
+        color: white; /* optional for contrast */
+    }
+</style>
+</head>
+<body>
+
+<div style="text-align: right; margin-bottom: 10px;">
+  <a href="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/warehouse/perdept.html"
+     style="display: inline-block; padding: 8px 16px; margin-left: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+    PER DEPARTMENT REPORT
+  </a>
+  <a href="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/warehouse/inventory.html"
+     style="display: inline-block; padding: 8px 16px; margin-left: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+    INVENTORY
+  </a>
+
+
+  <a href="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/warehouse/tools/toolsreport.html"
+     style="display: inline-block; padding: 8px 16px; margin-left: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+  TOOLS REPORT
+  </a>
+
+
+   <a href="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/warehouse/warehouse.html"
+     style="display: inline-block; padding: 8px 16px; margin-left: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+    WAREHOUSE
+  </a>
+</div>
+  <img src="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/prime.png" alt="Logo" style="height:40px; float:left; margin-right:10px;">
+  <h1 style="margin-left:50px;">Warehouse Tool Management</h1>
+
+  <!-- Add Tool Form -->
+  <form id="toolForm">
+    <input type="text" id="toolName" placeholder="Tool Name" required />
+    <input type="text" id="toolSize" placeholder="Size" required />
+    <input type="text" id="toolSerial" placeholder="Serial" required />
+    <input type="text" id="toolModel" placeholder="Model" required />
+    <input type="text" id="toolBrand" placeholder="Brand" required />
+    <input type="text" id="toolDepartment" placeholder="Department" required />
+    <input type="text" id="toolCondition" placeholder="Condition (Good/Broken)" required />
+    <button type="submit">Add Tool</button>
+  </form>
+
+  <!-- Tool List Table -->
+  <h2>Current Tool Inventory</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Tool Name</th>
+        <th>Size</th>
+        <th>Serial</th>
+        <th>Model</th>
+        <th>Brand</th>
+        <th>Department</th>
+        <th>Status</th>
+        <th>Condition</th>
+        <th>Borrowed By</th>
+        <th>Borrowed On</th>
+        
+      </tr>
+    </thead>
+    <tbody id="toolTableBody"></tbody>
+  </table>
+
+  <!-- History Table -->
+  <h2>Borrowing History</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Tool Name</th>
+        <th>Size</th>
+        <th>Serial</th>
+        <th>Model</th>
+        <th>Brand</th>
+        <th>Department</th>
+        <th>Borrowed By</th>
+        <th>Borrowed On</th>
+        <th>Returned On</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody id="historyTableBody"></tbody>
+  </table>
+
+    <!-- Damaged Tools Table -->
+    <h2>Damaged Tools</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Tool Name</th>
+          <th>Size</th>
+          <th>Serial</th>
+          <th>Model</th>
+          <th>Brand</th>
+          <th>Department</th>
+          <th>Return Condition</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="damagedTableBody"></tbody>
+    </table>
+
+  <script src="tools.js"></script>
+</body>
+</html>

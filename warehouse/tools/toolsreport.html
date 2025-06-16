@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tools Report</title>
+  <link rel="stylesheet" href="toolsreport.css">
+</head>
+<body>
+<div style="text-align: right; margin-bottom: 10px;">
+  
+   <a href="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/warehouse/warehouse.html"
+     style="display: inline-block; padding: 8px 16px; margin-left: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+    WAREHOUSE
+  </a>
+</div>
+
+
+
+  <header>
+    <img src="prime.png" alt="Prime Logo" class="logo">
+    <h1>Tools Report</h1>
+  </header>
+
+  <section class="filters">
+    <input type="text" id="filterToolName" placeholder="Filter by Tool Name">
+    <input type="text" id="filterSerial" placeholder="Filter by Serial">
+    <input type="text" id="filterBrand" placeholder="Filter by Brand">
+    <input type="text" id="filterDepartment" placeholder="Filter by Department">
+    <input type="text" id="filterCondition" placeholder="Filter by Condition">
+    <input type="text" id="filterBorrowedBy" placeholder="Filter by Borrowed By">
+  </section>
+
+  <div class="summary">
+    Total Items: <span id="totalItems">0</span>
+  </div>
+
+  <table id="toolsTable">
+    <thead>
+      <tr>
+        <th>Tool Name</th>
+        <th>Size</th>
+        <th>Serial</th>
+        <th>Model</th>
+        <th>Brand</th>
+        <th>Department</th>
+        <th>Status</th>
+        <th>Condition</th>
+        <th>Borrowed By</th>
+        <th>Borrowed On</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Populated by JS -->
+    </tbody>
+  </table>
+
+  <script src="toolsreport.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warehouse Inventory</title>
+    <link rel="stylesheet" href="inventory.css">
+</head>
+
+<body>
+    <header>
+        <img src="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/prime.png" class="header-logo" alt="Company Logo">
+    </header>
+
+<div style="text-align: right; margin-bottom: 10px;">
+  <a href="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/warehouse/perdept.html"
+     style="display: inline-block; padding: 8px 16px; margin-left: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+    PER DEPARTMENT REPORT
+  </a>
+  <a href="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/warehouse/warehouse.html"
+     style="display: inline-block; padding: 8px 16px; margin-left: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+    BACK TO WAREHOUSE
+  </a>
+</div>
+
+
+
+</div>
+
+    <div class="container">
+        <h1>Warehouse Inventory</h1>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <input type="text" id="filterItem" placeholder="Filter by Item Name">
+            <select id="filterDepartment">
+                <option value="">Select Department</option>
+                <!-- Departments will be populated dynamically -->
+            </select>
+            <button id="applyFilters">Apply Filters</button>
+        </div>
+
+        <!-- Table -->
+        <div class="table-container">
+            <table id="inventoryTable">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Unit</th>
+                        <th>U.Price</th>
+                        <th>Total</th>
+                        <th>Dimension</th>
+                        <th>Department</th>
+                        <th>Requested By</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Table rows will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Add Row Button -->
+        <div class="add-row-btn">
+            <button id="addRowBtn">Add Row</button>
+        </div>
+    </div>
+
+    <!-- External Script Only -->
+    <script src="inventory.js"></script>
+</body>
+
+</html>

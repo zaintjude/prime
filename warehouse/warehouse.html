@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Warehouse Tracker</title>
+  <link rel="stylesheet" href="warehouse.css">
+</head>
+<body>
+
+
+  <!-- Logo on the top-left -->
+  <img src="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/dashboard/fabrication/prime.png" alt="Logo" id="logo">
+
+
+<div style="text-align: right; margin-bottom: 10px;">
+  <a href="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/warehouse/perdept.html"
+     style="display: inline-block; padding: 8px 16px; margin-left: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+    PER DEPARTMENT REPORT
+  </a>
+  <a href="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/warehouse/inventory.html"
+     style="display: inline-block; padding: 8px 16px; margin-left: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+    INVENTORY
+  </a>
+   <a href="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/warehouse/tools/tools.html"
+     style="display: inline-block; padding: 8px 16px; margin-left: 10px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+    TOOLS
+  </a>
+</div>
+
+
+
+
+</div>
+  <h1>Warehouse Management</h1>
+
+  <section id="input-section">
+    <h2>Log Activity</h2>
+    <form id="warehouse-form">
+      <div class="form-column">
+        <label>Type:
+          <select id="type">
+            <option value="Received">Received</option>
+           
+            <option value="Released">Released</option>
+          </select>
+        </label>
+        <label>Item Name: <input type="text" id="itemName" required></label>
+        <label>Quantity: <input type="number" id="quantity" required></label>
+        <label>Unit:
+          <select id="unit">
+            <option value="L">L</option>
+            <option value="gal">gal</option>
+            <option value="kg">kg</option>
+            <option value="g">g</option>
+            <option value="lbs">lbs</option>
+            <option value="oz">oz</option>
+            <option value="t">t</option>
+            <option value="m">m</option>
+            <option value="cm">cm</option>
+            <option value="mm">mm</option>
+            <option value="in">in</option>
+            <option value="ft">ft</option>
+            <option value="pcs">pcs</option>
+            <option value="Boxes">Boxes</option>
+          </select>
+        </label>
+        <label>U.Price: <input type="number" id="uPrice" required></label>
+        
+      </div>
+
+      <div class="form-column">
+        <label>Department:
+          <select id="department">
+            <option value="Export">Export</option>
+            <option value="Machining">Machining</option>
+            <option value="Fabrication">Fabrication</option>
+            <option value="Maintenance">Maintenance</option>
+          </select>
+        </label>
+        <label>Requested By: <input type="text" id="requestedBy"></label>
+        <label>Date: <input type="date" id="date" required></label>
+        <label>Total: <input type="text" id="total" disabled></label>
+        <label>Dimension: <input type="text" id="dimension"></label>
+        <div class="form-button">
+          <button type="submit">Save</button>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <section id="log-section">
+    <h2>Activity Log</h2>
+    <!-- Filter for the table based on today's date -->
+    <input type="text" id="filterDate" placeholder="YYYY-MM-DD">
+    <table id="logTable">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Unit</th>
+          <th>U.Price</th>
+          <th>Total</th>
+          <th>Dimension</th>
+          <th>Department</th>
+          <th>Requested By</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <script src="warehouse.js"></script>
+</body>
+</html>
