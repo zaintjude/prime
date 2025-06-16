@@ -138,22 +138,19 @@ function populateCostTables(data, monthFilter = "", yearFilter = "") {
 
 // 📈 Create charts
 function generateCharts(data) {
-  const destSummary = {}, deliveryCounts = {}, vehicleFuel = {}, locSummary = {};
+  const categorySummary = {}, deliveryCounts = {}, vehicleFuel = {}, locCategorySummary = {};
   const KM_L = 8, entriesByVehicle = {};
 
   data.forEach(e => {
     const dest = e.destination || "Unknown";
     const cat = getDestinationCategory(dest);
-    destSummary[cat] = (destSummary[cat] || 0) + 1;
+    categorySummary[cat] = (categorySummary[cat] || 0) + 1;
+
     const m = new Date(e.start).toLocaleString('default', { month: 'short' });
     deliveryCounts[m] = (deliveryCounts[m] || 0) + 1;
+
     entriesByVehicle[e.vehicle] ??= [];
     entriesByVehicle[e.vehicle].push(e);
-
-    // Exact locations
-    dest.split("/").map(p => p.trim()).filter(Boolean).forEach(p => {
-      locSummary[p] = (locSummary[p] || 0) + 1;
-    });
   });
 
   for (const v in entriesByVehicle) {
@@ -170,17 +167,19 @@ function generateCharts(data) {
     });
   }
 
+  // 🍕 Category Pie Chart
   new Chart(document.getElementById('destinationGraph'), {
     type: 'pie',
     data: {
-      labels: Object.keys(destSummary),
+      labels: Object.keys(categorySummary),
       datasets: [{
-        data: Object.values(destSummary),
+        data: Object.values(categorySummary),
         backgroundColor: ['#FF6347','#4CAF50','#FFEB3B','#00BCD4','#2196F3','#FF9800','#8BC34A','#E91E63','#9C27B0','#795548']
       }]
     }
   });
 
+  // 🛢 Fuel Bar Chart
   new Chart(document.getElementById('fuelGraph'), {
     type: 'bar',
     data: {
@@ -193,6 +192,7 @@ function generateCharts(data) {
     }
   });
 
+  // 📆 Delivery Line Chart
   new Chart(document.getElementById('deliveryGraph'), {
     type: 'line',
     data: {
@@ -208,18 +208,19 @@ function generateCharts(data) {
     }
   });
 
+  // 📊 Horizontal Bar Chart for Location Category Summary
   new Chart(document.getElementById('locationSummaryGraph'), {
     type: 'bar',
     data: {
-      labels: Object.keys(locSummary),
+      labels: Object.keys(categorySummary),
       datasets: [{
-        label: 'Exact Locations',
-        data: Object.values(locSummary),
+        label: 'Deliveries by Category',
+        data: Object.values(categorySummary),
         backgroundColor: '#42A5F5'
       }]
     },
     options: {
-      indexAxis: 'y',
+      indexAxis: 'y', // Horizontal
       scales: {
         x: { beginAtZero: true }
       }
@@ -227,7 +228,7 @@ function generateCharts(data) {
   });
 }
 
-// 🔎 Filters
+// 🔍 Setup filters
 function setupFilters(data) {
   const mIn = document.getElementById('monthFilter'), yIn = document.getElementById('yearFilter');
   const update = () => populateCostTables(data, mIn.value.trim(), yIn.value.trim());
@@ -235,7 +236,7 @@ function setupFilters(data) {
   yIn.addEventListener('input', update);
 }
 
-// 🚀 On load
+// 🚀 On DOM load
 document.addEventListener("DOMContentLoaded", async () => {
   const data = await fetchLogisticsData();
   populateCostTables(data);
