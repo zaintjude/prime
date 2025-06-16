@@ -2,44 +2,52 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch("https://zaintjude.github.io/prime/logistics/logistics.json")
     .then(response => response.json())
     .then(data => {
-      populateCostTables(data);
       setupFilters(data);
+      populateCostTables(data);
     })
     .catch(error => {
       console.error("Error fetching logistics data:", error);
     });
 });
 
-// Filter and display cost per vehicle per month
+// Populate cost-per-vehicle-per-month table
 function populateCostTables(data, selectedMonth = "", selectedYear = "") {
   const costTableBody = document.querySelector("#costTable tbody");
   costTableBody.innerHTML = "";
 
   const filteredData = data.filter(entry => {
+    if (!entry.start) return false;
+
     const startDate = new Date(entry.start);
+    if (isNaN(startDate)) return false;
+
     const month = startDate.toLocaleString("default", { month: "long" });
     const year = startDate.getFullYear().toString();
 
-    const matchesMonth = selectedMonth ? month === selectedMonth : true;
-    const matchesYear = selectedYear ? year === selectedYear : true;
+    const matchMonth = selectedMonth ? month === selectedMonth : true;
+    const matchYear = selectedYear ? year === selectedYear : true;
 
-    return matchesMonth && matchesYear;
+    return matchMonth && matchYear;
   });
 
   const costsByPlate = {};
 
   filteredData.forEach(entry => {
-    const plate = entry.plate;
+    const plate = entry.plate || "Unknown";
+    const cost = parseFloat(entry.cost);
+
+    if (isNaN(cost)) return;
+
     if (!costsByPlate[plate]) {
       costsByPlate[plate] = { total: 0, count: 0 };
     }
-    costsByPlate[plate].total += parseFloat(entry.cost) || 0;
+
+    costsByPlate[plate].total += cost;
     costsByPlate[plate].count += 1;
   });
 
-  Object.keys(costsByPlate).forEach(plate => {
-    const costData = costsByPlate[plate];
-    const averageCost = costData.total / costData.count;
+  Object.entries(costsByPlate).forEach(([plate, costData]) => {
+    const averageCost = costData.count > 0 ? (costData.total / costData.count) : 0;
 
     const row = document.createElement("tr");
     row.innerHTML = `
@@ -50,42 +58,48 @@ function populateCostTables(data, selectedMonth = "", selectedYear = "") {
   });
 }
 
-// Setup month and year filter
+// Setup filters for Month and Year
 function setupFilters(data) {
-  const monthInput = document.getElementById("monthFilter");
+  const monthSelect = document.getElementById("monthFilter");
   const yearInput = document.getElementById("yearFilter");
 
-  // Get unique months from data
   const monthSet = new Set();
+
   data.forEach(entry => {
+    if (!entry.start) return;
     const date = new Date(entry.start);
-    const month = date.toLocaleString('default', { month: 'long' });
+    if (isNaN(date)) return;
+
+    const month = date.toLocaleString("default", { month: "long" });
     monthSet.add(month);
   });
 
-  // Sort months in calendar order
-  const calendarOrder = [
+  // Ensure months appear in calendar order
+  const calendarMonths = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ];
-  const sortedMonths = [...monthSet].sort((a, b) => calendarOrder.indexOf(a) - calendarOrder.indexOf(b));
 
-  // Populate month dropdown
-  monthInput.innerHTML = `<option value="">-- All Months --</option>`;
+  const sortedMonths = Array.from(monthSet).sort(
+    (a, b) => calendarMonths.indexOf(a) - calendarMonths.indexOf(b)
+  );
+
+  // Populate dropdown
+  monthSelect.innerHTML = `<option value="">-- All Months --</option>`;
   sortedMonths.forEach(month => {
     const option = document.createElement("option");
     option.value = month;
     option.textContent = month;
-    monthInput.appendChild(option);
+    monthSelect.appendChild(option);
   });
 
-  // Setup event listeners
+  // Filter on change
   const updateTable = () => {
-    const selectedMonth = monthInput.value;
+    const selectedMonth = monthSelect.value;
     const selectedYear = yearInput.value.trim();
     populateCostTables(data, selectedMonth, selectedYear);
   };
 
-  monthInput.addEventListener("change", updateTable);
+  monthSelect.addEventListener("change", updateTable);
   yearInput.addEventListener("input", updateTable);
 }
