@@ -1,5 +1,3 @@
-// cost.js
-
 document.addEventListener("DOMContentLoaded", async () => {
   const data = await fetch("https://zaintjude.github.io/prime/logistics/logistics.json")
     .then(r => r.json())
@@ -7,11 +5,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const monthInput = document.getElementById("monthFilter");
   const yearInput = document.getElementById("yearFilter");
-  const yearList = new Set(data.map(e => new Date(e.start).getFullYear()));
-  yearInput.setAttribute("list", "yearList");
-  const dl = document.createElement("datalist"); dl.id = "yearList";
-  [...yearList].sort().forEach(y => dl.innerHTML += `<option>${y}</option>`);
-  document.body.appendChild(dl);
+
+  monthInput.addEventListener("input", update);
+  yearInput.addEventListener("input", update);
+
+  update();
 
   function update() {
     const m = monthInput.value.trim();
@@ -20,150 +18,136 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderYearly(data);
     renderCharts(data);
   }
-
-  monthInput.addEventListener("input", update);
-  yearInput.addEventListener("input", update);
-  update();
 });
 
-// Month name formatter
-const MONTHS = [...Array(12).keys()].map(i =>
-  new Date(0, i).toLocaleString("default", { month: "long" })
+const RATE_PER_KM = 5; // ₱ per km
+const MONTHS = Array.from({ length:12 }, (_, i) =>
+  new Date(0,i).toLocaleString("default",{month:"long"})
 );
 
-// Renders monthly table
 function renderMonthly(data, monthFilter, yearFilter) {
-  const tbody = document.getElementById("monthlyCostTable").querySelector("tbody");
+  const tbody = document.querySelector("#monthlyCostTable tbody");
   tbody.innerHTML = "";
-  const byVehMonth = {};
+  const summary = {};
 
   data.forEach(e => {
-    const date = new Date(e.start);
-    if (isNaN(date)) return;
-    const m = MONTHS[date.getMonth()];
-    const y = date.getFullYear();
-    if (monthFilter && m !== monthFilter) return;
-    if (yearFilter && String(y) !== yearFilter) return;
+    const d = new Date(e.start);
+    if (isNaN(d)) return;
+    const m = MONTHS[d.getMonth()];
+    const y = d.getFullYear();
+    if (monthFilter && monthFilter !== m) return;
+    if (yearFilter && String(yearFilter) !== String(y)) return;
 
-    const key = `${e.vehicle}||${m}||${y}`;
+    const key = `${e.vehicle}|${m}|${y}`;
     const odo = parseFloat(e.odometer) || 0;
-    const cost = parseFloat(e.cost) || 0;
 
-    const rec = byVehMonth[key] ||= {
+    const rec = summary[key] ||= {
       vehicle: e.vehicle, month: m, year: y,
-      minOdo: odo, maxOdo: odo, totalCost: 0
+      minOdo: odo, maxOdo: odo
     };
     rec.minOdo = Math.min(rec.minOdo, odo);
     rec.maxOdo = Math.max(rec.maxOdo, odo);
-    rec.totalCost += cost;
   });
 
-  Object.values(byVehMonth).forEach(r => {
+  Object.values(summary).forEach(r => {
+    const dist = r.maxOdo - r.minOdo;
+    const cost = dist * RATE_PER_KM;
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${r.vehicle}</td>
       <td>${r.month} ${r.year}</td>
-      <td>${(r.maxOdo - r.minOdo).toLocaleString()}</td>
-      <td>₱${r.totalCost.toFixed(2)}</td>
+      <td>${dist.toLocaleString()}</td>
+      <td>₱${cost.toFixed(2)}</td>
     `;
     tbody.appendChild(tr);
   });
 }
 
-// Renders yearly table
 function renderYearly(data) {
-  const tbody = document.getElementById("yearlyCostTable").querySelector("tbody");
+  const tbody = document.querySelector("#yearlyCostTable tbody");
   tbody.innerHTML = "";
-  const byVehYear = {};
+  const summary = {};
 
   data.forEach(e => {
-    const date = new Date(e.start);
-    if (isNaN(date)) return;
-    const y = date.getFullYear();
-    const key = `${e.vehicle}||${y}`;
+    const d = new Date(e.start);
+    if (isNaN(d)) return;
+    const y = d.getFullYear();
+    const key = `${e.vehicle}|${y}`;
     const odo = parseFloat(e.odometer) || 0;
-    const cost = parseFloat(e.cost) || 0;
 
-    const rec = byVehYear[key] ||= {
+    const rec = summary[key] ||= {
       vehicle: e.vehicle, year: y,
-      minOdo: odo, maxOdo: odo, totalCost: 0
+      minOdo: odo, maxOdo: odo
     };
     rec.minOdo = Math.min(rec.minOdo, odo);
     rec.maxOdo = Math.max(rec.maxOdo, odo);
-    rec.totalCost += cost;
   });
 
-  Object.values(byVehYear).forEach(r => {
+  Object.values(summary).forEach(r => {
+    const dist = r.maxOdo - r.minOdo;
+    const cost = dist * RATE_PER_KM;
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${r.vehicle}</td>
       <td>${r.year}</td>
-      <td>${(r.maxOdo - r.minOdo).toLocaleString()}</td>
-      <td>₱${r.totalCost.toFixed(2)}</td>
+      <td>${dist.toLocaleString()}</td>
+      <td>₱${cost.toFixed(2)}</td>
     `;
     tbody.appendChild(tr);
   });
 }
 
-// Destroy old charts before drawing new ones
-const chartRefs = {};
-function destroyOldChart(id) {
-  if (chartRefs[id]) {
-    chartRefs[id].destroy();
-    delete chartRefs[id];
-  }
-}
-
-// Generate all charts
 function renderCharts(data) {
-  const destCount = {}, fuelPerVeh = {}, deliveriesPerMonth = {}, catSummary = {};
+  const destCount = {};
+  const fuelCostVeh = {};
+  const deliveriesMonth = {};
+  const catSummary = {};
 
+  const byVehEntries = {};
   data.forEach(e => {
-    const date = new Date(e.start);
-    if (isNaN(date)) return;
-    const m = MONTHS[date.getMonth()];
-    deliveriesPerMonth[m] = (deliveriesPerMonth[m] || 0) + 1;
+    const d = new Date(e.start);
+    if (isNaN(d)) return;
+    const m = MONTHS[d.getMonth()];
+    deliveriesMonth[m] = (deliveriesMonth[m]||0)+1;
+    const dest = e.destination || 'Unknown';
+    destCount[dest] = (destCount[dest]||0)+1;
+    catSummary[dest] = destCount[dest];
 
-    const cat = e.destination || "Unknown";
-    destCount[cat] = (destCount[cat] || 0) + 1;
-    catSummary[cat] = (catSummary[cat] || 0) + 1;
-
-    if (e.type && e.type.toLowerCase() === "fuel") {
-      const c = parseFloat(e.cost) || 0;
-      fuelPerVeh[e.vehicle] = (fuelPerVeh[e.vehicle] || 0) + c;
-    }
+    if (!byVehEntries[e.vehicle]) byVehEntries[e.vehicle] = [];
+    byVehEntries[e.vehicle].push(e);
   });
 
-  function drawChart(id, type, labels, dataArr) {
-    destroyOldChart(id);
-    const ctx = document.getElementById(id)?.getContext("2d");
-    if (!ctx) return;
-    chartRefs[id] = new Chart(ctx, {
-      type,
-      data: {
-        labels,
-        datasets: [{
-          label: type === "line" ? "Deliveries" : "",
-          data: dataArr,
-          backgroundColor: ["#4CAF50", "#FFC107", "#2196F3", "#FF5722", "#9C27B0"],
-          borderColor: "#000",
-          borderWidth: 1,
-          fill: false
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: type === "pie" } },
-        scales: type !== "pie" ? {
-          y: { beginAtZero: true }
-        } : {}
-      }
+  // Simulate fuel as ₱ per km * rate
+  for(const veh in byVehEntries){
+    const arr = byVehEntries[veh].sort((a,b)=>new Date(a.start)-new Date(b.start));
+    let prev = null, cost=0;
+    arr.forEach(e=>{
+      const odo = parseFloat(e.odometer)||0;
+      if(prev!==null && odo>prev) cost += (odo-prev)*RATE_PER_KM;
+      prev = odo;
     });
+    fuelCostVeh[veh] = cost;
   }
 
-  drawChart("destinationGraph", "pie", Object.keys(destCount), Object.values(destCount));
-  drawChart("fuelGraph", "bar", Object.keys(fuelPerVeh), Object.values(fuelPerVeh));
-  const sortedMonths = MONTHS.filter(m => deliveriesPerMonth[m]);
-  drawChart("deliveryGraph", "line", sortedMonths, sortedMonths.map(m => deliveriesPerMonth[m] || 0));
-  drawChart("locationSummaryGraph", "bar", Object.keys(catSummary), Object.values(catSummary));
+  // Charting Helpers
+  function drawPie(el, labels, values){
+    const ctx = document.getElementById(el)?.getContext("2d");
+    if(!ctx) return;
+    new Chart(ctx, {type:'pie', data:{labels, datasets:[{data:values}]}, options:{}});
+  }
+  function drawBar(el, labels, values){
+    const ctx = document.getElementById(el)?.getContext("2d");
+    if(!ctx) return;
+    new Chart(ctx, {type:'bar', data:{labels, datasets:[{data:values}]}, options:{}});
+  }
+  function drawLine(el, labels, values){
+    const ctx = document.getElementById(el)?.getContext("2d");
+    if(!ctx) return;
+    new Chart(ctx, {type:'line', data:{labels, datasets:[{data:values}]}, options:{}});
+  }
+
+  drawPie("destinationGraph", Object.keys(destCount), Object.values(destCount));
+  drawBar("fuelGraph", Object.keys(fuelCostVeh), Object.values(fuelCostVeh));
+  drawLine("deliveryGraph", MONTHS, MONTHS.map(m=>deliveriesMonth[m]||0));
+  drawBar("locationSummaryGraph", Object.keys(catSummary), Object.values(catSummary));
 }
