@@ -8,8 +8,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const monthInput = document.getElementById("monthFilter");
   const yearInput = document.getElementById("yearFilter");
   const yearList = new Set(data.map(e => new Date(e.start).getFullYear()));
-  yearInput.setAttribute("list","yearList");
-  const dl = document.createElement("datalist"); dl.id="yearList";
+  yearInput.setAttribute("list", "yearList");
+  const dl = document.createElement("datalist"); dl.id = "yearList";
   [...yearList].sort().forEach(y => dl.innerHTML += `<option>${y}</option>`);
   document.body.appendChild(dl);
 
@@ -20,14 +20,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderYearly(data);
     renderCharts(data);
   }
+
   monthInput.addEventListener("input", update);
   yearInput.addEventListener("input", update);
   update();
 });
 
-// Helper to format month name
+// Month name formatter
 const MONTHS = [...Array(12).keys()].map(i =>
-  new Date(0, i).toLocaleString("default", { month:"long" })
+  new Date(0, i).toLocaleString("default", { month: "long" })
 );
 
 // Renders monthly table
@@ -104,55 +105,65 @@ function renderYearly(data) {
   });
 }
 
+// Destroy old charts before drawing new ones
+const chartRefs = {};
+function destroyOldChart(id) {
+  if (chartRefs[id]) {
+    chartRefs[id].destroy();
+    delete chartRefs[id];
+  }
+}
+
 // Generate all charts
 function renderCharts(data) {
   const destCount = {}, fuelPerVeh = {}, deliveriesPerMonth = {}, catSummary = {};
-  const entriesByVeh = {};
 
   data.forEach(e => {
     const date = new Date(e.start);
     if (isNaN(date)) return;
-    const m = date.getMonth();
-    const keyM = MONTHS[m];
-    deliveriesPerMonth[keyM] = (deliveriesPerMonth[keyM]||0) +1;
+    const m = MONTHS[date.getMonth()];
+    deliveriesPerMonth[m] = (deliveriesPerMonth[m] || 0) + 1;
 
     const cat = e.destination || "Unknown";
-    destCount[cat] = (destCount[cat]||0)+1;
-    catSummary[cat] = (catSummary[cat]||0)+1;
+    destCount[cat] = (destCount[cat] || 0) + 1;
+    catSummary[cat] = (catSummary[cat] || 0) + 1;
 
-    entriesByVeh[e.vehicle] = entriesByVeh[e.vehicle]||[];
-    entriesByVeh[e.vehicle].push(e);
-
-    if (e.type && e.type.toLowerCase()==="fuel") {
-      const c = parseFloat(e.cost)||0;
-      fuelPerVeh[e.vehicle] = (fuelPerVeh[e.vehicle]||0)+c;
+    if (e.type && e.type.toLowerCase() === "fuel") {
+      const c = parseFloat(e.cost) || 0;
+      fuelPerVeh[e.vehicle] = (fuelPerVeh[e.vehicle] || 0) + c;
     }
   });
 
-  // Chart helpers
-  function drawPie(id, labels, dataArr) {
+  function drawChart(id, type, labels, dataArr) {
+    destroyOldChart(id);
     const ctx = document.getElementById(id)?.getContext("2d");
     if (!ctx) return;
-    new Chart(ctx, { type:"pie", data:{ labels, datasets:[{data:dataArr}] } });
-  }
-  function drawBar(id, labels, dataArr) {
-    const ctx = document.getElementById(id)?.getContext("2d");
-    if (!ctx) return;
-    new Chart(ctx, { type:"bar", data:{ labels, datasets:[{ data: dataArr }] } });
-  }
-  function drawLine(id, labels, dataArr) {
-    const ctx = document.getElementById(id)?.getContext("2d");
-    if (!ctx) return;
-    new Chart(ctx, { type:"line", data:{ labels, datasets:[{ data: dataArr }] } });
+    chartRefs[id] = new Chart(ctx, {
+      type,
+      data: {
+        labels,
+        datasets: [{
+          label: type === "line" ? "Deliveries" : "",
+          data: dataArr,
+          backgroundColor: ["#4CAF50", "#FFC107", "#2196F3", "#FF5722", "#9C27B0"],
+          borderColor: "#000",
+          borderWidth: 1,
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: type === "pie" } },
+        scales: type !== "pie" ? {
+          y: { beginAtZero: true }
+        } : {}
+      }
+    });
   }
 
-  drawPie("destinationGraph", Object.keys(destCount), Object.values(destCount));
-  drawBar("fuelGraph", Object.keys(fuelPerVeh), Object.values(fuelPerVeh));
-  drawLine("deliveryGraph",
-    MONTHS.filter(m=>deliveriesPerMonth[m]),
-    MONTHS.map(m=>deliveriesPerMonth[m]||0)
-  );
-  drawBar("locationSummaryGraph",
-    Object.keys(catSummary), Object.values(catSummary)
-  );
+  drawChart("destinationGraph", "pie", Object.keys(destCount), Object.values(destCount));
+  drawChart("fuelGraph", "bar", Object.keys(fuelPerVeh), Object.values(fuelPerVeh));
+  const sortedMonths = MONTHS.filter(m => deliveriesPerMonth[m]);
+  drawChart("deliveryGraph", "line", sortedMonths, sortedMonths.map(m => deliveriesPerMonth[m] || 0));
+  drawChart("locationSummaryGraph", "bar", Object.keys(catSummary), Object.values(catSummary));
 }
