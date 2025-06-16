@@ -4,55 +4,59 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cost Report</title>
-  <link rel="stylesheet" href="cost.css"/>
+  <link rel="stylesheet" href="cost.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
-  <!-- Back to Logistics -->
+  <!-- Back Navigation -->
   <a href="https://zaintjude.github.io/prime/logistics/logistics.html"
      style="display: inline-block; margin-bottom: 15px; color: #3498db; font-weight: bold;">
     ← Back to Logistics
   </a>
 
   <!-- Logo -->
-  <div id="logo-container">
-    <img src="prime.png" alt="Logo" id="logo"/>
+  <div id="logo-container" style="text-align: center; margin-bottom: 20px;">
+    <img src="prime.png" alt="Prime Logo" id="logo" style="max-height: 80px;" />
   </div>
 
   <div class="container">
-    <h1>Cost Report</h1>
+    <h1 style="text-align: center;">Cost Report</h1>
+
+    <!-- Filters -->
+    <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px;">
+      <div>
+        <label for="monthFilter">Month:</label>
+        <select id="monthFilter">
+          <option value="">-- All Months --</option>
+        </select>
+      </div>
+      <div>
+        <label for="yearFilter">Year:</label>
+        <input type="text" id="yearFilter" placeholder="e.g. 2024" />
+      </div>
+    </div>
 
     <!-- Monthly Cost Table -->
     <section>
       <h2>Cost Per Vehicle Per Month</h2>
-      <div style="margin-bottom: 10px;">
-<label for="monthFilter">Month:</label>
-<select id="monthFilter">
-  <option value="">-- All Months --</option>
-</select>
-      </div>
-      <table id="monthlyCostTable">
+      <table id="costTable">
         <thead>
           <tr>
-            <th>Vehicle</th>
-            <th>Month</th>
-            <th>Total Odometer</th>
-            <th>Total Cost (₱)</th>
+            <th>Plate Number</th>
+            <th>Average Cost (₱)</th>
           </tr>
         </thead>
         <tbody></tbody>
       </table>
     </section>
 
+    <hr />
+
     <!-- Yearly Cost Table -->
     <section>
       <h2>Cost Per Vehicle Per Year</h2>
-      <div style="margin-bottom: 10px;">
-     <label for="yearFilter">Year:</label>
-<input type="text" id="yearFilter" placeholder="e.g. 2024">
-      </div>
       <table id="yearlyCostTable">
         <thead>
           <tr>
@@ -65,6 +69,8 @@
         <tbody></tbody>
       </table>
     </section>
+
+    <hr />
 
     <!-- Delivery Destinations Pie Chart -->
     <section>
@@ -99,7 +105,7 @@
     </section>
   </div>
 
-  <!-- Load logic AFTER all DOM elements -->
+  <!-- Load logic AFTER DOM -->
   <script src="cost.js"></script>
 </body>
 </html>
