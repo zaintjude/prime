@@ -1,1 +1,861 @@
-[{"vehicle":"Truck A","driver":"John Doe","destination":"Location A","odometer":"100000","start":"2025-04-23T08:00:00","end":"2025-04-23T09:00:00"},{"vehicle":"Truck B","driver":"Jane Doe","destination":"Location B","odometer":"120000","start":"2025-04-23T09:00:00","end":"2025-04-23T10:00:00"},{"vehicle":"VIOSSSS","driver":"JUDEEEEE","destination":"carbon to bring materials","odometer":"100001","start":"2025-04-21T12:01","end":"2025-04-21T15:01"},{"vehicle":"TRAVIS","driver":"JUDEEEEE","destination":"to bring materials to NAGA","odometer":"10002","start":"2025-04-21T09:20","end":"2025-04-21T11:40"},{"vehicle":"TRAVIS","driver":"JUDEEEEE","destination":"LAHUG","odometer":"10500","start":"2025-04-21T17:19","end":"2025-04-21T18:43"},{"vehicle":"VIOSSSS","driver":"JUDEEEEE","destination":"IT PARK","odometer":"100501","start":"2025-04-21T21:11","end":"2025-04-21T22:18"},{"vehicle":"VIOSSSS","driver":"JUDEEEEE","destination":"echavez","odometer":"101501","start":"2025-05-01T17:18","end":"2025-05-01T20:18"},{"vehicle":"VIOSS","driver":"RANDY","destination":"lapulapu","odometer":"120000","start":"2025-04-30T14:14","end":"2025-04-30T14:14"},{"vehicle":"TRAVIS","driver":"HUDAS YEAH222","destination":"echavez","odometer":"100000","start":"2025-05-01T14:15","end":"2025-05-01T20:15"},{"vehicle":"FOTON","driver":"RANDY","destination":"NAGA","odometer":"50377","start":"2025-05-01T11:30","end":"2025-05-01T16:52"},{"vehicle":"WAVE","driver":"EFRIN","destination":"Chonghua, pioneer, Rockwell to receive billing","odometer":"0001","start":"2025-03-18T13:52","end":"2025-03-18T13:52"},{"vehicle":"","driver":"","destination":"","odometer":"","start":"","end":"2025-03-18T13:58"}]
+[
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "ELMER",
+    "destination": "CARBON DELIVER",
+    "odometer": "7842",
+    "start": "2025-05-01T08:45",
+    "end": "2025-05-01T08:45"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "JASON",
+    "destination": "CARBON DELIVER",
+    "odometer": "7843",
+    "start": "2025-05-01T08:45",
+    "end": "2025-05-01T08:45"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "JASON",
+    "destination": "CITY CLOU DELIVER",
+    "odometer": "7844",
+    "start": "2025-05-01T08:45",
+    "end": "2025-05-01T08:45"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "CYRELL",
+    "destination": "CHONGHUA PICKUP",
+    "odometer": "7845",
+    "start": "2025-05-01T08:45",
+    "end": "2025-05-01T08:45"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "ELMER",
+    "destination": "MANDAUE DELIVERY CASUNTINGAN",
+    "odometer": "7846",
+    "start": "2025-05-01T08:38",
+    "end": "2025-05-01T08:38"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "NEW CITY PICKUP",
+    "odometer": "50377",
+    "start": "2025-05-02T08:45",
+    "end": "2025-05-02T08:45"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "ELMER",
+    "destination": "LAPULAPU DELIVER AND PICKUP",
+    "odometer": "7848",
+    "start": "2025-05-02T08:45",
+    "end": "2025-05-02T08:45"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "CANENCIA",
+    "destination": "LUCIMA PULLOUT",
+    "odometer": "7849",
+    "start": "2025-05-02T08:45",
+    "end": "2025-05-02T08:45"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "EDUARDO",
+    "destination": "WASH THINNER",
+    "odometer": "7850",
+    "start": "2025-05-02T08:45",
+    "end": "2025-05-02T08:45"
+  },
+{
+    "vehicle": "TRAVIZ DASH",
+    "driver": "JASON",
+    "destination": "CARBON AND ECHAVEZ PICKUP",
+    "odometer": "7851",
+    "start": "2025-05-02T08:45",
+    "end": "2025-05-02T08:45"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "ELMER",
+    "destination": "ATLAS BOLT AND VIC ONG PICKUP",
+    "odometer": "7852",
+    "start": "2025-05-02T08:45",
+    "end": "2025-05-02T08:45"
+  },
+  {
+    "vehicle": "SUZUKI",
+    "driver": "RANDY",
+    "destination": "VIC PICKUP",
+    "odometer": "7853",
+    "start": "2025-05-02T09:00",
+    "end": "2025-05-02T09:00"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "JASON",
+    "destination": "ATLAS BOLT PICKUP",
+    "odometer": "42674",
+    "start": "2025-05-04T08:56",
+    "end": "2025-05-04T08:56"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "CYRELL",
+    "destination": "CHONGHUA INSTALLATION SHOWER CURTAIN",
+    "odometer": "7855",
+    "start": "2025-05-05T16:12",
+    "end": "2025-05-05T16:12"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "VIC ENT. PICKUP",
+    "odometer": "50377",
+    "start": "2025-05-05T10:43",
+    "end": "2025-05-05T10:43"
+  },
+  {
+    "vehicle": "DIO",
+    "driver": "JHED",
+    "destination": "MAKOTO SAMPLE DELIVERY",
+    "odometer": "",
+    "start": "2025-05-05T09:05",
+    "end": "2025-05-05T09:05"
+  },
+  {
+    "vehicle": "DIO",
+    "driver": "RANDY",
+    "destination": "MODERNS BEST",
+    "odometer": "",
+    "start": "2025-05-05T08:58",
+    "end": "2025-05-05T08:58"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "ADRIAN",
+    "destination": "MAKOTO MEETING",
+    "odometer": "7943",
+    "start": "2025-05-05T09:00",
+    "end": "2025-05-05T09:00"
+  },
+  {
+    "vehicle": "DIO",
+    "driver": "JHED",
+    "destination": "MAKOTO REWORK",
+    "odometer": "",
+    "start": "2025-05-06T08:30",
+    "end": "2025-05-06T08:30"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "CITY CLOU DELIVERY",
+    "odometer": "50377",
+    "start": "2025-05-06T09:32",
+    "end": "2025-05-06T09:32"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "ELMER",
+    "destination": "ECHAVEZ / MADANI PICKUP PEOPLE",
+    "odometer": "7946",
+    "start": "2025-05-06T08:39",
+    "end": "2025-05-06T08:39"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "ELMER",
+    "destination": "MAKOTO DELIVERY AND PICKUP",
+    "odometer": "42675",
+    "start": "2025-05-06T09:00",
+    "end": "2025-05-06T09:00"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "ELMER",
+    "destination": "CHONG HUA AND PUSO DELIVERY",
+    "odometer": "7948",
+    "start": "2025-05-07T13:40",
+    "end": "2025-05-07T13:40"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "HAROLD",
+    "destination": "CHONG HUA INSTALLATION",
+    "odometer": "42676",
+    "start": "2025-05-07T13:40",
+    "end": "2025-05-07T13:40"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "DAVE",
+    "destination": "MAKOTO REWORK",
+    "odometer": "1000",
+    "start": "2025-05-07T08:49",
+    "end": "2025-05-07T08:49"
+  },
+  {
+    "vehicle": "DIO",
+    "driver": "JHED",
+    "destination": "MAKOTO REWORK",
+    "odometer": "",
+    "start": "2025-05-07T08:49",
+    "end": "2025-05-07T08:49"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "CITY CLOU DELIVERY",
+    "odometer": "50377",
+    "start": "2025-05-07T08:49",
+    "end": "2025-05-07T08:49"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "ELMER",
+    "destination": "MANDAUE TRADE / ASIAN ALLOY",
+    "odometer": "7842",
+    "start": "2025-05-07T08:49",
+    "end": "2025-05-07T08:49"
+  },
+  {
+    "vehicle": "DIO",
+    "driver": "JHED",
+    "destination": "MAKOTO REWORK",
+    "odometer": "",
+    "start": "2025-05-07T08:40",
+    "end": "2025-05-07T08:40"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "ELMER",
+    "destination": "MAKOTO AND TECH SONIC DELIVERY",
+    "odometer": "42677",
+    "start": "2025-05-08T09:00",
+    "end": "2025-05-08T09:00"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "ROMMEL",
+    "destination": "PICK UP RING SEAL",
+    "odometer": "1000",
+    "start": "2025-05-09T15:28",
+    "end": "2025-05-09T15:28"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "JAY",
+    "destination": "TABUNOK PICKUP",
+    "odometer": "1000",
+    "start": "2025-05-09T13:22",
+    "end": "2025-05-09T13:22"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "HAROLD",
+    "destination": "MANDANI ORIENTATION",
+    "odometer": "7946",
+    "start": "2025-05-09T12:33",
+    "end": "2025-05-09T12:33"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "HAROLD",
+    "destination": "POLICE CLEARANCE",
+    "odometer": "1000",
+    "start": "2025-05-09T09:48",
+    "end": "2025-05-09T09:48"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "NAGA DELIVERY",
+    "odometer": "50377",
+    "start": "2025-05-09T09:05",
+    "end": "2025-05-09T09:05"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "HAROLD",
+    "destination": "CRITEROPENG AREA TO FABRICATE",
+    "odometer": "50377",
+    "start": "2025-05-09T09:05",
+    "end": "2025-05-09T09:05"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "JASON",
+    "destination": "MAKOTO DELIVERY",
+    "odometer": "7946",
+    "start": "2025-05-09T09:00",
+    "end": "2025-05-09T09:00"
+  },
+  {
+    "vehicle": "SUZUKI",
+    "driver": "ELMER",
+    "destination": "PICK UP AND DELIVER",
+    "odometer": "1000",
+    "start": "2025-05-09T09:00",
+    "end": "2025-05-09T09:00"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "JASON",
+    "destination": "NEW CITY PICKUP",
+    "odometer": "50377",
+    "start": "2025-05-10T08:27",
+    "end": "2025-05-10T08:27"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "CYRIL",
+    "destination": "HAULING HT LAND",
+    "odometer": "42677",
+    "start": "2025-05-10T09:47",
+    "end": "2025-05-10T09:47"
+  },
+  {
+    "vehicle": "DIO",
+    "driver": "JHED",
+    "destination": "MAKOTO REWORK",
+    "odometer": "",
+    "start": "2025-05-10T08:30",
+    "end": "2025-05-10T08:30"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "ELMER",
+    "destination": "VIC ENT. AS. FORTUNA PICKUP",
+    "odometer": "42677",
+    "start": "2025-05-10T08:49",
+    "end": "2025-05-10T08:49"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "ELMER",
+    "destination": "MAKOTO DELIVERY",
+    "odometer": "42677",
+    "start": "2025-05-10T09:00",
+    "end": "2025-05-10T09:00"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "ELMER",
+    "destination": "VIC /CARBON DELIVER AND PICKUP",
+    "odometer": "42677",
+    "start": "2025-05-10T09:00",
+    "end": "2025-05-10T09:00"
+  },
+  {
+    "vehicle": "DIO",
+    "driver": "JHED",
+    "destination": "MAKOTO",
+    "odometer": "",
+    "start": "2025-05-13T09:00",
+    "end": "2025-05-13T09:00"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "ELMER",
+    "destination": "LILOAN TO PICKUP",
+    "odometer": "42677",
+    "start": "2025-05-13T09:00",
+    "end": "2025-05-13T09:00"
+  },
+  {
+    "vehicle": "DIO",
+    "driver": "CYRELL",
+    "destination": "MANDANI CITY ORIENTATION",
+    "odometer": "",
+    "start": "2025-05-13T10:42",
+    "end": "2025-05-13T10:42"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "BUNNY",
+    "destination": "BUYING HEXAGON SCREW",
+    "odometer": "1000",
+    "start": "2025-05-13T09:09",
+    "end": "2025-05-13T09:09"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "BUNNY",
+    "destination": "MARIAL LUISA CHECK COLD PLUNGE",
+    "odometer": "1000",
+    "start": "2025-05-13T09:20",
+    "end": "2025-05-13T09:20"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "ELMER",
+    "destination": "MAKOTO / PAST PART OUT",
+    "odometer": "42686",
+    "start": "2025-05-13T13:42",
+    "end": "2025-05-13T13:42"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "EFREN",
+    "destination": "MANDAUE EPIC CARGO",
+    "odometer": "42686",
+    "start": "2025-05-14T09:41",
+    "end": "2025-05-14T09:41"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "BUNNY",
+    "destination": "LAPULAPU HARDWARE BUYING CARBON BRUSH",
+    "odometer": "1000",
+    "start": "2025-05-14T13:17",
+    "end": "2025-05-14T13:17"
+  },
+  {
+    "vehicle": "DIO",
+    "driver": "JHED",
+    "destination": "KNOWLES DELIVER",
+    "odometer": "",
+    "start": "2025-05-14T14:30",
+    "end": "2025-05-14T14:30"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "ELMER",
+    "destination": "HDP/ ATLAS BOLT PICKUP",
+    "odometer": "42686",
+    "start": "2025-05-14T08:45",
+    "end": "2025-05-14T08:45"
+  },
+  {
+    "vehicle": "DIO",
+    "driver": "JHED",
+    "destination": "AIRPORT PICKUP / JCM",
+    "odometer": "",
+    "start": "2025-05-14T09:22",
+    "end": "2025-05-14T09:22"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "CITY CLOU DELIVER",
+    "odometer": "50377",
+    "start": "2025-05-14T09:50",
+    "end": "2025-05-14T09:50"
+  },
+   {
+    "vehicle": "TRAVIZ",
+    "driver": "ELMER",
+    "destination": "MAKOTO DELIVERY",
+    "odometer": "42686",
+    "start": "2025-05-14T13:46",
+    "end": "2025-05-14T13:46"
+  },
+  {
+    "vehicle": "SUZUKI",
+    "driver": "MICHAEL",
+    "destination": "INSTALL",
+    "odometer": "1000",
+    "start": "2025-05-15T09:20",
+    "end": "2025-05-15T09:20"
+  },
+  {
+    "vehicle": "WAVE",
+    "driver": "ELMER",
+    "destination": "PICKUP CHECK",
+    "odometer": "78247",
+    "start": "2025-05-15T08:42",
+    "end": "2025-05-15T08:42"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "PICKUP SPAN ASIA",
+    "odometer": "50912",
+    "start": "2025-05-15T09:28",
+    "end": "2025-05-15T09:28"
+  },
+  {
+    "vehicle": "DIO",
+    "driver": "JHED",
+    "destination": "MABOLO BUYING FOOD FOR TECH AT ANDOKS FOR MAKOTO",
+    "odometer": "",
+    "start": "2025-05-15T11:20",
+    "end": "2025-05-15T11:20"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "ELMER",
+    "destination": "MAKOTO DELIVERY",
+    "odometer": "42686",
+    "start": "2025-05-15T13:30",
+    "end": "2025-05-15T13:30"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "ELMER",
+    "destination": "CARBON PUSO DELIVERY/DEPLOY",
+    "odometer": "42686",
+    "start": "2025-05-15T09:51",
+    "end": "2025-05-15T09:51"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "JASON",
+    "destination": "MANKO FOLU WASHINGTON PICKUP",
+    "odometer": "7946",
+    "start": "2025-05-15T09:05",
+    "end": "2025-05-15T09:05"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "JASON",
+    "destination": "TREASURE ISLAND PICKUP PAINT",
+    "odometer": "42686",
+    "start": "2025-05-16T08:28",
+    "end": "2025-05-16T08:28"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "MICHAEL",
+    "destination": "MANDANI INSTALL LADDER",
+    "odometer": "1000",
+    "start": "2025-05-16T09:00",
+    "end": "2025-05-16T09:00"
+  },
+  {
+    "vehicle": "SUZUKI DASH",
+    "driver": "CYRELL",
+    "destination": "MANDANI INSTALL CAGE LADDER",
+    "odometer": "161582",
+    "start": "2025-05-16T09:00",
+    "end": "2025-05-16T09:00"
+  },
+  {
+    "vehicle": "TAMARAW",
+    "driver": "ELMER",
+    "destination": "AP CARGO MANDAUE PICKUP ITEMS",
+    "odometer": "73809",
+    "start": "2025-05-17T09:00",
+    "end": "2025-05-17T09:00"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "JASON",
+    "destination": "CARBON PICKUP",
+    "odometer": "7946",
+    "start": "2025-05-17T09:00",
+    "end": "2025-05-17T09:00"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "VIC ENT. PICKUP",
+    "odometer": "50912",
+    "start": "2025-05-17T09:00",
+    "end": "2025-05-17T09:00"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "GIOVANNI",
+    "destination": "MANDANI INSTALL",
+    "odometer": "1000",
+    "start": "2025-05-17T09:00",
+    "end": "2025-05-17T09:00"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "JASON",
+    "destination": "SPAN ASIA PICKUP",
+    "odometer": "50912",
+    "start": "2025-05-17T08:28",
+    "end": "2025-05-17T08:28"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "JASON",
+    "destination": "MANDANI DELIVERY",
+    "odometer": "7946",
+    "start": "2025-05-17T08:00",
+    "end": "2025-05-17T08:00"
+  },
+  {
+    "vehicle": "TAMARAW",
+    "driver": "ELMER",
+    "destination": "CARBON PUSO DELIVERY",
+    "odometer": "73809",
+    "start": "2025-05-19T13:16",
+    "end": "2025-05-19T13:16"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "HT LAND AND NAGA",
+    "odometer": "50912",
+    "start": "2025-05-19T09:24",
+    "end": "2025-05-19T09:24"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "HAROLD",
+    "destination": "SM POLICE CLEARANCE",
+    "odometer": "1000",
+    "start": "2025-05-19T08:32",
+    "end": "2025-05-19T08:32"
+  },
+  {
+    "vehicle": "TAMARAW",
+    "driver": "ELMER",
+    "destination": "TALISAY PICKUP",
+    "odometer": "73809",
+    "start": "2025-05-19T08:50",
+    "end": "2025-05-19T08:50"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "HAROLD",
+    "destination": "ORIENTATION MANDANI",
+    "odometer": "1000",
+    "start": "2025-05-19T10:52",
+    "end": "2025-05-19T10:52"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "JASON",
+    "destination": "VIC PICKUP",
+    "odometer": "7946",
+    "start": "2025-05-19T11:15",
+    "end": "2025-05-19T11:15"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "CYRIL",
+    "destination": "MANDANI DEPLOY",
+    "odometer": "42686",
+    "start": "2025-05-19T05:08",
+    "end": "2025-05-19T05:08"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "CYRELL",
+    "destination": "PRIME WORKS HARDWARE",
+    "odometer": "1000",
+    "start": "2025-05-19T09:44",
+    "end": "2025-05-19T09:44"
+  },
+
+  {
+    "vehicle": "OWN",
+    "driver": "RHEA",
+    "destination": "MAKOTO DELIVERY AND MOTOR TRADE",
+    "odometer": "1000",
+    "start": "2025-05-19T16:43",
+    "end": "2025-05-19T16:43"
+  },
+  {
+    "vehicle": "SUZUKI DASH",
+    "driver": "HAROLD",
+    "destination": "MANDANI INSTALL",
+    "odometer": "162084",
+    "start": "2025-05-20T08:39",
+    "end": "2025-05-20T08:39"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "HT LAND VIC DELIVER",
+    "odometer": "50912",
+    "start": "2025-05-20T09:08",
+    "end": "2025-05-20T09:08"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "JASON",
+    "destination": "CITY CLOU AND CARBON",
+    "odometer": "43596",
+    "start": "2025-05-20T09:32",
+    "end": "2025-05-20T09:32"
+  },
+  {
+    "vehicle": "DIO",
+    "driver": "JHED",
+    "destination": "MAKOTO TO SORT",
+    "odometer": "",
+    "start": "2025-05-20T11:30",
+    "end": "2025-05-20T11:30"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "RANDY",
+    "destination": "CITY CLOU DELIVER",
+    "odometer": "7946",
+    "start": "2025-05-20T13:48",
+    "end": "2025-05-20T13:48"
+  },
+  {
+    "vehicle": "WAVE",
+    "driver": "RHEA",
+    "destination": "MAKOTO TO GET SAMPLE",
+    "odometer": "78426",
+    "start": "2025-05-20T15:38",
+    "end": "2025-05-20T15:38"
+  },
+  {
+    "vehicle": "TAMARAW",
+    "driver": "ELMER",
+    "destination": "ATLANTIC / NEW CITY",
+    "odometer": "73809",
+    "start": "2025-05-20T08:39",
+    "end": "2025-05-20T08:39"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "JASON",
+    "destination": "MAKOTO DELIVERY",
+    "odometer": "43596",
+    "start": "2025-05-20T09:00",
+    "end": "2025-05-20T09:00"
+  },
+  {
+    "vehicle": "TAMARAW",
+    "driver": "ELMER",
+    "destination": "CHONG HUA MANDAUE PICKUP",
+    "odometer": "73937",
+    "start": "2025-05-20T09:42",
+    "end": "2025-05-20T09:42"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "RECHY",
+    "destination": "COLON AND MODERNS BEST",
+    "odometer": "1000",
+    "start": "2025-05-21T09:00",
+    "end": "2025-05-21T09:00"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "CITY CLOU DW STEEL DELIVERY AND PICKUP",
+    "odometer": "50912",
+    "start": "2025-05-21T08:39",
+    "end": "2025-05-21T08:39"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "JASON",
+    "destination": "HARDWARE ADVANCE PICKUP",
+    "odometer": "7946",
+    "start": "2025-05-21T09:00",
+    "end": "2025-05-21T09:00"
+  },
+  {
+    "vehicle": "DIO",
+    "driver": "JHED",
+    "destination": "MAKOTO REWORK",
+    "odometer": "",
+    "start": "2025-05-21T09:25",
+    "end": "2025-05-21T09:25"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "SPAN ASIA PICKUP",
+    "odometer": "50912",
+    "start": "2025-05-22T11:13",
+    "end": "2025-05-22T11:13"
+  },
+  {
+    "vehicle": "TAMARAW",
+    "driver": "ELMER",
+    "destination": "COLON PICKUP TEJERO",
+    "odometer": "73937",
+    "start": "2025-05-22T09:03",
+    "end": "2025-05-22T09:03"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "JASON",
+    "destination": "FAMILY HARDWARE AND MAKOTO PICKUP",
+    "odometer": "43596",
+    "start": "2025-05-22T09:00",
+    "end": "2025-05-22T09:00"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "ELMER",
+    "destination": "MAKOTO SAWO DELIVERY",
+    "odometer": "7946",
+    "start": "2025-05-23T10:30",
+    "end": "2025-05-23T10:30"
+  },
+  {
+    "vehicle": "VIOS",
+    "driver": "ELMER",
+    "destination": "CHONG HUA DELIVERY",
+    "odometer": "1000",
+    "start": "2025-05-24T09:24",
+    "end": "2025-05-24T09:24"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "JASON",
+    "destination": "MAKOTO AND KIMA GLASS DELIVERY",
+    "odometer": "7946",
+    "start": "2025-05-26T09:42",
+    "end": "2025-05-26T09:42"
+  },
+  {
+    "vehicle": "TAMARAW",
+    "driver": "ELMER",
+    "destination": "MANDAUE CASUNTINGAN DELIVERY JOBOUT",
+    "odometer": "73937",
+    "start": "2025-05-26T09:42",
+    "end": "2025-05-26T09:42"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "JASON",
+    "destination": "CITY CLOU DELIVERY",
+    "odometer": "7946",
+    "start": "2025-05-26T09:00",
+    "end": "2025-05-26T09:00"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "NAGA DELIVERY",
+    "odometer": "50912",
+    "start": "2025-05-26T09:00",
+    "end": "2025-05-26T09:00"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "ELMER",
+    "destination": "ECHAVEZ DELIVERY",
+    "odometer": "7946",
+    "start": "2025-05-26T13:20",
+    "end": "2025-05-26T13:20"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "ELMER",
+    "destination": "ATLAS METAL DELIVERY",
+    "odometer": "7946",
+    "start": "2025-05-26T09:00",
+    "end": "2025-05-26T13:20"
+  },
+  {
+    "vehicle": "TAMARAW",
+    "driver": "ELMER",
+    "destination": "VIC ENT PICKUP",
+    "odometer": "73937",
+    "start": "2025-05-17T09:00",
+    "end": "2025-05-26T09:42"
+  }
+
+  
+]
