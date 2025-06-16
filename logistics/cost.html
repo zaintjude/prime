@@ -1,108 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cost Report</title>
-  <link rel="stylesheet" href="cost.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cost Report</title>
+    <link rel="stylesheet" href="cost.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Adding html2pdf.js script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
+    <!-- Back to Logistics Link -->
+    <a href="https://zaintjude.github.io/prime/logistics/logistics.html" style="display: inline-block; margin-bottom: 15px; color: #3498db; font-weight: bold;">← Back to Logistics</a>
 
-  <!-- Back to Logistics -->
-  <a href="https://zaintjude.github.io/prime/logistics/logistics.html"
-     style="display: inline-block; margin-bottom: 15px; color: #3498db; font-weight: bold;">
-    ← Back to Logistics
-  </a>
+    
 
-  <!-- Logo -->
-  <div id="logo-container" style="text-align: center; margin-bottom: 20px;">
-    <img src="prime.png" alt="Logo" id="logo" style="height: 80px;"/>
-  </div>
-
-  <div class="container">
-
-    <h1 style="text-align: center;">Cost Report</h1>
-
-    <!-- Filters -->
-    <div style="display: flex; gap: 15px; align-items: center; justify-content: center; margin: 20px 0;">
-      <label for="monthFilter">Month:</label>
-      <select id="monthFilter">
-        <option value="">All</option>
-        <!-- JS will populate -->
-      </select>
-
-      <label for="yearFilter">Year:</label>
-      <input type="text" id="yearFilter" list="yearList" placeholder="e.g. 2024" />
+    <!-- Small logo at the top right -->
+    <div id="logo-container">
+        <img src="prime.png" alt="Logo" id="logo">
     </div>
 
-    <!-- Monthly Cost Table -->
-    <section>
-      <h2>Cost Per Vehicle Per Month</h2>
-      <table id="monthlyCostTable">
-        <thead>
-          <tr>
-            <th>Vehicle</th>
-            <th>Month</th>
-            <th>Total Odometer</th>
-            <th>Total Cost (₱)</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </section>
+    <div class="container">
+        <h1>Cost Report</h1>
 
-    <!-- Yearly Cost Table -->
-    <section>
-      <h2>Cost Per Vehicle Per Year</h2>
-      <table id="yearlyCostTable">
-        <thead>
-          <tr>
-            <th>Vehicle</th>
-            <th>Year</th>
-            <th>Total Odometer</th>
-            <th>Total Cost (₱)</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </section>
+        <!-- Tables for cost per vehicle per month and per year -->
+        <h2>Cost Per Vehicle Per Month</h2>
+        <table id="monthlyCostTable">
+            <thead>
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Month</th>
+                    <th>Total Odometer</th>
+                    <th>Total Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Monthly cost data will be dynamically inserted here -->
+            </tbody>
+        </table>
 
-    <!-- Delivery Destinations Pie Chart -->
-    <section>
-      <h2>Delivery Destinations</h2>
-      <div class="chart-container">
+        <h2>Cost Per Vehicle Per Year</h2>
+        <table id="yearlyCostTable">
+            <thead>
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Year</th>
+                    <th>Total Odometer</th>
+                    <th>Total Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Yearly cost data will be dynamically inserted here -->
+            </tbody>
+        </table>
+
+        <!-- Graph for Delivery Destinations -->
+        <h2>Delivery Destinations</h2>
         <canvas id="destinationGraph"></canvas>
-      </div>
-    </section>
 
-    <!-- Most Consumed Fuel Bar Chart -->
-    <section>
-      <h2>Total Most Consumed Fuel</h2>
-      <div class="chart-container">
+        <!-- Graph for Total Most Consumed Fuel -->
+        <h2>Total Most Consumed Fuel</h2>
         <canvas id="fuelGraph"></canvas>
-      </div>
-    </section>
 
-    <!-- Deliveries Per Month Line Chart -->
-    <section>
-      <h2>Number of Deliveries Per Month</h2>
-      <div class="chart-container">
+        <!-- Graph for Number of Deliveries Per Month -->
+        <h2>Deliveries Per Month</h2>
         <canvas id="deliveryGraph"></canvas>
-      </div>
-    </section>
+    </div>
 
-    <!-- Summary by Location Category -->
-    <section class="summary-section">
-      <h2>Summary by Location Category</h2>
-      <div class="chart-container">
-        <canvas id="locationSummaryGraph"></canvas>
-      </div>
-    </section>
-  </div>
+   
 
-  <!-- JS: Logic comes last -->
-  <script src="cost.js"></script>
+    <script src="cost.js"></script>
 </body>
 </html>
