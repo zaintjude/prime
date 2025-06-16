@@ -1,4 +1,8 @@
-let destinationChart, fuelChart, deliveryChart, locationChart;
+// Declare chart instance variables globally
+let destinationChart = null;
+let fuelChart = null;
+let deliveryChart = null;
+let locationChart = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
   const data = await fetch("https://zaintjude.github.io/prime/logistics/logistics.json")
@@ -130,33 +134,10 @@ function renderCharts(data) {
     catSummary[dest] = (catSummary[dest] || 0) + 1;
 
     const vehicle = e.vehicle;
-    const odo = parseFloat(e.odometer) || 0;
     const fuelType = e.fuel?.toLowerCase() || "diesel";
     const rate = FUEL_RATE[fuelType] || FUEL_RATE["diesel"];
     fuelPerVeh[vehicle] = (fuelPerVeh[vehicle] || 0) + rate;
   });
-
-  function drawChart(chartRef, id, type, labels, dataArr) {
-    const ctx = document.getElementById(id)?.getContext("2d");
-    if (!ctx) return null;
-    if (chartRef) chartRef.destroy();
-
-    return new Chart(ctx, {
-      type,
-      data: {
-        labels,
-        datasets: [{
-          label: id.replace(/Graph/i, ""),
-          data: dataArr,
-          backgroundColor: "#3498db"
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false
-      }
-    });
-  }
 
   destinationChart = drawChart(destinationChart, "destinationGraph", "pie", Object.keys(destCount), Object.values(destCount));
   fuelChart = drawChart(fuelChart, "fuelGraph", "bar", Object.keys(fuelPerVeh), Object.values(fuelPerVeh));
@@ -165,4 +146,33 @@ function renderCharts(data) {
     MONTHS.map(m => deliveriesPerMonth[m] || 0)
   );
   locationChart = drawChart(locationChart, "locationSummaryGraph", "bar", Object.keys(catSummary), Object.values(catSummary));
+}
+
+function drawChart(chartInstance, canvasId, chartType, labels, dataArr) {
+  const ctx = document.getElementById(canvasId)?.getContext("2d");
+  if (!ctx) return null;
+
+  if (chartInstance) {
+    chartInstance.destroy();
+  }
+
+  return new Chart(ctx, {
+    type: chartType,
+    data: {
+      labels,
+      datasets: [{
+        label: canvasId.replace(/Graph/i, ""),
+        data: dataArr,
+        backgroundColor: [
+          "#3498db", "#2ecc71", "#f1c40f", "#e74c3c",
+          "#9b59b6", "#1abc9c", "#e67e22", "#34495e"
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false
+    }
+  });
 }
