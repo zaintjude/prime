@@ -1,124 +1,139 @@
+let logs = [];
 
+window.onload = async function () {
+    await loadLogs();
+    await loadVehicles();
+    populateFilters();
+    displayLogs();
+};
 
-  
-async function fetchLogisticsData() {
-  try {
-    const res = await fetch('https://zaintjude.github.io/prime/logistics/logistics.json');
-    if (!res.ok) throw new Error('Fetch error');
-    return await res.json();
-  } catch (e) {
-    console.error(e);
-    return [];
-  }
+async function loadVehicles() {
+    const res = await fetch("https://zaintjude.github.io/prime/logistics/vehicle.json");
+    const data = await res.json();
+    const vehicleList = data.vehicles.map(v => v.vehicleName);
+
+    const vehicleSelects = [document.getElementById("vehicle"), document.getElementById("filterVehicle")];
+    vehicleSelects.forEach(select => {
+        vehicleList.forEach(v => {
+            const opt = document.createElement("option");
+            opt.value = v;
+            opt.textContent = v;
+            select.appendChild(opt.cloneNode(true));
+        });
+    });
 }
 
-// Calculate distance and cost
-function calculateCosts(data) {
-  const monthlyCosts = {}, yearlyCosts = {}, vehicleEntries = {};
-
-  data.forEach(e => {
-    vehicleEntries[e.vehicle] = vehicleEntries[e.vehicle] || [];
-    vehicleEntries[e.vehicle].push(e);
-  });
-
-  for (const vehicle in vehicleEntries) {
-    const entries = vehicleEntries[vehicle].sort((a, b) => new Date(a.start) - new Date(b.start));
-    let prevOdo = null;
-    for (const e of entries) {
-      const odo = parseFloat(e.odometer);
-      const date = new Date(e.start);
-      if (prevOdo !== null && odo > prevOdo) {
-        const dist = odo - prevOdo, cost = dist * 0.05;
-        const m = date.getMonth() + 1, y = date.getFullYear();
-
-        monthlyCosts[vehicle] = monthlyCosts[vehicle] || {};
-        monthlyCosts[vehicle][m] = monthlyCosts[vehicle][m] || { odometer: 0, cost: 0 };
-        monthlyCosts[vehicle][m].odometer += dist;
-        monthlyCosts[vehicle][m].cost += cost;
-
-        yearlyCosts[vehicle] = yearlyCosts[vehicle] || {};
-        yearlyCosts[vehicle][y] = yearlyCosts[vehicle][y] || { odometer: 0, cost: 0 };
-        yearlyCosts[vehicle][y].odometer += dist;
-        yearlyCosts[vehicle][y].cost += cost;
-      }
-      prevOdo = odo;
-    }
-  }
-  return { monthlyCosts, yearlyCosts };
+async function loadLogs() {
+    const res = await fetch("log.json");
+    logs = await res.json();
 }
 
-// Populate tables
-function populateCostTables(data) {
-  const { monthlyCosts, yearlyCosts } = calculateCosts(data);
-  const mBody = document.querySelector('#monthlyCostTable tbody');
-  const yBody = document.querySelector('#yearlyCostTable tbody');
-  mBody.innerHTML = ''; yBody.innerHTML = '';
-
-  for (const v in monthlyCosts)
-    for (const m in monthlyCosts[v]) {
-      const { odometer, cost } = monthlyCosts[v][m];
-      mBody.insertAdjacentHTML('beforeend', `
-        <tr><td>${v}</td><td>${m}</td>
-            <td>${odometer}</td><td>${cost.toFixed(2)}</td></tr>`);
-    }
-
-  for (const v in yearlyCosts)
-    for (const y in yearlyCosts[v]) {
-      const { odometer, cost } = yearlyCosts[v][y];
-      yBody.insertAdjacentHTML('beforeend', `
-        <tr><td>${v}</td><td>${y}</td>
-            <td>${odometer}</td><td>${cost.toFixed(2)}</td></tr>`);
-    }
+function saveLogs() {
+    fetch('log.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(logs)
+    });
 }
 
-// Charts: deliveries per month & summary by location
-function generateCharts(data) {
-  // Deliveries per month
-  const deliveryCount = {};
-  data.forEach(e => {
-    const d = new Date(e.start);
-    const m = d.toLocaleString('default', { month: 'long' });
-    deliveryCount[m] = (deliveryCount[m] || 0) + 1;
-  });
-  new Chart(document.getElementById('deliveryGraph').getContext('2d'), {
-    type: 'line',
-    data: {
-      labels: Object.keys(deliveryCount),
-      datasets: [{
-        label: '# Deliveries',
-        data: Object.values(deliveryCount),
-        borderColor: '#4CAF50',
-        fill: false
-      }]
-    }
-  });
+function addLog() {
+    const vehicle = document.getElementById("vehicle").value;
+    const poNumber = document.getElementById("poNumber").value.trim();
+    const type = document.getElementById("type").value.trim();
+    const description = document.getElementById("description").value.trim();
+    const cost = parseFloat(document.getElementById("cost").value.trim());
+    const date = new Date().toISOString().split('T')[0];
 
-  // Summary by location category
-  const bucket = {};
-  data.forEach(e => {
-    const dest = (e.destination || '').toUpperCase();
-    let cat = 'OTHER';
-    if (dest.includes('CARBON')) cat = 'CARBON';
-    else if (dest.includes('CITY CLOU')) cat = 'CITY CLOU';
-    else if (dest.includes('ECHAVEZ')) cat = 'ECHAVEZ';
-    // ... repeat your mapping for other destinations
-    bucket[cat] = (bucket[cat] || 0) + 1;
-  });
-  new Chart(document.getElementById('locationSummaryGraph').getContext('2d'), {
-    type: 'bar',
-    data: {
-      labels: Object.keys(bucket),
-      datasets: [{ label: '# Deliveries', data: Object.values(bucket), backgroundColor: '#42A5F5' }]
-    },
-    options: { indexAxis: 'y', scales: { x: { beginAtZero: true } } }
-  });
+    if (!vehicle || !type || !description || isNaN(cost)) return alert("Fill in all fields.");
 
-  // Existing charts (destinationGraph, fuelGraph) can be added similarly
+    logs.push({ date, poNumber, vehicle, type, description, cost });
+    saveLogs();
+    displayLogs();
+    clearFields();
 }
 
-// Initialize on load
-document.addEventListener('DOMContentLoaded', async () => {
-  const data = await fetchLogisticsData();
-  populateCostTables(data);
-  generateCharts(data);
-});
+function clearFields() {
+    document.getElementById("vehicle").value = "";
+    document.getElementById("poNumber").value = "";
+    document.getElementById("type").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("cost").value = "";
+}
+
+function displayLogs(filtered = null) {
+    const tbody = document.querySelector("#logTable tbody");
+    tbody.innerHTML = "";
+    let totalFuelCost = 0;
+    const data = filtered || logs;
+
+    data.forEach((log, i) => {
+        const dateObj = new Date(log.date);
+        const month = dateObj.toLocaleString("default", { month: "long" });
+        const year = dateObj.getFullYear();
+
+        if (log.type.toLowerCase() === "fuel") {
+            totalFuelCost += parseFloat(log.cost || 0);
+        }
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td contenteditable onblur="editCell(${i}, 'date', this.innerText)">${log.date}</td>
+            <td>${month}</td>
+            <td>${year}</td>
+            <td contenteditable onblur="editCell(${i}, 'poNumber', this.innerText)">${log.poNumber || ''}</td>
+            <td contenteditable onblur="editCell(${i}, 'vehicle', this.innerText)">${log.vehicle}</td>
+            <td contenteditable onblur="editCell(${i}, 'type', this.innerText)">${log.type}</td>
+            <td contenteditable onblur="editCell(${i}, 'description', this.innerText)">${log.description}</td>
+            <td contenteditable onblur="editCell(${i}, 'cost', this.innerText)">${parseFloat(log.cost).toFixed(2)}</td>
+            <td><button onclick="deleteLog(${i})">Delete</button></td>
+        `;
+        tbody.appendChild(row);
+    });
+
+    document.getElementById("totalCost").innerText = totalFuelCost.toFixed(2);
+}
+
+function editCell(index, field, value) {
+    if (field === "cost") value = parseFloat(value) || 0;
+    logs[index][field] = value;
+    saveLogs();
+    displayLogs(applyFilters());
+}
+
+function deleteLog(index) {
+    logs.splice(index, 1);
+    saveLogs();
+    displayLogs();
+}
+
+function populateFilters() {
+    const yearSet = new Set(logs.map(log => new Date(log.date).getFullYear()));
+    const filterYear = document.getElementById("filterYear");
+
+    yearSet.forEach(year => {
+        const opt = document.createElement("option");
+        opt.value = year;
+        opt.textContent = year;
+        filterYear.appendChild(opt);
+    });
+}
+
+function filterLogs() {
+    const filtered = applyFilters();
+    displayLogs(filtered);
+}
+
+function applyFilters() {
+    const vehicle = document.getElementById("filterVehicle").value;
+    const year = document.getElementById("filterYear").value;
+    const month = document.getElementById("filterMonth").value;
+
+    return logs.filter(log => {
+        const d = new Date(log.date);
+        const logMonth = String(d.getMonth() + 1).padStart(2, '0');
+        const logYear = d.getFullYear();
+        return (!vehicle || log.vehicle === vehicle) &&
+               (!year || logYear == year) &&
+               (!month || logMonth === month);
+    });
+}
