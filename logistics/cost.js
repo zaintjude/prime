@@ -54,7 +54,7 @@ const destinationCategories = [
   { keyword: "MANKO", category: "OTHER" },
 ];
 
-// Get category based on keywords
+// 🔍 Get category based on keywords
 function getDestinationCategory(destination) {
   const d = (destination || "").toUpperCase();
   for (const { keyword, category } of destinationCategories) {
@@ -63,7 +63,7 @@ function getDestinationCategory(destination) {
   return "OTHER";
 }
 
-// Fetch logistics JSON
+// 📦 Fetch logistics JSON
 async function fetchLogisticsData() {
   try {
     const res = await fetch('https://zaintjude.github.io/prime/logistics/logistics.json');
@@ -75,7 +75,7 @@ async function fetchLogisticsData() {
   }
 }
 
-// Calculate distances & cost
+// 🧮 Calculate distances & cost
 function calculateCosts(data) {
   const RATE = 5.0;
   const monthly = {}, yearly = {}, entriesByVehicle = {};
@@ -111,7 +111,7 @@ function calculateCosts(data) {
   return { monthlyCosts: monthly, yearlyCosts: yearly };
 }
 
-// Populate tables with filters
+// 📊 Populate tables
 function populateCostTables(data, monthFilter = "", yearFilter = "") {
   const { monthlyCosts, yearlyCosts } = calculateCosts(data);
   const mBody = document.querySelector("#monthlyCostTable tbody");
@@ -136,7 +136,7 @@ function populateCostTables(data, monthFilter = "", yearFilter = "") {
   }
 }
 
-// Create charts
+// 📈 Create charts
 function generateCharts(data) {
   const destSummary = {}, deliveryCounts = {}, vehicleFuel = {}, locSummary = {};
   const KM_L = 8, entriesByVehicle = {};
@@ -144,15 +144,15 @@ function generateCharts(data) {
   data.forEach(e => {
     const dest = e.destination || "Unknown";
     const cat = getDestinationCategory(dest);
-    destSummary[cat] = (destSummary[cat]||0) + 1;
+    destSummary[cat] = (destSummary[cat] || 0) + 1;
     const m = new Date(e.start).toLocaleString('default', { month: 'short' });
-    deliveryCounts[m] = (deliveryCounts[m]||0) + 1;
+    deliveryCounts[m] = (deliveryCounts[m] || 0) + 1;
     entriesByVehicle[e.vehicle] ??= [];
     entriesByVehicle[e.vehicle].push(e);
 
-    // exact locations based on "/"
+    // Exact locations
     dest.split("/").map(p => p.trim()).filter(Boolean).forEach(p => {
-      locSummary[p] = (locSummary[p]||0) + 1;
+      locSummary[p] = (locSummary[p] || 0) + 1;
     });
   });
 
@@ -164,7 +164,7 @@ function generateCharts(data) {
       if (isNaN(odo)) return;
       if (prev !== null && odo > prev) {
         const fuel = (odo - prev) / KM_L;
-        vehicleFuel[v] = (vehicleFuel[v]||0) + fuel;
+        vehicleFuel[v] = (vehicleFuel[v] || 0) + fuel;
       }
       prev = odo;
     });
@@ -172,27 +172,62 @@ function generateCharts(data) {
 
   new Chart(document.getElementById('destinationGraph'), {
     type: 'pie',
-    data: { labels: Object.keys(destSummary), datasets: [{ data: Object.values(destSummary), backgroundColor: ['#FF6347','#4CAF50','#FFEB3B','#00BCD4','#2196F3','#FF9800','#8BC34A','#E91E63','#9C27B0','#795548'] }] }
+    data: {
+      labels: Object.keys(destSummary),
+      datasets: [{
+        data: Object.values(destSummary),
+        backgroundColor: ['#FF6347','#4CAF50','#FFEB3B','#00BCD4','#2196F3','#FF9800','#8BC34A','#E91E63','#9C27B0','#795548']
+      }]
+    }
   });
 
   new Chart(document.getElementById('fuelGraph'), {
     type: 'bar',
-    data: { labels: Object.keys(vehicleFuel), datasets: [{ label: 'Fuel (L)', data: Object.values(vehicleFuel).map(f => +f.toFixed(2)), backgroundColor: '#FF5733' }] }
+    data: {
+      labels: Object.keys(vehicleFuel),
+      datasets: [{
+        label: 'Fuel (L)',
+        data: Object.values(vehicleFuel).map(f => +f.toFixed(2)),
+        backgroundColor: '#FF5733'
+      }]
+    }
   });
 
   new Chart(document.getElementById('deliveryGraph'), {
     type: 'line',
-    data: { labels: Object.keys(deliveryCounts), datasets: [{ label: 'Deliveries', data: Object.values(deliveryCounts), borderColor: '#4CAF50', backgroundColor: '#C8E6C9', fill:true, tension:0.2 }] }
+    data: {
+      labels: Object.keys(deliveryCounts),
+      datasets: [{
+        label: 'Deliveries',
+        data: Object.values(deliveryCounts),
+        borderColor: '#4CAF50',
+        backgroundColor: '#C8E6C9',
+        fill: true,
+        tension: 0.2
+      }]
+    }
   });
 
   new Chart(document.getElementById('locationSummaryGraph'), {
     type: 'bar',
-    data: { labels: Object.keys(locSummary), datasets: [{ label: 'Exact Locations', data: Object.values(locSummary), backgroundColor: '#42A5F5' }] },
-    options: { scales: { y: { beginAtZero: true } } }
+    data: {
+      labels: Object.keys(locSummary),
+      datasets: [{
+        label: 'Exact Locations',
+        data: Object.values(locSummary),
+        backgroundColor: '#42A5F5'
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      scales: {
+        x: { beginAtZero: true }
+      }
+    }
   });
 }
 
-// Filter listeners
+// 🔎 Filters
 function setupFilters(data) {
   const mIn = document.getElementById('monthFilter'), yIn = document.getElementById('yearFilter');
   const update = () => populateCostTables(data, mIn.value.trim(), yIn.value.trim());
@@ -200,7 +235,7 @@ function setupFilters(data) {
   yIn.addEventListener('input', update);
 }
 
-// Initialize on load
+// 🚀 On load
 document.addEventListener("DOMContentLoaded", async () => {
   const data = await fetchLogisticsData();
   populateCostTables(data);
