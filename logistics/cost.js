@@ -1,3 +1,5 @@
+let destinationChart, fuelChart, deliveryChart, locationChart;
+
 document.addEventListener("DOMContentLoaded", async () => {
   const data = await fetch("https://zaintjude.github.io/prime/logistics/logistics.json")
     .then(r => r.json())
@@ -134,10 +136,12 @@ function renderCharts(data) {
     fuelPerVeh[vehicle] = (fuelPerVeh[vehicle] || 0) + rate;
   });
 
-  function drawChart(id, type, labels, dataArr) {
+  function drawChart(chartRef, id, type, labels, dataArr) {
     const ctx = document.getElementById(id)?.getContext("2d");
-    if (!ctx) return;
-    new Chart(ctx, {
+    if (!ctx) return null;
+    if (chartRef) chartRef.destroy();
+
+    return new Chart(ctx, {
       type,
       data: {
         labels,
@@ -146,15 +150,19 @@ function renderCharts(data) {
           data: dataArr,
           backgroundColor: "#3498db"
         }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
       }
     });
   }
 
-  drawChart("destinationGraph", "pie", Object.keys(destCount), Object.values(destCount));
-  drawChart("fuelGraph", "bar", Object.keys(fuelPerVeh), Object.values(fuelPerVeh));
-  drawChart("deliveryGraph", "line",
+  destinationChart = drawChart(destinationChart, "destinationGraph", "pie", Object.keys(destCount), Object.values(destCount));
+  fuelChart = drawChart(fuelChart, "fuelGraph", "bar", Object.keys(fuelPerVeh), Object.values(fuelPerVeh));
+  deliveryChart = drawChart(deliveryChart, "deliveryGraph", "line",
     MONTHS.filter(m => deliveriesPerMonth[m]),
     MONTHS.map(m => deliveriesPerMonth[m] || 0)
   );
-  drawChart("locationSummaryGraph", "bar", Object.keys(catSummary), Object.values(catSummary));
+  locationChart = drawChart(locationChart, "locationSummaryGraph", "bar", Object.keys(catSummary), Object.values(catSummary));
 }
