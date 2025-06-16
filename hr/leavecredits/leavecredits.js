@@ -8,13 +8,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("🔄 Fetching employee and leave data...");
 
-    fetch("https://dashproduction.x10.mx/masterfile/prime/hr/empdir.json")
+    fetch("https://zaintjude.github.io/prime/hr/empdir.json")
         .then(response => response.json())
         .then(data => {
             empData = data;
             console.log("✅ Employee Data Loaded:", empData);
             populateDepartmentDropdown();
-            return fetch("https://dashproduction.x10.mx/masterfile/prime/hr/leavecredits/leavecredits.php")
+            return fetch("https://zaintjude.github.io/prime/hr/leavecredits/leavecredits.php")
                 .then(response => response.json());
         })
         .then(data => {
