@@ -61,8 +61,8 @@ function calculateCosts(logisticsData) {
     return { monthlyCosts, yearlyCosts };
 }
 
-// Populate UI tables for monthly/yearly costs
-function populateCostTables(logisticsData) {
+// Populate UI tables for monthly/yearly costs with optional filters
+function populateCostTables(logisticsData, monthFilter = '', yearFilter = '') {
     const { monthlyCosts, yearlyCosts } = calculateCosts(logisticsData);
 
     const monthlyTableBody = document.querySelector("#monthlyCostTable tbody");
@@ -73,57 +73,57 @@ function populateCostTables(logisticsData) {
 
     Object.keys(monthlyCosts).forEach(vehicle => {
         Object.keys(monthlyCosts[vehicle]).forEach(month => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${vehicle}</td>
-                <td>${month}</td>
-                <td>${monthlyCosts[vehicle][month].odometer}</td>
-                <td>${monthlyCosts[vehicle][month].cost.toFixed(2)}</td>
-            `;
-            monthlyTableBody.appendChild(row);
+            if (month.toLowerCase().includes(monthFilter.toLowerCase())) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${vehicle}</td>
+                    <td>${month}</td>
+                    <td>${monthlyCosts[vehicle][month].odometer}</td>
+                    <td>${monthlyCosts[vehicle][month].cost.toFixed(2)}</td>
+                `;
+                monthlyTableBody.appendChild(row);
+            }
         });
     });
 
     Object.keys(yearlyCosts).forEach(vehicle => {
         Object.keys(yearlyCosts[vehicle]).forEach(year => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${vehicle}</td>
-                <td>${year}</td>
-                <td>${yearlyCosts[vehicle][year].odometer}</td>
-                <td>${yearlyCosts[vehicle][year].cost.toFixed(2)}</td>
-            `;
-            yearlyTableBody.appendChild(row);
+            if (year.toString().includes(yearFilter)) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${vehicle}</td>
+                    <td>${year}</td>
+                    <td>${yearlyCosts[vehicle][year].odometer}</td>
+                    <td>${yearlyCosts[vehicle][year].cost.toFixed(2)}</td>
+                `;
+                yearlyTableBody.appendChild(row);
+            }
         });
     });
 }
 
-// Generate charts for destinations, deliveries, and estimated fuel
+// Generate charts
 function generateCharts(logisticsData) {
     const destinations = {};
     const deliveryCounts = {};
     const vehicleFuel = {};
-    const KM_PER_LITER = 8; // Adjust to your fleet average
+    const KM_PER_LITER = 8;
 
     const vehicleEntries = {};
 
-    // Group entries per vehicle
     logisticsData.forEach(entry => {
         const vehicle = entry.vehicle || 'Unknown';
         if (!vehicleEntries[vehicle]) vehicleEntries[vehicle] = [];
         vehicleEntries[vehicle].push(entry);
 
-        // Destinations
         const destination = entry.destination || 'Unknown';
         destinations[destination] = (destinations[destination] || 0) + 1;
 
-        // Deliveries per month
         const date = new Date(entry.start);
         const month = date.toLocaleString('default', { month: 'short' });
         deliveryCounts[month] = (deliveryCounts[month] || 0) + 1;
     });
 
-    // Estimate fuel based on odometer difference
     Object.keys(vehicleEntries).forEach(vehicle => {
         const entries = vehicleEntries[vehicle];
         entries.sort((a, b) => new Date(a.start) - new Date(b.start));
@@ -143,7 +143,6 @@ function generateCharts(logisticsData) {
         });
     });
 
-    // Draw Pie Chart - Destinations
     new Chart(document.getElementById('destinationGraph').getContext('2d'), {
         type: 'pie',
         data: {
@@ -155,7 +154,6 @@ function generateCharts(logisticsData) {
         }
     });
 
-    // Draw Bar Chart - Fuel Consumption
     new Chart(document.getElementById('fuelGraph').getContext('2d'), {
         type: 'bar',
         data: {
@@ -168,7 +166,6 @@ function generateCharts(logisticsData) {
         }
     });
 
-    // Draw Line Chart - Deliveries
     new Chart(document.getElementById('deliveryGraph').getContext('2d'), {
         type: 'line',
         data: {
@@ -185,9 +182,28 @@ function generateCharts(logisticsData) {
     });
 }
 
-// Initialize everything on page load
+// Add listeners to filter inputs
+function setupFilters(logisticsData) {
+    const monthInput = document.getElementById('monthFilter');
+    const yearInput = document.getElementById('yearFilter');
+
+    monthInput.addEventListener('input', () => {
+        const monthFilter = monthInput.value.trim();
+        const yearFilter = yearInput.value.trim();
+        populateCostTables(logisticsData, monthFilter, yearFilter);
+    });
+
+    yearInput.addEventListener('input', () => {
+        const monthFilter = monthInput.value.trim();
+        const yearFilter = yearInput.value.trim();
+        populateCostTables(logisticsData, monthFilter, yearFilter);
+    });
+}
+
+// Initialize everything
 document.addEventListener("DOMContentLoaded", async () => {
     const logisticsData = await fetchLogisticsData();
     populateCostTables(logisticsData);
     generateCharts(logisticsData);
+    setupFilters(logisticsData); // Setup filter logic
 });
