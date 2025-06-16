@@ -36,7 +36,7 @@ function calculateCosts(logisticsData) {
 
             if (prevOdo !== null && odoReading > prevOdo) {
                 const distance = odoReading - prevOdo;
-                const cost = distance * 0.05;
+               const cost = distance * 5.00; // realistic per-km cost
 
                 // Monthly cost
                 if (!monthlyCosts[vehicle]) monthlyCosts[vehicle] = {};
