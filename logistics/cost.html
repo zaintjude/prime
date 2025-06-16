@@ -6,16 +6,16 @@
     <title>Cost Report</title>
     <link rel="stylesheet" href="cost.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Adding html2pdf.js script -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <!-- Back to Logistics Link -->
-    <a href="https://zaintjude.github.io/prime/logistics/cost.html" style="display: inline-block; margin-bottom: 15px; color: #3498db; font-weight: bold;">← Back to Logistics</a>
+    <a href="https://zaintjude.github.io/prime/logistics/cost.html" 
+       style="display: inline-block; margin-bottom: 15px; color: #3498db; font-weight: bold;">
+       ← Back to Logistics
+    </a>
 
-    
-
-    <!-- Small logo at the top right -->
+    <!-- Logo -->
     <div id="logo-container">
         <img src="prime.png" alt="Logo" id="logo">
     </div>
@@ -23,7 +23,16 @@
     <div class="container">
         <h1>Cost Report</h1>
 
-        <!-- Tables for cost per vehicle per month and per year -->
+        <!-- Filters -->
+        <div style="margin-bottom: 20px;">
+            <label for="monthFilter">Filter by Month:</label>
+            <input type="text" id="monthFilter" placeholder="e.g. March">
+
+            <label for="yearFilter" style="margin-left: 20px;">Filter by Year:</label>
+            <input type="text" id="yearFilter" placeholder="e.g. 2024">
+        </div>
+
+        <!-- Monthly Table -->
         <h2>Cost Per Vehicle Per Month</h2>
         <table id="monthlyCostTable">
             <thead>
@@ -35,10 +44,11 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Monthly cost data will be dynamically inserted here -->
+                <!-- Filled by JS -->
             </tbody>
         </table>
 
+        <!-- Yearly Table -->
         <h2>Cost Per Vehicle Per Year</h2>
         <table id="yearlyCostTable">
             <thead>
@@ -50,24 +60,23 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Yearly cost data will be dynamically inserted here -->
+                <!-- Filled by JS -->
             </tbody>
         </table>
 
-        <!-- Graph for Delivery Destinations -->
+        <!-- Graphs -->
         <h2>Delivery Destinations</h2>
         <canvas id="destinationGraph"></canvas>
 
-        <!-- Graph for Total Most Consumed Fuel -->
         <h2>Total Most Consumed Fuel</h2>
         <canvas id="fuelGraph"></canvas>
 
-        <!-- Graph for Number of Deliveries Per Month -->
         <h2>Deliveries Per Month</h2>
         <canvas id="deliveryGraph"></canvas>
-    </div>
 
-   
+        <h2>Delivery Categories Summary</h2>
+        <canvas id="locationSummaryGraph"></canvas>
+    </div>
 
     <script src="cost.js"></script>
 </body>
