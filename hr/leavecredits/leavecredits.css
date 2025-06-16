@@ -1,0 +1,128 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: #f4f4f4;
+}
+
+/* Top Navigation Menu */
+.top-menu {
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(45deg, #2c3e50, #1abc9c);
+    padding: 10px 0;
+}
+
+.top-menu a {
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+    border-radius: 5px;
+    margin: 0 10px;
+}
+
+.top-menu a:hover,
+.top-menu a.active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Main Content */
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-x: auto;
+    text-align: center;
+    position: relative; /* Needed for absolute positioning */
+}
+
+/* Download Button */
+.download-btn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: white;
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.download-btn:hover {
+    background: linear-gradient(45deg, #ff4b2b, #ff416c);
+    transform: scale(1.05);
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: auto;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+th {
+    background: #3498db;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 12px;
+}
+
+/* Editable Table Cells */
+td[contenteditable="true"] {
+    background: #f9f9f9;
+    cursor: pointer;
+    min-width: 120px;
+    word-break: break-word;
+}
+
+td[contenteditable="true"]:focus {
+    outline: 2px solid #3498db;
+    background: #eaf2ff;
+}
+
+/* Responsive Fix */
+@media (max-width: 768px) {
+    .top-menu {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .top-menu a {
+        width: 100%;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .content {
+        overflow-x: auto;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .download-btn {
+        position: static;
+        margin-bottom: 10px;
+    }
+}

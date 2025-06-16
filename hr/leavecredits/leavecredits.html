@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Credits</title>
+    <link rel="stylesheet" href="leavecredits.css">
+</head>
+<body>
+
+   <div class="top-menu">
+    <a href="https://dashproduction.x10.mx/masterfile/prime/hr/dashboardhr.html">Dashboard</a>
+    <a href="leavecredits.html" class="active">Leave Credits</a>
+    <a href="https://dashproduction.x10.mx/masterfile/prime/hr/employeedir.html">Employee Directory</a>
+    <a href="https://dashproduction.x10.mx/masterfile/prime/hr/empsearch/empsearch.html">Employee Search</a>
+     <a href="https://dashproduction.x10.mx/masterfile/prime/hr/resignedemp/resignedemp.html">Resigned Employees</a>
+      <a href="https://dashproduction.x10.mx/masterfile/prime/hr/absences/absences.html" target="_blank">Absences</a>
+
+ <a href="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/nemp/nemp.html'">New Employees</a>
+<a href="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/payroll/payroll.html'">Payroll</a>
+
+ 
+</div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <h2>Leave Credits</h2>
+
+            <div class="filter-container">
+    <label for="departmentFilter">Department:</label>
+    <select id="departmentFilter">
+        <option value="">All</option>
+    </select>
+
+    <label for="lastNameFilter">Last Name:</label>
+    <input type="text" id="lastNameFilter" placeholder="Search by Last Name">
+</div>
+
+<button id="downloadExcel" class="download-btn">Download Excel</button>
+            <table id="leaveTable">
+                <thead>
+                    <tr>
+                        <th>START DATE</th>
+                        <th>FNAME</th>
+                        <th>LNAME</th>
+                        <th>DEPARTMENT</th>
+                        <th>JAN-FEB</th>
+                        <th>MARCH-APRIL</th>
+                        <th>MAY-JUNE</th>
+                        <th>JULY-AUGUST</th>
+                        <th>SEPT-OCT</th>
+                        <th>REMAINING</th>
+                    </tr>
+                </thead>
+                <tbody id="leaveCreditsTableBody">
+                    <!-- Data will be populated here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="leavecredits.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</body>
+</html>

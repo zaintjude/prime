@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Assignment History</title>
+    <link rel="stylesheet" href="empassign2.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script> 
+</head>
+<body>
+
+    <!-- Dashboard Link -->
+    <ul style="list-style-type: none; padding: 10px; background-color: #007bff;">
+        <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/dashboardhr.html'" 
+            style="cursor: pointer; color: white; font-weight: bold; padding: 10px; display: inline-block;">
+            DASHBOARD
+        </li>
+    </ul>
+
+    <h2>Employee Assignment History</h2>
+
+    <!-- Search Filters -->
+    <div class="search-filters">
+        <input type="text" id="searchLname" placeholder="Search Last Name">
+        <input type="text" id="searchFname" placeholder="Search First Name">
+        <input type="text" id="searchDepartment" placeholder="Search Department">
+        <input type="text" id="searchProject" placeholder="Search Project">
+        <input type="date" id="searchDate">
+        <button onclick="filterTable()">Search</button>
+        <button onclick="exportToExcel()">Download Excel</button>
+    </div>
+
+    <!-- Table -->
+    <table id="historyTable">
+        <thead>
+            <tr>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Position</th>
+                <th>Department</th>
+                <th>Assigned From</th>
+                <th>Assigned To</th>
+                <th># of Days</th>
+                <th>Project</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="empassign2.js"></script>
+</body>
+</html>

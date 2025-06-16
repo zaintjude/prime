@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll</title>
+    <link rel="stylesheet" href="payroll.css">
+</head>
+<body>
+
+    <!-- Gradient Navigation Menu -->
+    <nav>
+        <ul>
+            <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/dashboardhr.html'">Dashboard</li>
+            <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/employeedir.html'">Employee Directory</li>
+            <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/empsearch/empsearch.html'">Employee Search</li>
+            <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/leavecredits/leavecredits.html'">Leave Requests</li>
+            <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/resignedemp/resignedemp.html'">Resigned Employees</li>
+        <li onclick="window.open('https://dashproduction.x10.mx/masterfile/prime/hr/absences/absences.html', '_blank')">Absences
+        </li>
+            <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/nemp/nemp.html'">New Employees</li>
+<li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/payroll/payroll.html'">Payroll</li>
+            
+        </ul>
+    </nav>
+
+    <h1>Payroll Management</h1>
+    
+    <!-- Form for adding new payroll entries -->
+    <div class="form-container">
+        <input type="text" id="fullName" placeholder="Full Name">
+        <input type="text" id="department" placeholder="Department">
+        <input type="number" id="monthly" placeholder="Monthly Salary">
+        <input type="number" id="daily" placeholder="Daily Rate">
+        <input type="number" id="allowance" placeholder="Allowance">
+        <input type="date" id="lastIncrease">
+        <input type="date" id="prevIncrease">
+        <button onclick="addRow()">Add Row</button>
+    </div>
+
+    <!-- Search functionality -->
+    <div class="search-container">
+        <input type="text" id="searchDepartment" placeholder="Search Department" oninput="filterTable()">
+        <input type="text" id="searchName" placeholder="Search Full Name" oninput="filterTable()">
+    </div>
+    
+    <!-- Table displaying payroll data -->
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Department</th>
+                    <th>Monthly</th>
+                    <th>Daily</th>
+                    <th>Allowance</th>
+                    <th>Last Increase</th>
+                    <th>Prev Increase</th>
+                </tr>
+            </thead>
+            <tbody id="payrollTableBody">
+                <!-- Rows will be added dynamically here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="payroll.js"></script>
+</body>
+</html>

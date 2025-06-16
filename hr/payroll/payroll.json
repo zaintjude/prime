@@ -1,0 +1,56 @@
+[
+    {
+        "fullName": "Jonathan Hidalgo",
+        "department": "Fabrication",
+        "monthly": 20000,
+        "daily": 500,
+        "allowance": 1000,
+        "lastIncrease": "2024-06-15",
+        "prevIncrease": "2023-12-01"
+    },
+    {
+        "fullName": "Jane Doe Hey",
+        "department": "Machining",
+        "monthly": 25000,
+        "daily": 600,
+        "allowance": 1200,
+        "lastIncrease": "2024-05-20",
+        "prevIncrease": "2024-05-20"
+    },
+    {
+        "fullName": "Jude Dabon",
+        "department": "Fabrication",
+        "monthly": 50000,
+        "daily": 1000,
+        "allowance": 500,
+        "lastIncrease": "N\/A",
+        "prevIncrease": "N\/A"
+    },
+    {
+        "fullName": "Monique Caballes Yes",
+        "department": "Machining",
+        "monthly": 10000,
+        "daily": 1000,
+        "allowance": 500,
+        "lastIncrease": "N\/A",
+        "prevIncrease": "N\/A"
+    },
+    {
+        "fullName": "Hey Hello",
+        "department": "Export",
+        "monthly": 20000,
+        "daily": 1000,
+        "allowance": 1000,
+        "lastIncrease": "2024-06-2024",
+        "prevIncrease": "N\/A"
+    },
+    {
+        "fullName": "Jessica Soho",
+        "department": "Fabrication",
+        "monthly": 50000,
+        "daily": 500,
+        "allowance": 20,
+        "lastIncrease": "2025-02-18",
+        "prevIncrease": "2025-02-27"
+    }
+]

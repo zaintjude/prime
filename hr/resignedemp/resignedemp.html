@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resigned Employees</title>
+    <link rel="stylesheet" href="resignedemp.css">
+    <script defer src="resignedemp.js"></script>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/dashboardhr.html'">Dashboard</li>
+            <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/employeedir.html'">Employee Directory</li>
+            <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/empsearch/empsearch.html'">Employee Search</li>
+            <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/leavecredits/leavecredits.html'">Leave Requests</li>
+       <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/resignedemp/resignedemp.html'">Resigned Employees</li>
+       <li onclick="window.open('https://dashproduction.x10.mx/masterfile/prime/hr/absences/absences.html', '_blank')">Absences</li>
+
+  <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/nemp/nemp.html'">New Employees</li>
+<li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/payroll/payroll.html'">Payroll</li>
+  
+     
+       
+       
+       
+       
+        </ul>
+    </nav>
+
+    <h2>Resigned Employees</h2>
+
+  <div class="filters">
+    <input type="text" id="searchFname" placeholder="Search First Name">
+    <input type="text" id="searchLname" placeholder="Search Last Name">
+    <input type="text" id="searchDepartment" placeholder="Search Department">
+    <input type="text" id="searchPosition" placeholder="Search Position">
+    <input type="date" id="searchDateHired">
+    <input type="text" id="searchRemarks" placeholder="Search Remarks">
+    <input type="text" id="searchStatus" placeholder="Search Status"> <!-- Fixed ID -->
+</div>
+
+    <table id="resignedTable">
+        <thead>
+            <tr>
+                <th>FNAME</th>
+                <th>LNAME</th>
+                <th>DEPARTMENT</th>
+                <th>POSITION</th>
+                <th>DATE HIRED</th>
+                <th>DATE RESIGNED</th>
+                <th>LAST DAY OF WORK</th>
+                <th>ISSUED STEEL TOE</th>
+                <th>ISSUED TOOLS</th>
+                <th>ISSUED UNIFORM</th>
+                <th>DATE CLEARED</th>
+                <th>REMARKS</th>
+                <th>Last Pay & COE</th>
+                <th>Request</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here dynamically -->
+        </tbody>
+    </table>
+</body>
+</html>

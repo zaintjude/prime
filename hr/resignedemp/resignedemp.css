@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+nav li {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    padding: 10px 20px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+nav li:hover {
+    opacity: 0.8;
+}
+
+h2 {
+    text-align: center;
+}
+
+.filters {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.filters input {
+    padding: 5px;
+    margin: 5px;
+    width: 150px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: linear-gradient(to right, #11998e, #38ef7d);
+    color: white;
+}
+
+th,
+td {
+    padding: 10px;
+    border: 1px solid white;
+    text-align: center;
+}
+
+td[contenteditable="true"] {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+th {
+    background-color: rgba(0, 0, 0, 0.5);
+}

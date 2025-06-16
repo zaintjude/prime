@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Offense Record</title>
+    <link rel="stylesheet" href="employee-style.css">
+</head>
+
+<body>
+
+<div class="header-container">
+    <button class="gradient-button" onclick="window.location.href='https://dashproduction.x10.mx/masterfile/prime/hr/dashboardhr.html'">
+        Dashboard
+    </button>
+</div>
+
+
+    <div class="container">
+        <h2>Employee Record</h2>
+
+        <!-- Search Filters (1 Row) -->
+        <div class="search-box">
+            <input type="text" id="searchLname" placeholder="Last Name">
+            <input type="text" id="searchFname" placeholder="First Name">
+            <input type="text" id="searchDept" placeholder="Department">
+            <button onclick="searchEmployee()">SEARCH NOW 🔍</button>
+        </div>
+
+        <!-- Employee Info -->
+        <div class="employee-info">
+            <label>First Name: </label> <span id="fname"></span><br>
+            <label>Last Name: </label> <span id="lname"></span><br>
+            <label>Department: </label> <span id="department"></span><br>
+            <label>Position: </label> <span id="position"></span><br>
+            <label>Start Date: </label> <span id="startDate"></span><br>
+            <label>Tenure: </label> <span id="tenure"></span>
+        </div>
+
+        <h2>Offense Records</h2>
+        <button id="addOffenseBtn">➕ Add Offense</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th># Offense</th>
+                    <th># Suspension</th>
+                    <th>Type of Offense</th>
+                    <th>Description</th>
+                    <th>Date of NTE</th>
+                    <th>Action Taken</th>
+                    <th>Status</th>
+                    <th>Additional Comments</th>
+                </tr>
+            </thead>
+            <tbody id="offenseTable"></tbody>
+        </table>
+    </div>
+
+    <script src="offenses.js"></script>
+</body>
+
+</html>

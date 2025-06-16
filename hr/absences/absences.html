@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absences Approval</title>
+    <link rel="stylesheet" href="absences.css">
+</head>
+
+<body>
+    <div class="top-menu">
+     
+    
+    
+    </div>
+
+    <h1>Absences Approval</h1>
+
+    <form id="absenceForm">
+        <div class="form-container">
+            <div class="column">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" placeholder="Last Name" required>
+
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" placeholder="First Name" required>
+
+                <label for="department">Department:</label>
+                <input type="text" id="department" placeholder="Department" required>
+
+                <label for="position">Position:</label>
+                <input type="text" id="position" placeholder="Position" required>
+
+                <label for="status">Status:</label>
+                <select id="status">
+                    <option value="Valid">Valid</option>
+                    <option value="Invalid">Invalid</option>
+                </select>
+            </div>
+
+            <div class="column">
+                <label for="reason">Reason:</label>
+                <input type="text" id="reason" placeholder="Reason" required>
+
+                <label for="dateFrom">Date From:</label>
+                <input type="date" id="dateFrom" required>
+
+                <label for="dateTo">Date To:</label>
+                <input type="date" id="dateTo" required>
+
+                <label for="numDays"># of Days:</label>
+                <input type="number" id="numDays" placeholder="# of Days" readonly>
+
+                <label for="managerCode">Manager's Code:</label>
+                <input type="password" id="managerCode" placeholder="Manager's Code" required>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+
+    <h2>Pending Absences</h2>
+    <table id="pendingTable">
+        <thead>
+            <tr>
+                <th>YEAR</th>
+                <th>Date Logged</th>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Department</th>
+                <th>Position</th>
+                <th>Status</th>
+                <th>Reason</th>
+                <th>Date From</th>
+                <th>Date To</th>
+                <th># of Days</th>
+                <th>Manager's Code</th>
+                <th>Action Taken</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be dynamically inserted here -->
+        </tbody>
+    </table>
+<h2>Filters</h2>
+    <div id="searchFilters">
+        <label for="filterYear">Year:</label>
+        <input type="number" id="filterYear" placeholder="Year">
+
+        <label for="filterLastName">Last Name:</label>
+        <input type="text" id="filterLastName" placeholder="Last Name">
+
+        <label for="filterFirstName">First Name:</label>
+        <input type="text" id="filterFirstName" placeholder="First Name">
+
+        <label for="filterDepartment">Department:</label>
+        <input type="text" id="filterDepartment" placeholder="Department">
+
+        <button id="filterBtn">Apply Filter</button>
+        <button id="downloadExcel">Download Excel</button>
+    </div>
+    <h2>Approved Absences</h2>
+    <table id="approvedTable">
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Date Logged</th>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Department</th>
+                <th>Position</th>
+                <th>Status</th>
+                <th>Reason</th>
+                <th>Date From</th>
+                <th>Date To</th>
+                <th># of Days</th>
+                <th>Manager's Code</th>
+                <th>Approval Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be dynamically inserted here -->
+        </tbody>
+    </table>
+
+    
+
+    <script src="absences.js"></script>
+</body>
+
+</html>

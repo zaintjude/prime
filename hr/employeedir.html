@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Directory</title>
+    <link rel="stylesheet" href="employeedir.css">
+    <style>
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #ff416c;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>HR Menu</h2>
+        <ul>
+            <li onclick="location.href='dashboardhr.html'">Dashboard</li>
+            <li onclick="location.href='employeedir.html'">Employee Directory</li>
+            <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/empsearch/empsearch.html'">Employee Search</li>
+            
+            <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/leavecredits/leavecredits.html'">Leave Requests</li>
+          <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/resignedemp/resignedemp.html'">Resigned Employees</li>
+        <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/nemp/nemp.html'">New Employees</li>
+        <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/payroll/payroll.html'">Payroll</li>
+        
+        
+        </ul>
+    </div>
+
+    <div class="content">
+        <h1>Employee Directory</h1>
+        <div>
+            <h3>Add Employee</h3>
+        <form id="employeeForm">
+            <div class="form-grid">
+                <div>
+                    <label for="statutory">Statutory:</label>
+                    <input type="text" id="statutory">
+        
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName">
+        
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName">
+        
+                    <label for="middleName">Middle Name:</label>
+                    <input type="text" id="middleName">
+        
+                    <label for="department">Department:</label>
+                    <input type="text" id="department">
+        
+                    <label for="status">Status:</label>
+                    <input type="text" id="status">
+                    
+                    <label for="dateResign">Date Resign (Last Day):</label>
+                    <input type="date" id="dateResign">
+
+                </div>
+        
+                <div>
+                    
+        
+                    <label for="position">Position:</label>
+                    <input type="text" id="position">
+        
+                    <label for="startDate">Start Date:</label>
+                    <input type="date" id="startDate">
+        
+                    <label for="employmentStatus">Employment Status:</label>
+                    <input type="text" id="employmentStatus">
+        
+                    <label for="regularDate">Regular Date:</label>
+                    <input type="date" id="regularDate">
+        
+                    <label for="contractStatus">Contract Status:</label>
+                    <input type="text" id="contractStatus">
+
+                    <label for="contactNumber">Contact Number:</label>
+                    <input type="text" id="contactNumber">
+
+<label for="birthdate">Birthdate:</label>
+<input type="date" id="birthdate">
+
+                </div>
+        
+                <div>
+                    
+        
+                  
+        
+                    <label for="cityAddress">City Address:</label>
+                    <input type="text" id="cityAddress">
+        
+                    <label for="emailAddress">Email Address:</label>
+                    <input type="email" id="emailAddress">
+        
+                    <label for="ratePerDay">Rate/Day:</label>
+                    <input type="number" id="ratePerDay">
+        
+                    <label for="sss">SSS:</label>
+                    <input type="text" id="sss">
+
+<label for="pagibig">PAG-IBIG #:</label>
+<input type="text" id="pagibig">
+
+<label for="tin">TIN #:</label>
+<input type="text" id="tin">
+
+<label for="philHealth">PHIL HEALTH #:</label>
+<input type="text" id="philHealth">
+
+
+
+
+
+
+
+                </div>
+        
+           
+                    
+            
+            </div>
+        
+            <button type="submit" class="submit-btn">Add Employee</button>
+        </form>
+        </div>
+        <h3>Employee List</h3>
+        <table id="employeeTable">
+    <thead>
+        <tr>
+            <th>Statutory</th>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Middle Name</th>
+            <th>Department</th>
+            <th>Status</th>
+            <th>Date Resign (Last Day)</th>
+            <th>Position</th>
+            <th>Start Date</th>
+            <th>Employment Status</th>
+            <th>Regular Date</th>
+            <th>Contract Status</th>
+            <th>Contact Number</th>
+            <th>Birthdate</th>
+            <th>City Address</th>
+            <th>Email Address</th>
+            <th>Rate/Day</th>
+            <th>SSS</th>
+            <th>PAG-IBIG #</th>
+            <th>TIN #</th>
+            <th>PHIL HEALTH #</th>
+          
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+    </div>
+    <script src="employeedir.js"></script>
+</body>
+</html>

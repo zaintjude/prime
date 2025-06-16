@@ -1,0 +1,41 @@
+body {
+    font-family: 'Lato', sans-serif;
+    background-image: url('note.jpg'); /* Update to the correct path if needed */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #f7f7f7; /* Fallback color */
+    height: 90vh;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%; /* Adjust the width as needed */
+    max-width: 600px; /* Adjust the max-width as needed */
+    background-color: rgba(255, 255, 255, 0.5); /* 50% transparent white background */
+    padding: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; /* Optional: Add rounded corners */
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+button {
+    margin-left: 10px;
+}
+
+li {
+    display: flex;
+    align-items: center;
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+button {
+    margin-left: 10px;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Project Assignment</title>
+    <link rel="stylesheet" href="empassign.css">
+</head>
+
+<body>
+
+<ul style="list-style-type: none; padding: 10px; background-color: #007bff;">
+    <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/dashboardhr.html'" 
+        style="cursor: pointer; color: white; font-weight: bold; padding: 10px; display: inline-block;">
+        DASHBOARD
+    </li>
+</ul>
+
+    <h1>Employee Project Assignment</h1>
+
+    <form id="assignmentForm">
+        <label>Last Name: <input type="text" id="lname" required></label>
+        <label>First Name: <input type="text" id="fname" required></label>
+        <label>Position: <input type="text" id="position" required></label>
+        <label>Department: <input type="text" id="department" required></label>
+        <label>Assigned to: <input type="text" id="project" required></label>
+        <label>Date From: <input type="date" id="dateFrom" required></label>
+        <label>Date To: <input type="date" id="dateTo" required></label>
+        <label># of Days: <input type="number" id="numDays" readonly></label>
+        <button type="submit">Assign</button>
+    </form>
+
+    <div id="projectTables">
+        <!-- Project-based tables will be generated here -->
+    </div>
+
+    <script src="empassign.js"></script>
+</body>
+
+</html>

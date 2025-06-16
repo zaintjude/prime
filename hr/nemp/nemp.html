@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Employees</title>
+    <link rel="stylesheet" href="nemp.css">
+</head>
+
+<body>
+    <font color="yellow"><nav class="sidebar" aria-label="HR Menu"></font>
+       
+        <ul>
+            <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/dashboardhr.html'">Dashboard</li>
+            <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/employeedir.html'">Employee Directory</li>
+            <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/empsearch/empsearch.html'">Employee SEARCH</li>
+            <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/leavecredits/leavecredits.html'">Leave Requests</li>
+            <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/resignedemp/resignedemp.html'">Resigned Employees</li>
+        <li onclick="location.href='https://dashproduction.x10.mx/masterfile/prime/hr/payroll/payroll.html'">Payroll</li>
+        
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h2>New Employees</h2>
+
+       
+
+        <!-- Employee Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                    <th>Year</th>
+                        <th>Month</th>
+                        <th>Statutory</th>
+                        <th>Last Name</th>
+                        <th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Department</th>
+                        <th>Status</th>
+                        <th>Date Resign (Last Day)</th>
+                        <th>Position</th>
+                        <th>Start Date</th>
+                        <th>Employment Status</th>
+                        <th>Regular Date</th>
+                        <th>Contract Status</th>
+                        <th>Contact Number</th>
+                        <th>Birthdate</th>
+                        <th>City Address</th>
+                        <th>Email Address</th>
+                        <th>Rate/Day</th>
+                        <th>SSS</th>
+                        <th>PAG-IBIG #</th>
+                        <th>TIN #</th>
+                        <th>PHIL HEALTH #</th>
+                    </tr>
+                </thead>
+                <tbody id="employeeTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="nemp.js"></script>
+</body>
+
+</html>

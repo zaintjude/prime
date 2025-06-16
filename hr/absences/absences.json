@@ -1,0 +1,80 @@
+{
+    "pending": [],
+    "approved": [
+        {
+            "year": 2025,
+            "dateLogged": "2024-07-25",
+            "lastName": "Smith",
+            "firstName": "Jane",
+            "department": "Finance",
+            "position": "Accountant",
+            "status": "Approved",
+            "reason": "Vacation",
+            "dateFrom": "2024-07-15",
+            "dateTo": "2024-07-18",
+            "numDays": "4",
+            "managerCode": "******",
+            "actionTaken": "Given Memo"
+        },
+        {
+            "year": 2025,
+            "dateLogged": "2025-02-23",
+            "lastName": "Doe",
+            "firstName": "John",
+            "department": "HR",
+            "position": "Manager",
+            "status": "Pending",
+            "reason": "Sick Leave",
+            "dateFrom": "2024-07-20",
+            "dateTo": "2024-07-22",
+            "numDays": "3",
+            "managerCode": "******",
+            "actionTaken": "Given Memo"
+        },
+        {
+            "year": 2025,
+            "dateLogged": "2025-02-23",
+            "lastName": "DABON",
+            "firstName": "HEY",
+            "department": "EXPORT",
+            "position": "MANAGER",
+            "status": "Valid",
+            "reason": "TEXTED AND CONFIRMED HE IS SICK",
+            "dateFrom": "2025-02-24",
+            "dateTo": "2025-02-26",
+            "numDays": "3",
+            "managerCode": "******",
+            "actionTaken": "Given Memo"
+        },
+        {
+            "year": 2025,
+            "dateLogged": "2025-02-23",
+            "lastName": "DABON",
+            "firstName": "kimberly",
+            "department": "EXPORT",
+            "position": "MANAGER",
+            "status": "Valid",
+            "reason": "TEXTED AND CONFIRMED HE IS SICK",
+            "dateFrom": "2025-02-10",
+            "dateTo": "2025-02-14",
+            "numDays": "5",
+            "managerCode": "******",
+            "actionTaken": "Given Memo"
+        },
+        {
+            "year": 2025,
+            "dateLogged": "2025-02-23",
+            "lastName": "DABON",
+            "firstName": "DABON",
+            "department": "EXPORT",
+            "position": "MANAGER",
+            "status": "Valid",
+            "reason": "TEXTED AND CONFIRMED HE IS SICK",
+            "dateFrom": "2025-02-24",
+            "dateTo": "2025-02-24",
+            "numDays": "1",
+            "managerCode": "******",
+            "actionTaken": "Given Verbal"
+        }
+    ]
+}

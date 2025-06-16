@@ -1,0 +1,55 @@
+[
+    {
+        "fname": "",
+        "lname": "JANUS",
+        "startDate": "2022-02-28",
+        "department": "EXPORT",
+        "janFeb": "",
+        "marApr": "",
+        "mayJun": "",
+        "julAug": "2025-05-15",
+        "sepOct": "",
+        "remaining": 4,
+        "originalRemaining": 5
+    },
+    {
+        "fname": "",
+        "lname": "JOSHUA",
+        "startDate": "2021-02-15",
+        "department": "HELLO",
+        "janFeb": "2025-01-15",
+        "marApr": "",
+        "mayJun": "",
+        "julAug": "",
+        "sepOct": "",
+        "remaining": 4,
+        "originalRemaining": 5
+    },
+    {
+        "fname": "JUDE",
+        "lname": "DABON",
+        "startDate": "2022-02-28",
+        "department": "EXPORT",
+        "janFeb": "2025-02-20, 2025-01-03, 2025-01-01",
+        "marApr": "2025-02-03",
+        "mayJun": "2025-02-04",
+        "julAug": "",
+        "sepOct": "",
+        "remaining": 0,
+        "undefined": "2025-02-02",
+        "originalRemaining": 5
+    },
+    {
+        "fname": "BALINTAWAK",
+        "lname": "IGWANA",
+        "startDate": "2020-03-15",
+        "department": "EXPORT",
+        "janFeb": "2025-02-15",
+        "marApr": "",
+        "mayJun": "",
+        "julAug": "",
+        "sepOct": "",
+        "remaining": 4,
+        "originalRemaining": 5
+    }
+]

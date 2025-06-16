@@ -1,0 +1,109 @@
+[
+    {
+        "fname": "Janus",
+        "lname": "Smith",
+        "offenses": [
+            {
+                "date": "2025-02-27",
+                "offenseNum": "1",
+                "suspensions": "2",
+                "type": "Stealing",
+                "description": "Violation of Section 3",
+                "nteDate": "2025-02-28",
+                "actionTaken": "Suspension",
+                "status": "Under Review",
+                "comments": "Waiting for response"
+            }
+        ]
+    },
+    {
+        "fname": "Janus",
+        "lname": "Doe",
+        "offenses": [
+            {
+                "date": "2025-02-28",
+                "offenseNum": "2",
+                "suspensions": "1",
+                "type": "Tardiness",
+                "description": "Late multiple times",
+                "nteDate": "2025-02-28",
+                "actionTaken": "Verbal Warning",
+                "status": "Closed",
+                "comments": "Employee advised to improve attendance"
+            }
+        ]
+    },
+    {
+        "fname": "Janus",
+        "lname": "Corgi",
+        "offenses": [
+            {
+                "date": "2025-02-27",
+                "offenseNum": "1",
+                "suspensions": "2",
+                "type": "asdfasfd",
+                "description": "asdfasfd",
+                "nteDate": "2025-02-27",
+                "actionTaken": "asdfasdf",
+                "status": "Under Review",
+                "comments": "asdfasfdasf"
+            },
+            {
+                "date": "",
+                "offenseNum": "1",
+                "suspensions": "5",
+                "type": "asdfasdf",
+                "description": "Janus",
+                "nteDate": "2025-02-28",
+                "actionTaken": "asdfasfd",
+                "status": "Under Review",
+                "comments": "asdfasfdfas"
+            }
+        ]
+    },
+    {
+        "fname": "JUDE",
+        "lname": "DABON",
+        "offenses": [
+            {
+                "date": "",
+                "offenseNum": "3",
+                "suspensions": "3",
+                "type": "Murder",
+                "description": "Section1: Misbehavior",
+                "nteDate": "2025-02-27",
+                "actionTaken": "Admin Hearing",
+                "status": "Under Review",
+                "comments": "Waiting for the date"
+            }
+        ]
+    },
+    {
+        "fname": "",
+        "lname": "",
+        "offenses": [
+            {
+                "date": "",
+                "offenseNum": "1",
+                "suspensions": "0",
+                "type": "",
+                "description": "",
+                "nteDate": "",
+                "actionTaken": "",
+                "status": "Pending",
+                "comments": ""
+            },
+            {
+                "date": "",
+                "offenseNum": "1",
+                "suspensions": "0",
+                "type": "",
+                "description": "",
+                "nteDate": "",
+                "actionTaken": "",
+                "status": "Pending",
+                "comments": ""
+            }
+        ]
+    }
+]
