@@ -50,30 +50,60 @@ async function fetchLogisticsData() {
 
 function calculateCosts(data) {
   const RATE = 5.0;
-  const monthly = {}, yearly = {}, byVehicle = {};
-  data.forEach(e => (byVehicle[e.vehicle] ??= []).push(e));
+  const monthly = {}, yearly = {}, byVehicleMonth = {}, byVehicleYear = {};
 
-  for (const v in byVehicle) {
-    const arr = byVehicle[v].sort((a, b) => new Date(a.start) - new Date(b.start));
+  // Group by vehicle + month/year
+  data.forEach(e => {
+    const odo = parseFloat(e.odometer);
+    if (isNaN(odo)) return;
+
+    const d = new Date(e.start);
+    const m = d.toLocaleString('default', { month: 'long' });
+    const y = d.getFullYear();
+    const v = e.vehicle;
+
+    // For monthly calc
+    const monthKey = `${v}_${m}_${y}`;
+    (byVehicleMonth[monthKey] ??= []).push({ ...e, odo });
+
+    // For yearly calc
+    const yearKey = `${v}_${y}`;
+    (byVehicleYear[yearKey] ??= []).push({ ...e, odo });
+  });
+
+  // Process monthly
+  for (const key in byVehicleMonth) {
+    const [v, m, y] = key.split('_');
+    const arr = byVehicleMonth[key].sort((a, b) => new Date(a.start) - new Date(b.start));
     let prev = null;
     for (const e of arr) {
-      const odo = parseFloat(e.odometer);
-      if (isNaN(odo)) continue;
-      if (prev !== null && odo > prev) {
-        const dist = odo - prev, cost = dist * RATE;
-        const d = new Date(e.start);
-        const m = d.toLocaleString('default', { month: 'long' });
-        const y = d.getFullYear();
+      if (prev !== null && e.odo > prev) {
+        const dist = e.odo - prev;
+        const cost = dist * RATE;
         monthly[v] ??= {};
         monthly[v][m] ??= { odometer: 0, cost: 0 };
-        yearly[v] ??= {};
-        yearly[v][y] ??= { odometer: 0, cost: 0 };
         monthly[v][m].odometer += dist;
         monthly[v][m].cost += cost;
+      }
+      prev = e.odo;
+    }
+  }
+
+  // Process yearly
+  for (const key in byVehicleYear) {
+    const [v, y] = key.split('_');
+    const arr = byVehicleYear[key].sort((a, b) => new Date(a.start) - new Date(b.start));
+    let prev = null;
+    for (const e of arr) {
+      if (prev !== null && e.odo > prev) {
+        const dist = e.odo - prev;
+        const cost = dist * RATE;
+        yearly[v] ??= {};
+        yearly[v][y] ??= { odometer: 0, cost: 0 };
         yearly[v][y].odometer += dist;
         yearly[v][y].cost += cost;
       }
-      prev = odo;
+      prev = e.odo;
     }
   }
 
@@ -84,7 +114,8 @@ function populateCostTables(data) {
   const { monthlyCosts, yearlyCosts } = calculateCosts(data);
   const mBody = document.querySelector("#monthlyCostTable tbody");
   const yBody = document.querySelector("#yearlyCostTable tbody");
-  mBody.innerHTML = ""; yBody.innerHTML = "";
+  mBody.innerHTML = "";
+  yBody.innerHTML = "";
 
   for (const v in monthlyCosts) {
     for (const m in monthlyCosts[v]) {
