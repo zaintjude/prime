@@ -855,7 +855,377 @@
     "odometer": "73937",
     "start": "2025-05-17T09:00",
     "end": "2025-05-26T09:42"
+  },
+   {
+    "vehicle": "DIO",
+    "driver": "JHED",
+    "destination": "MAKOTO REWORK",
+    "odometer": "1000",
+    "start": "2025-04-28T13:16",
+    "end": "2025-04-28T13:16"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "CITY CLOU DELIVER",
+    "odometer": "1000",
+    "start": "2025-04-28T13:43",
+    "end": "2025-04-28T13:43"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "RICHARD",
+    "destination": "FAMILY HARDWARE",
+    "odometer": "1000",
+    "start": "2025-04-28T15:31",
+    "end": "2025-04-28T15:31"
+  },
+  {
+    "vehicle": "TAMARAW",
+    "driver": "ELMER",
+    "destination": "CARBON DELIVER",
+    "odometer": "1000",
+    "start": "2025-04-29T09:43",
+    "end": "2025-04-29T09:43"
+  },
+  {
+    "vehicle": "DIO",
+    "driver": "ADY BOI",
+    "destination": "MAKOTO",
+    "odometer": "1000",
+    "start": "2025-04-29T08:45",
+    "end": "2025-04-29T08:45"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "JASON",
+    "destination": "MAXWELL PICKUP",
+    "odometer": "1000",
+    "start": "2025-04-29T09:11",
+    "end": "2025-04-29T09:11"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "ELMER",
+    "destination": "HT LAND - NAGA DELIVER / HAFELE",
+    "odometer": "1000",
+    "start": "2025-04-29T16:35",
+    "end": "2025-04-29T16:35"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "RHEA",
+    "destination": "KNOWLES DELIVER",
+    "odometer": "1000",
+    "start": "2025-04-30T15:30",
+    "end": "2025-04-30T15:30"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "JASON",
+    "destination": "CITY CLOU DELIVER",
+    "odometer": "1000",
+    "start": "2025-04-30T13:42",
+    "end": "2025-04-30T13:42"
+  },
+  {
+    "vehicle": "DIO",
+    "driver": "JAYMIL",
+    "destination": "MANDAUE TO PICKUP GASKET",
+    "odometer": "1000",
+    "start": "2025-04-30T13:30",
+    "end": "2025-04-30T13:30"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "JOHNCIL",
+    "destination": "MEDICAL FOR ECHAVEZ",
+    "odometer": "1000",
+    "start": "2025-04-30T13:12",
+    "end": "2025-04-30T13:12"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "ELMER",
+    "destination": "DAVIES FOR PICKUP",
+    "odometer": "1000",
+    "start": "2025-04-30T10:37",
+    "end": "2025-04-30T10:37"
+  },
+{
+    "vehicle": "TRAVIZ",
+    "driver": "ELMER",
+    "destination": "COLON - NITRONE",
+    "odometer": "1000",
+    "start": "2025-04-30T08:53",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "HT LAND - NAGA DELIVER",
+    "odometer": "1000",
+    "start": "2025-04-30T08:53",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "ELMER",
+    "destination": "CARBON / RICHWORD ASIAS BEST DELIVER",
+    "odometer": "1000",
+    "start": "2025-04-30T08:53",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "CARBON DELIVER ITEMS",
+    "odometer": "1000",
+    "start": "2025-04-03T09:00",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "ELMER",
+    "destination": "ECHAVEZ / CONDO / BASAK PARDO DELIVER AND PICKUP",
+    "odometer": "1000",
+    "start": "2025-04-02T09:00",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "SUZUKI",
+    "driver": "CYRELL",
+    "destination": "MANDANI SITE VISITING",
+    "odometer": "1000",
+    "start": "2025-04-03T13:00",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "CYRELL",
+    "destination": "MAKOTO DELIVERY",
+    "odometer": "1000",
+    "start": "2025-04-07T15:00",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "NEW CITY PICKUP",
+    "odometer": "1000",
+    "start": "2025-04-02T09:00",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "ECHAVEZ, CARBON AND SUPRIMO DELIVER AND PICKUP",
+    "odometer": "1000",
+    "start": "2025-04-22T08:53",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "ELMER",
+    "destination": "AAC LIGHTWEIGHT BLOCK CORP PICKUP",
+    "odometer": "1000",
+    "start": "2025-04-01T09:00",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "ERIC",
+    "destination": "MEP7 2 PICKUP",
+    "odometer": "1000",
+    "start": "2025-04-01T09:00",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "ATLAS PICKUP",
+    "odometer": "1000",
+    "start": "2025-04-01T09:00",
+    "end": "2025-04-30T08:53"
+  },
+ {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "JASON",
+    "destination": "CANVAS/VISIT SITE WITH JEANLY",
+    "odometer": "1000",
+    "start": "2025-04-04T13:12",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "CARBON DELIVERY",
+    "odometer": "1000",
+    "start": "2025-04-04T08:21",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "CYRELL",
+    "destination": "MANDANI SITE VISITING",
+    "odometer": "1000",
+    "start": "2025-04-04T08:48",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "ELMER",
+    "destination": "MAKOTO DELIVERY",
+    "odometer": "1000",
+    "start": "2025-04-08T14:48",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "ELMER",
+    "destination": "ECHAVEZ,CARBON DELIVERY",
+    "odometer": "1000",
+    "start": "2025-04-21T09:00",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "CRES",
+    "destination": "MAKOTO DELIVERY",
+    "odometer": "1000",
+    "start": "2025-04-21T10:25",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "TAMARAW",
+    "driver": "ELMER",
+    "destination": "PARDO PICKUP LUMBANG",
+    "odometer": "1000",
+    "start": "2025-04-21T09:00",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "TAMARAW",
+    "driver": "ELMER",
+    "destination": "LAWAAN TALISAY/EMISSION",
+    "odometer": "1000",
+    "start": "2025-04-23T08:53",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "RANDY",
+    "destination": "TREASURE ISLAND PICKUP PAINT",
+    "odometer": "1000",
+    "start": "2025-04-23T08:47",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "OWN",
+    "driver": "ROMMEL",
+    "destination": "BUY WIRE",
+    "odometer": "1000",
+    "start": "2025-04-23T01:08",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "NEW CITY ATLAS DELIVER AND PICKUP",
+    "odometer": "1000",
+    "start": "2025-04-23T01:30",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "ELMER",
+    "destination": "ECHAVEZ, PIONEER, CARBON",
+    "odometer": "1000",
+    "start": "2025-04-23T14:46",
+    "end": "2025-04-30T08:53"
+  },
+   {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "CARBON DELIVER",
+    "odometer": "1000",
+    "start": "2025-04-24T09:06",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "TAMARAW",
+    "driver": "ELMER",
+    "destination": "MAKOTO AND CARBON PIKCUP",
+    "odometer": "1000",
+    "start": "2025-04-24T08:28",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "ELMER",
+    "destination": "MANDAUE PICKUP ITEMS",
+    "odometer": "1000",
+    "start": "2025-04-24T16:04",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "TAMARAW",
+    "driver": "ELMER",
+    "destination": "CARBON PICKUP ITEMS",
+    "odometer": "1000",
+    "start": "2025-04-25T08:34",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "TRAVIZ DASH",
+    "driver": "ELMER",
+    "destination": "JRS PICKUP ITEMS",
+    "odometer": "1000",
+    "start": "2025-04-25T03:39",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "TRAVIZ",
+    "driver": "CYRELL",
+    "destination": "MAKOTO DELIVERY",
+    "odometer": "1000",
+    "start": "2025-04-29T03:12",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "TAMARAW",
+    "driver": "ELMER",
+    "destination": "CARBON PICKUP ITEMS",
+    "odometer": "1000",
+    "start": "2025-04-26T08:21",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "RANDY",
+    "destination": "CARBON TO NAGA DELIVER",
+    "odometer": "1000",
+    "start": "2025-04-26T09:45",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "DIO",
+    "driver": "ERIC",
+    "destination": "MAKOTO GAUGE",
+    "odometer": "1000",
+    "start": "2025-04-26T09:00",
+    "end": "2025-04-30T08:53"
+  },
+  {
+    "vehicle": "FOTON",
+    "driver": "MABITAD",
+    "destination": "VEHICLE CHECK ON STE",
+    "odometer": "1000",
+    "start": "2025-04-26T13:28",
+    "end": "2025-04-30T08:53"
   }
+  
+  
 
   
 ]
