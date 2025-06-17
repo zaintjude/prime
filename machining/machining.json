@@ -1,0 +1,222 @@
+[
+    {
+        "machineType": "CNC MILL",
+        "records": [
+            {
+                "date": "2025-05-08",
+                "itemName": "asdf",
+                "model": "asdf",
+                "operator": "asdf",
+                "process1": "adf",
+                "process2": "asdf",
+                "process3": "asd",
+                "status": "adf"
+            },
+            {
+                "date": "2025-05-06",
+                "itemName": "ASDF",
+                "model": "ADSF",
+                "operator": "ADS",
+                "process1": "FADS",
+                "process2": "F",
+                "process3": "ADF",
+                "status": "ADSF"
+            },
+            {
+                "date": "2025-06-03",
+                "itemName": "81DA",
+                "model": "ROBO DRILL 1",
+                "operator": "CHITO",
+                "process1": "M1",
+                "process2": "",
+                "process3": "",
+                "status": "DONE"
+            },
+            {
+                "date": "2025-06-03",
+                "itemName": "431",
+                "model": "ROBO DRILL 2",
+                "operator": "JEANELYN",
+                "process1": "M1",
+                "process2": "",
+                "process3": "",
+                "status": "DONE"
+            },
+            {
+                "date": "2025-06-03",
+                "itemName": "503",
+                "model": "ROBO DRILL 3",
+                "operator": "JEANLIE",
+                "process1": "M1",
+                "process2": "",
+                "process3": "",
+                "status": "DONE"
+            },
+            {
+                "date": "2025-06-03",
+                "itemName": "TERADYNE (POGO)",
+                "model": "ROBO DRILL 9",
+                "operator": "JEREME",
+                "process1": "PROFILING",
+                "process2": "DRILLING",
+                "process3": "",
+                "status": "DONE"
+            },
+            {
+                "date": "2025-06-03",
+                "itemName": "MITSUMI",
+                "model": "ROBO DRILL 10",
+                "operator": "JEREME",
+                "process1": "SET-UP",
+                "process2": "PROFILING",
+                "process3": "DRILLING",
+                "status": "DONE"
+            },
+            {
+                "date": "2025-06-03",
+                "itemName": "MITSUMI(POKAYOKE)",
+                "model": "KAFU",
+                "operator": "JEREME",
+                "process1": "TAPPING",
+                "process2": "DRILLING",
+                "process3": "PROFILING",
+                "status": "DONE"
+            }
+        ]
+    },
+    {
+        "machineType": "SAMPLE MILL",
+        "records": [
+            {
+                "date": "2025-05-06",
+                "itemName": "ADSF",
+                "model": "ADSF",
+                "operator": "ASDF",
+                "process1": "ASD",
+                "process2": "FADS",
+                "process3": "F",
+                "status": "ADSF"
+            },
+            {
+                "date": "2025-06-02",
+                "itemName": "",
+                "model": "",
+                "operator": "",
+                "process1": "",
+                "process2": "",
+                "process3": "",
+                "status": ""
+            }
+        ]
+    },
+    {
+        "machineType": "GRINDING",
+        "records": [
+            {
+                "date": "2025-05-21",
+                "itemName": "",
+                "model": "",
+                "operator": "",
+                "process1": "",
+                "process2": "",
+                "process3": "",
+                "status": ""
+            },
+            {
+                "date": "2025-06-02",
+                "itemName": "MITSUMI",
+                "model": "EDM",
+                "operator": "JENIFER",
+                "process1": "CUTTING",
+                "process2": "",
+                "process3": "",
+                "status": "DONE"
+            },
+            {
+                "date": "2025-06-03",
+                "itemName": "MITSUMI",
+                "model": "GRINDING 1",
+                "operator": "FRANKLIN",
+                "process1": "GRINDING",
+                "process2": "",
+                "process3": "",
+                "status": "DONE"
+            },
+            {
+                "date": "2025-06-03",
+                "itemName": "ST. FRANK",
+                "model": "BENCH 1",
+                "operator": "EFREN",
+                "process1": "PRE-BUFFING",
+                "process2": "",
+                "process3": "",
+                "status": "DONE"
+            },
+            {
+                "date": "2025-06-03",
+                "itemName": "ST. FRANK",
+                "model": "BENCH 2",
+                "operator": "ROMEL",
+                "process1": "PRE-BUFFING",
+                "process2": "",
+                "process3": "",
+                "status": "DONE"
+            },
+            {
+                "date": "2025-06-03",
+                "itemName": "ST. FRANK",
+                "model": "BENCH 3",
+                "operator": "GLEN(JAY)",
+                "process1": "PRE-BUFFING",
+                "process2": "",
+                "process3": "",
+                "status": "DONE"
+            }
+        ]
+    },
+    {
+        "machineType": "CNC LATHE",
+        "records": [
+            {
+                "date": "2025-05-21",
+                "itemName": "",
+                "model": "",
+                "operator": "",
+                "process1": "",
+                "process2": "",
+                "process3": "",
+                "status": ""
+            },
+            {
+                "date": "2025-06-03",
+                "itemName": "CEILING PLATE",
+                "model": "TAKISAWA 1",
+                "operator": "FERNANDO",
+                "process1": "L1",
+                "process2": "",
+                "process3": "",
+                "status": "DONE"
+            },
+            {
+                "date": "2025-06-03",
+                "itemName": "81DA",
+                "model": "TAKISAWA 2",
+                "operator": "ODILON",
+                "process1": "L1",
+                "process2": "",
+                "process3": "",
+                "status": "DONE"
+            },
+            {
+                "date": "2025-06-03",
+                "itemName": "207-0002",
+                "model": "TAKISAWA 3",
+                "operator": "ODILON",
+                "process1": "L1",
+                "process2": "",
+                "process3": "",
+                "status": "DONE"
+            }
+        ]
+    }
+]

@@ -1,0 +1,116 @@
+[
+    {
+        "year": "2025",
+        "weekRange": "5\/6 - 5\/12",
+        "projectName": "137A0136DA",
+        "rows": [
+            {
+                "description": "MATERIAL RECEIVED",
+                "status": "",
+                "tuesday": "1,600",
+                "wednesday": "1,800",
+                "thursday": "800",
+                "friday": "0",
+                "saturday": "400",
+                "sunday": "0",
+                "monday": "800"
+            },
+            {
+                "description": "MATERIAL BALANCED",
+                "status": "",
+                "tuesday": "9800",
+                "wednesday": "9600",
+                "thursday": "8200",
+                "friday": "6400",
+                "saturday": "1800",
+                "sunday": "0",
+                "monday": "2700"
+            },
+            {
+                "description": "L1 OUTPUT",
+                "status": "GOOD",
+                "tuesday": "2797",
+                "wednesday": "2000",
+                "thursday": "2200",
+                "friday": "1800",
+                "saturday": "1800",
+                "sunday": "0",
+                "monday": "2700"
+            },
+            {
+                "description": "",
+                "status": "NOT GOOD",
+                "tuesday": "3",
+                "wednesday": "4",
+                "thursday": "5",
+                "friday": "6",
+                "saturday": "",
+                "sunday": "",
+                "monday": ""
+            }
+        ]
+    },
+    {
+        "year": "2026",
+        "weekRange": "5\/6 - 5\/12",
+        "projectName": "BB00049197-23",
+        "rows": [
+            {
+                "description": "MATERIAL RECEIVED",
+                "status": "",
+                "tuesday": "500",
+                "wednesday": "500",
+                "thursday": "500",
+                "friday": "500",
+                "saturday": "500",
+                "sunday": "500",
+                "monday": "500"
+            },
+            {
+                "description": "MATERIAL BALANCE",
+                "status": "",
+                "tuesday": "500",
+                "wednesday": "500",
+                "thursday": "500",
+                "friday": "500",
+                "saturday": "500",
+                "sunday": "500",
+                "monday": "500"
+            },
+            {
+                "description": "L1 OUTPUT",
+                "status": "GOOD",
+                "tuesday": "499",
+                "wednesday": "500",
+                "thursday": "500",
+                "friday": "500",
+                "saturday": "500",
+                "sunday": "500",
+                "monday": "500"
+            },
+            {
+                "description": "",
+                "status": "NOT GOOD",
+                "tuesday": "1",
+                "wednesday": "",
+                "thursday": "",
+                "friday": "",
+                "saturday": "",
+                "sunday": "",
+                "monday": ""
+            }
+        ]
+    },
+    {
+        "year": 2025,
+        "weekRange": "5\/13 - 5\/19",
+        "projectName": "",
+        "rows": []
+    },
+    {
+        "year": 2025,
+        "weekRange": "",
+        "projectName": "",
+        "rows": []
+    }
+]

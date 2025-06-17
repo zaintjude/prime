@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quota Tracker</title>
+    <link rel="stylesheet" href="quota.css">
+    
+</head>
+<body>
+
+<div style="text-align: right; margin-bottom: 10px;">
+  <a href="https://dashproduction.x10.mx/masterfile/prime/machining/machining.html"
+      style="display: inline-block; padding: 8px 16px; margin-left: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+    DASHBOARD
+  </a>
+
+  <a href="https://dashproduction.x10.mx/masterfile/prime/machining/empsanctions.html"
+      style="display: inline-block; padding: 8px 16px; margin-left: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+    SANCTIONS
+  </a>
+  
+</div>
+    <h1>Quota Tracker</h1>
+    <h2>Shift 1 (7 AM to 3 PM)</h2>
+    <table id="shiftTable" border="1">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Operator</th>
+                <th>Item Name</th>
+                <th>Quota</th>
+                <th>Machine</th>
+                <th>7 AM</th>
+                <th>8 AM</th>
+                <th>9 AM</th>
+                <th>10 AM</th>
+                <th>11 AM</th>
+                <th>12 PM</th>
+                <th>2 PM</th>
+                <th>3 PM</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <button onclick="addRowShift1()">Add Row</button>
+
+    <h2>Shift 2 (3 PM to 11 PM)</h2>
+    <table id="shiftTable2" border="1">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Operator</th>
+                <th>Item Name</th>
+                <th>Quota</th>
+                <th>Machine</th>
+                <th>3 PM</th>
+                <th>4 PM</th>
+                <th>5 PM</th>
+                <th>6 PM</th>
+                <th>7 PM</th>
+                <th>8 PM</th>
+                <th>9 PM</th>
+                <th>10 PM</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <button onclick="addRowShift2()">Add Row for Shift 2</button>
+<div id="callouts-container"></div>
+
+
+
+    <script src="quota.js"></script>
+</body>
+</html>

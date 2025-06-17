@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Daily Production Tracker</title>
+    <link rel="stylesheet" href="daily.css">
+</head>
+
+<style>
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0;
+        background-color: #f4f4f4; /* Background color for the header */
+        border-bottom: 2px solid #ddd; /* Border under the header */
+    }
+
+    .logo {
+        width: 150px;
+    }
+
+    .header-title {
+        flex-grow: 1;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+    }
+</style>
+
+<header>
+    <img src="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/prime.png" alt="Logo" class="logo">
+    <h1 class="header-title">MACHINING - WEEKLY TRACKER</h1>
+</header>
+
+<body>
+  
+
+
+    <section class="filters">
+        <label>
+            Filter by Week:
+            <select id="weekFilter">
+                <option value="">Select Week</option>
+                <option value="5/6 - 5/12">5/6 - 5/12</option>
+                <option value="5/13 - 5/19">5/13 - 5/19</option>
+                <option value="5/20 - 5/26">5/20 - 5/26</option>
+                <!-- Add more options as needed -->
+            </select>
+        </label>
+        <button id="clearFilter">Clear Filter</button>
+    </section>
+
+    <!-- ✅ New Project Name Input -->
+    <section class="project-name-section" style="margin: 10px 0;">
+        <label><strong>Project Name:</strong></label>
+        <input type="text" id="projectNameInput" placeholder="Enter project name..." style="padding: 5px; width: 300px;" />
+    </section>
+
+    <section class="table-section">
+        <table id="dailyTable">
+            <thead>
+                <tr id="headerRow">
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                    <th>Sunday</th>
+                    <th>Monday</th>
+                    <th>Action</th>
+                </tr>
+                <tr id="dateRow">
+                    <th contenteditable="true"> </th>
+                    <th contenteditable="true"> </th>
+                    <th id="dateTue">5/6</th>
+                    <th id="dateWed">5/7</th>
+                    <th id="dateThu">5/8</th>
+                    <th id="dateFri">5/9</th>
+                    <th id="dateSat">5/10</th>
+                    <th id="dateSun">5/11</th>
+                    <th id="dateMon">5/12</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            
+        </table>
+
+        <button id="addRow">Add Row</button>
+    </section>
+
+    <!-- Place the script at the end of the body -->
+    <script src="daily.js"></script>
+</body>
+
+</html>

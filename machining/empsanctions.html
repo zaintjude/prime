@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Failed Quota Report</title>
+  <link rel="stylesheet" href="empsanctions.css">
+</head>
+<body>
+
+<div style="text-align: right; margin-bottom: 10px;">
+  <a href="https://dashproduction.x10.mx/masterfile/prime/machining/quota.html"
+      style="display: inline-block; padding: 8px 16px; margin-left: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+    EMP QUOTA
+  </a>
+
+  <a href="https://dashproduction.x10.mx/masterfile/prime/machining/machining.html"
+      style="display: inline-block; padding: 8px 16px; margin-left: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+    DASHBOARD
+  </a>
+  
+</div>
+  <h1>FAILED QUOTA REPORT</h1>
+
+  <div class="filters">
+    <input type="number" id="yearFilter" placeholder="Filter by Year (YYYY)">
+    <input type="month" id="monthFilter">
+    <input type="date" id="dateFilter" placeholder="Filter by Date (YYYY-MM-DD)">
+  </div>
+
+  <div class="report">
+    <p>Total Employees: <span id="totalEmployees">0</span></p>
+  </div>
+
+  <div class="table-container">
+    <table id="quotaTable">
+      <thead>
+        <tr>
+          <th>NAME</th>
+          <th>DATE</th>
+          <th>QUOTA TO REACH</th>
+          <th>ACTUAL QUOTA</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script src="empsanctions.js"></script>
+</body>
+</html>

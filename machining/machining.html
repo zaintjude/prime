@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Panel</title>
+    <link rel="stylesheet" href="machining.css">
+</head>
+
+<style>
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0;
+        background-color: #f4f4f4; /* Background color for the header */
+        border-bottom: 2px solid #ddd; /* Border under the header */
+    }
+
+    .logo {
+        width: 150px;
+    }
+
+    .header-title {
+        flex-grow: 1;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+    }
+</style>
+
+<header>
+    <img src="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/prime.png" alt="Logo" class="logo">
+    
+</header>
+<body>
+
+<div style="text-align: right; margin-bottom: 10px;">
+  <a href="https://dashproduction.x10.mx/masterfile/prime/machining/quota.html"
+      style="display: inline-block; padding: 8px 16px; margin-left: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+    EMP QUOTA
+  </a>
+  
+  <a href="https://dashproduction.x10.mx/masterfile/prime/machining/reports.html"
+      style="display: inline-block; padding: 8px 16px; margin-left: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+    REPORTS
+  </a>
+
+
+  
+</div>
+
+    <h1>MACHINING PRODUCTION UPDATE</h1>
+    
+    <h2>Filter by Date</h2>
+
+    <!-- Input to select a date for filtering -->
+   <label for="dateFilter">CHOOSE DATE:</label>
+<input type="date" id="dateFilter" onchange="loadExistingData()" />
+    
+    <!-- Input to filter by Machine Type -->
+    <label for="machineType">Machine Type:</label>
+    <input type="text" id="machineType" placeholder="Enter machine type">
+    <button onclick="createNewMachineType()">Create Panel</button>
+
+    <!-- Container for all machine panels -->
+    <div id="panelsContainer"></div>
+
+    
+
+    <script src="machining.js"></script>
+ 
+
+</body>
+</html>

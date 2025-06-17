@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="reports.css">
+    <title>Machining Business Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+
+
+
+<body>
+   <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+    <div style="display: flex; align-items: center;">
+        <img src="https://dashproduction.x10.mx/masterfile/prime/FABRICATION/prime.png" alt="Company Logo" style="width: 150px; height: auto; margin-right: 20px;">
+        <h1 style="margin: 0;">Machining Business Report</h1>
+    </div>
+    <a href="https://dashproduction.x10.mx/masterfile/prime/machining/machining.html">
+        <button style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
+            Go to Machining Page
+        </button>
+    </a>
+</header>
+
+    <section id="filters">
+        <h2>Filters</h2>
+        <label for="year">Year:</label>
+        <select id="year"></select>
+        <label for="month">Month:</label>
+        <select id="month"></select>
+        <label for="day">Day:</label>
+        <select id="day"></select>
+    </section>
+
+    <section id="report">
+        <h2>Machine Summary</h2>
+        <table id="reportTable">
+            <thead>
+                <tr>
+                    <th>Machine</th>
+                    <th>Total Times Used</th>
+                    <th>Total Output</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be populated here -->
+            </tbody>
+        </table>
+    </section>
+
+    <section id="graphs">
+        <h2>Monthly Production Graphs</h2>
+        <div id="graphContainer"></div>
+    </section>
+
+    <h2>Top Employee Outputs</h2>
+<table id="topEmployeesTable">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Operator</th>
+            <th>Machine</th>
+            <th>Item Name</th>
+            <th>Month</th>
+            <th>Total Output</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Filled by JS -->
+    </tbody>
+</table>
+
+    <script src="reports.js"></script>
+</body>
+
+</html>
