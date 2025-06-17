@@ -8,7 +8,7 @@ function loadQuotaData() {
   const dateFilter = document.getElementById("dateFilter").value;
   const yearFilter = document.getElementById("yearFilter").value;
 
-  fetch("https://dashproduction.x10.mx/masterfile/prime/machining/quota.json")
+  fetch("https://zaintjude.github.io/prime/machining/quota.json")
     .then(response => response.json())
     .then(data => {
       const rows = [];
