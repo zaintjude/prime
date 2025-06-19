@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const vehicleSelect = document.getElementById('vehicleSelect');
-    const scheduleBody = document.getElementById('scheduleBody');
+    const scheduleBody = document.getElementById('scheduleBody'); 
     const addBtn = document.getElementById('addSchedule');
     const filterDate = document.getElementById('filterDate');
     const filterMonth = document.getElementById('filterMonth');
