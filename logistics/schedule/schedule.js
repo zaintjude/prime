@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Reload table
                 filterDate.value = date;
-                filterMonth.value = scheduleMonth;
+                filterMonth.value = scheduleMonth; 
                 filterYear.value = scheduleYear;
                 loadSchedule();
 
