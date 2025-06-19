@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     filterMonth.value = tomorrow.getMonth() + 1;
     filterYear.value = tomorrow.getFullYear();
 
-    fetch('https://zaintjude.github.io/prime/logistics/vehicle.json')
+    fetch('https://zaintjude.github.io/prime/logistics/vehicle.json.html')
         .then(res => res.json())
         .then(data => {
             data.vehicles.forEach(vehicle => {
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Reload table
                 filterDate.value = date;
-                filterMonth.value = scheduleMonth; 
+                filterMonth.value = scheduleMonth;
                 filterYear.value = scheduleYear;
                 loadSchedule();
 
