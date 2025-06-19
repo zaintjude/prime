@@ -298,5 +298,29 @@
         "endTime": "07:30",
         "purpose": "BRING 2 PEOPLE FROM ECHAVEZ TO HTLAND",
         "destination": "ECHAVEZ TO HTLAND"
+    },
+    {
+        "date": "2025-06-17",
+        "month": 6,
+        "year": 2025,
+        "vehicle": "WAVE",
+        "plate": "GA71336",
+        "employee": "AVRIL",
+        "startTime": "15:00",
+        "endTime": "17:00",
+        "purpose": "DELIVERY",
+        "destination": "MITSUMI"
+    },
+    {
+        "date": "2025-06-20",
+        "month": 6,
+        "year": 2025,
+        "vehicle": "L300",
+        "plate": "GAT7962",
+        "employee": "jude",
+        "startTime": "08:00",
+        "endTime": "17:00",
+        "purpose": "asdf",
+        "destination": "asdf"
     }
 ]
